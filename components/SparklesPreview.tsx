@@ -5,6 +5,7 @@ import { SparklesCore } from "./Sparkles";
 
 export function SparklesPreview() {
   return (
+    
     <div className="  w-full bg-black flex flex-col items-center justify-center overflow-hidden rounded-md">
       <h1 className=" text-3xl  font-bold text-center text-white relative z-20">
         Estimate
@@ -23,7 +24,7 @@ export function SparklesPreview() {
           maxSize={1}
           particleDensity={0}
           className="w-full h-full"
-        //   particleColor="#FFFFFF"
+          particleColor="#FFFFFF"
         />
 
         {/* Radial Gradient to prevent sharp edges */}

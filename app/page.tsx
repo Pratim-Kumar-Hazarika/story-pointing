@@ -1,5 +1,7 @@
 import { BackGround } from "@/components/Background";
 import { CardSpotlight } from "@/components/CardSpotLight";
+import LeftSideBar from "@/components/LeftSideBar";
+import { Reveal } from "@/components/Reveal";
 import { ShootingStars } from "@/components/ShootingStar";
 import { SparklesPreview } from "@/components/SparklesPreview";
 import { TracingBeam } from "@/components/TracingBeam";
@@ -8,6 +10,8 @@ export default function Home() {
   return (
     <div className="relative">
       <div className=" absolute z-10 left-[-8rem] mt-10">  <SparklesPreview/></div>
+      <LeftSideBar/>
+    
       <TracingBeam>
         <ShootingStars/>
         <BackGround >
@@ -21,7 +25,7 @@ export default function Home() {
                 </CardSpotlight>
               </div>
             ))}
-            <div className="col-span-4 flex justify-center">
+            <div className="col-span-4 flex flex-col items-center justify-center">
               <div className="expcard">
                 <CardSpotlight className="h-[130px] w-[130px] flex items-center justify-center">
                   <div className="text-neutral-200 relative z-20">
@@ -29,10 +33,16 @@ export default function Home() {
                   </div>
                 </CardSpotlight>
               </div>
+             
             </div>
           </div>
+       
+              <Reveal/>
+          
         </BackGround>
+     
       </TracingBeam>
+
     </div>
   );
 }
