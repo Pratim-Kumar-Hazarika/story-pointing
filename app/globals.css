@@ -6,3 +6,6 @@
   --background: #171717;;
   --foreground: #171717;
 }
+.expcard:hover {
+  filter: drop-shadow(0 0 4px #646cffaa);
+}

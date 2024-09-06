@@ -9,13 +9,19 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@react-three/fiber": "^8.17.6",
+    "@tsparticles/engine": "^3.5.0",
+    "@tsparticles/react": "^3.0.0",
+    "@tsparticles/slim": "^3.5.0",
+    "@types/three": "^0.168.0",
     "clsx": "^2.1.1",
     "framer-motion": "^11.5.4",
     "mini-svg-data-uri": "^1.4.4",
     "next": "14.2.8",
     "react": "^18",
     "react-dom": "^18",
-    "tailwind-merge": "^2.5.2"
+    "tailwind-merge": "^2.5.2",
+    "three": "^0.168.0"
   },
   "devDependencies": {
     "@types/node": "^20",

@@ -70,8 +70,8 @@ export const TracingBeam = ({
             className="motion-reduce:hidden"
             animate={glowControls} // Apply animation control for the glow effect
             transition={{
-              duration: 2.5, // Adjust the glow duration
-              ease: "easeIn",
+              duration: 2, // Adjust the glow duration
+              ease: "easeInOut",
               loop: Infinity, // Ensure it loops
               repeatType: "loop", // Repeat the animation
             }}
