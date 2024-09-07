@@ -13,6 +13,7 @@ export function HoverBorderGradient({
   as: Tag = "button",
   duration = 1,
   clockwise = true,
+  leftSideBar,
   ...props
 }: React.PropsWithChildren<
   {
@@ -21,6 +22,7 @@ export function HoverBorderGradient({
     className?: string;
     duration?: number;
     clockwise?: boolean;
+    leftSideBar:boolean
   } & React.HTMLAttributes<HTMLElement>
 >) {
   const [hovered, setHovered] = useState<boolean>(false);
@@ -58,9 +60,17 @@ export function HoverBorderGradient({
   return (
     <Tag
       onMouseEnter={(event: React.MouseEvent<HTMLDivElement>) => {
+        if(leftSideBar){
+          return
+        }
         setHovered(true);
       }}
-      onMouseLeave={() => setHovered(false)}
+      onMouseLeave={() => {
+        if(leftSideBar){
+          return
+        }
+        setHovered(false)
+      }}
       className={cn(
         "relative flex  border  border-neutral-800 content-center  hover:bg-black/10 transition duration-500 bg-white/20 items-center flex-col flex-nowrap gap-10 h-min justify-center overflow-visible p-px decoration-clone w-fit",
         containerClassName
