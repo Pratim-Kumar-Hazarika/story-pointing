@@ -8,4 +8,39 @@
 }
 .expcard:hover {
   filter: drop-shadow(0 0 2px #646cffaa);
+}/* styles.css or in a <style> tag */
+.slow-pulse {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Add this to your CSS file or within a <style> tag */
+.custom-scrollbar {
+  overflow-y: scroll; /* Force the scrollbar to always be visible */
+  padding-right: 15px; /* Adjust based on the scrollbar width in your design */
+}
+
+/* Optional: Style the scrollbar itself */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px; /* Width of the scrollbar */
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #333; /* Color of the scrollbar */
+  border-radius: 10px; /* Rounded corners for the scrollbar */
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #000; /* Background color of the track */
 }
