@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import Head from "next/head"; // Import Head
+import { TracingBeam } from "@/components/TracingBeam";
+import { ShootingStars } from "@/components/ShootingStar";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -26,9 +29,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} min-h-screen  bg-black     overflow-hidden ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} min-h-screen bg-black overflow-hidden ${geistMono.variable} antialiased`}
       >
-        {children}
+         <ShootingStars />
+         {children}
       </body>
     </html>
   );

@@ -37,15 +37,15 @@ export const TracingBeam = ({
   }, [glowControls]);
 
   // Set static y1 and y2 values to keep it highlighted without scrolling
-  const y1 = useSpring(10, { stiffness: 500, damping: 90 });
-  const y2 = useSpring(1000, { stiffness: 500, damping: 90 });
+  const y1 = useSpring(20, { stiffness: 500, damping: 90 });
+  const y2 = useSpring(2000, { stiffness: 500, damping: 90 });
 
   return (
     <motion.div
       ref={ref}
-      className={cn("absolute w-full min-h-screen", className)}
+      className={cn("relative w-full z-[100] max-w-4xl mx-auto h-full", className)}
     >
-      <div className="absolute z-50 right-[20rem] top-[-30rem] -rotate-45">
+      <div className="absolute  right-[10rem] z-[101] -rotate-45  top-[-30rem]">
         <svg
           viewBox={`0 0 20 ${svgHeight}`}
           width="20"

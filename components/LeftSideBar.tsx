@@ -7,6 +7,7 @@ import { CardSpotlight } from './CardSpotLight';
 import { AnimatePresence ,motion} from 'framer-motion';
 import { SparklesCore } from './Sparkles';
 import { TabsDemo } from './TabsDemo';
+import ScrollAreaDemo from './ScrollAreaDemo';
 
 const users = [
   { name: 'Pratim', emoji: '🧞‍♀️',tick:true },
@@ -36,29 +37,32 @@ function LeftSideBar() {
   return (
     <HoverBorderGradient
     leftSideBar={true}
-      containerClassName="rounded-md absolute z-50 mt-[150px] left-[2rem]"
+      containerClassName="rounded-md py-0  z-[100] "
       as="button"
-      className="bg-black text-white flex space-x-2"
+      className="bg-black text-white  min-w-max  z-[100] py-0"
     >
-      <div className='text-white w-[320px] left-7'>
+      <div className='text-white  bg-black   '>
         {/* Add hover effect for overflow */}
         <TabsDemo/>
-        <div 
-         className='flex custom-scrollbar  h-[calc(100vh_-_300px)] overflow-hidden hover:overflow-y-auto px-5 flex-col items-start gap-4 mt-5'>
+        <ScrollAreaDemo  className='h-[calc(100vh_-_195px)]'>
+        <div
+         className='flex    flex-col items-start gap-4  py-7'>
           {users.map((user, index) => (
             <User key={index} name={user.name} emoji={user.emoji} tick={user.tick}/>
           ))}
         </div>
+        </ScrollAreaDemo>
+       
       </div>
-    </HoverBorderGradient>
+     </HoverBorderGradient>
   );
 }
 
 function User({ name, emoji ,tick}:{name:string, emoji:string,tick:boolean}){
   return (
     
-    <div className='font-medium flex  w-full justify-between  '>
-      <div className=' flex  justify-start  text-ellipsis truncate '>{" "} {name} </div>
+    <div className='font-medium flex    w-full  justify-between px-4  '>
+      <div className=' flex  justify-start   text-ellipsis truncate text-sm'>{" "} {name} </div>
       <div className='   flex   justify-end slow-pulse z-50'> {
         tick &&<Confirm/> 
         }</div>

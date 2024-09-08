@@ -16,25 +16,8 @@ import { motion } from "framer-motion";
 
 export default function Home() {
   return (
-    <div className="relative min-h-screen flex flex-col  ">
-        <h1
-            className="  px-5 mt-5 text-3xl font-bold  text-white"
-            style={{
-              backgroundImage: "url(#gradient)",
-            }}
-          >
-            Estimate
-          </h1>
-          <div className="   flex  px-4  gap-5 mt-5 relative">
-          <LeftSideBar />
-          <div className=" flex flex-col  gap-12  min-w-max">
- {/* <VoteCards/> */}
-           <ChartDemo/> 
-            {/* <ExpandableCardDemo/> */}
-            <VotesTable/>
-            </div>
-          </div>
-       {/* <div
+    <div className="relative min-h-screen flex">
+       <div
 
       className="  absolute z-[51] w-full ml-7  mt-7  flex items-start  justify-start "
     >
@@ -67,21 +50,24 @@ export default function Home() {
           </h1>
         </div>
       </div>
-       */}
       
-    </div>
-  );
-}
+      
 
-function VoteCards(){
-    return (
-     
-      <div className="  ml-5    h-full  items-center justify-center flex">
-         <div className=" flex flex-col items-center    gap-10">
+      <div className="flex flex-1 flex-col items-center justify-center">
+        <TracingBeam>
+          <ShootingStars />
+          <BackGround>
+            <div><LeftSideBar /></div>
+            <div>
+          <ChartDemo/>
+            <ExpandableCardDemo/>
+            <VotesTable/>
+            </div>
+            {/* <div className="flex flex-col gap-5 items-center  mt-20 justify-around">
               <div title=" Oxygen gets you high. In a catastrophic emerge catastrophic emerge catastrophic emergecatastrophic emergecatastrophic emerge" className="text-2xl   text-white  break-all z-50  w-[630px] line-clamp-2">
                 Oxygen gets you high. In a catastrophic emerge catastrophic emerge catastrophic emergecatastrophic emergecatastrophic emerge
               </div>
-              <div className="grid items-center grid-cols-4 gap-5 z-50 cursor-pointer">
+              <div className="grid items-center grid-cols-4 gap-10 z-50 cursor-pointer">
                 {[1, 2, 3, 5, 8, 13, 15, 20].map((item) => (
                   <div className="expcard" key={item}>
                     <CardSpotlight className="h-[100px] w-[100px] flex items-center justify-center">
@@ -102,9 +88,10 @@ function VoteCards(){
                 <Reveal title="Reveal Estimates" />
                 
               </div>
-            </div> 
-            </div>
-
-        
-    )
+            </div> */}
+          </BackGround>
+        </TracingBeam>
+      </div>
+    </div>
+  );
 }
