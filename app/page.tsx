@@ -17,82 +17,55 @@ import { motion } from "framer-motion";
 export default function Home() {
   return (
     <div className="relative min-h-screen flex flex-col  ">
-        <h1
-            className="  px-5 mt-5 text-3xl font-bold  text-white"
-            style={{
-              backgroundImage: "url(#gradient)",
-            }}
-          >
-            Estimate
-          </h1>
-          <div className="   flex  px-4  gap-5 mt-5 relative">
+      <div className=" flex justify-between w-full py-3 px-4 text-white ">
+      <h2 className="bg-clip-text text-transparent text-center bg-gradient-to-b  from-neutral-400 to-white text-3xl  font-bold tracking-tight">
+       Estimate
+      </h2>
+        <div className="flex gap-4 px-5 mt-2 font-medium">  <div className="   text-sm  flex items-center justify-center" >Product</div>
+        <div className="   text-sm  flex items-center justify-center" >Pricing</div></div>
+      </div>
+          <div className="   flex  px-4  gap-5 mt-[30px] relative">
           <LeftSideBar />
-          <div className=" flex flex-col  gap-12  min-w-max">
- {/* <VoteCards/> */}
-           <ChartDemo/> 
-            {/* <ExpandableCardDemo/> */}
-            <VotesTable/>
+          <div className=" flex flex-col  gap-4">
+ <VoteCards/>
+            {/* <ChartDemo/> 
+            <VotesTable/>  */}
             </div>
           </div>
-       {/* <div
-
-      className="  absolute z-[51] w-full ml-7  mt-7  flex items-start  justify-start "
-    >
-        <div className="  z-50">
-          <svg width={0} height={0}>
-            <defs>
-              <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                <motion.stop
-                  offset="50%"
-                  stopColor="#6344F5"
-                  animate={{ stopOpacity: [0, 1, 1, 0] }}
-                  transition={{ duration: 15, repeat: Infinity }}
-                />
-                <motion.stop
-                  offset="100%"
-                  stopColor="#AE48FF"
-                  animate={{ stopOpacity: [0, 1, 1, 0] }}
-                  transition={{ duration: 15, repeat: Infinity }}
-                />
-              </linearGradient>
-            </defs>
-          </svg>
-          <h1
-            className="bg-clip-text  text-3xl font-bold  z-[100] text-white"
-            style={{
-              backgroundImage: "url(#gradient)",
-            }}
-          >
-            Estimate
-          </h1>
-        </div>
-      </div>
-       */}
-      
     </div>
   );
 }
 
 function VoteCards(){
     return (
-     
+      <HoverBorderGradient
+      leftSideBar={true}
+        containerClassName="rounded-md py-0   z-[100] "
+        as="button"
+        className="bg-black text-white  z-[100] py-0 h-[calc(100vh_-_101px)]   w-[calc(90vw_-_220px)]"
+      >
       <div className="  ml-5    h-full  items-center justify-center flex">
-         <div className=" flex flex-col items-center    gap-10">
-              <div title=" Oxygen gets you high. In a catastrophic emerge catastrophic emerge catastrophic emergecatastrophic emergecatastrophic emerge" className="text-2xl   text-white  break-all z-50  w-[630px] line-clamp-2">
-                Oxygen gets you high. In a catastrophic emerge catastrophic emerge catastrophic emergecatastrophic emergecatastrophic emerge
+         <div className=" flex flex-col items-center     gap-4">
+              <div title=" Oxygen gets you high. In a catastrophic emerge catastrophic emerge catastrophic emergecatastrophic emergecatastrophic emerge" className="text-lg   text-white  break-all z-50  w-[630px] line-clamp-2">
+                User Notifications on Web and Mobile
               </div>
               <div className="grid items-center grid-cols-4 gap-5 z-50 cursor-pointer">
                 {[1, 2, 3, 5, 8, 13, 15, 20].map((item) => (
                   <div className="expcard" key={item}>
-                    <CardSpotlight className="h-[100px] w-[100px] flex items-center justify-center">
-                      <div className="text-neutral-200 relative  text-5xl z-20">{item}</div>
+                    <CardSpotlight className="h-[85px] w-[85px] flex items-center justify-center">
+                      <div className="text-neutral-200 relative  text-4xl z-20">{item}</div>
                     </CardSpotlight>
                   </div>
                 ))}
-                <div className="col-span-4 flex flex-col items-center justify-center">
+                <div className="col-span-4 flex flex-row gap-4 items-center justify-center">
                   <div className="expcard">
-                    <CardSpotlight className="h-[100px] w-[100px] flex items-center justify-center">
-                      <div className="text-neutral-200 text-5xl relative z-20">24</div>
+                    <CardSpotlight className="h-[85px] w-[85px] flex items-center justify-center">
+                      <div className="text-neutral-200 text-4xl relative z-20">24</div>
+                    </CardSpotlight>
+                  </div>
+                  <div className="expcard">
+                    <CardSpotlight className="  h-[85px] w-[85px] flex items-center justify-center">
+                      <div className="text-neutral-200 text-4xl relative z-20">24</div>
                     </CardSpotlight>
                   </div>
                 </div>
@@ -100,11 +73,10 @@ function VoteCards(){
               <div className="flex gap-4">
                 <Reveal title="Reset Estimates" />
                 <Reveal title="Reveal Estimates" />
-                
+                <Reveal title="New Estimate" />
               </div>
             </div> 
-            </div>
-
-        
+            </div>  
+            </HoverBorderGradient>
     )
 }

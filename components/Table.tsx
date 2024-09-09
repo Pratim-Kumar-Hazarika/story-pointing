@@ -57,15 +57,14 @@ const VotesTable: React.FC = () => {
     leftSideBar={true}
       containerClassName="rounded-md  w-full  z-50 overflow-hidden "
       as="button"
-      className="bg-black text-white  w-full flex space-x-2  overflow-hidden   h-[calc(100vh_-_430px)] "
+      className="bg-black text-white   w-[calc(100vw_-_340px)] flex space-x-2  overflow-hidden   h-[calc(100vh_-_405px)] "
     >
-    <Table className=" border-none  ">
+    <Table className=" border-none  min-w-full ">
       <TableHeader className='border-none' >
         <TableRow className=' border-b border-b-neutral-800'>
           {votes.map((vote) => (
-            <TableHead key={vote.points} className="text-center   text-gray-500 font-semibold  ">
-            <div>{vote.points} Points</div>
-              <div className='text-[13px]'> ({vote.names.length})</div>
+            <TableHead key={vote.points} className="text-start min-w-max   text-gray-500 font-semibold  ">
+            <div>{vote.points}~Points ({vote.names.length})</div>
             </TableHead>
           ))}
         </TableRow>
@@ -74,9 +73,9 @@ const VotesTable: React.FC = () => {
         <TableRow >
           {votes.map((vote) => (
             <TableCell key={vote.points} className="align-top p-1 text-lg  ">
-              <ScrollAreaDemo  className='h-[calc(100vh_-_470px)]' >
+              <ScrollAreaDemo  containerClassName=' max-w-[100px]' className='h-[calc(100vh_-_470px)]' >
 
-              <div className="py-[3px]  px-5">
+              <div className="py-[3px]   max-w-[100px]  text-center">
         {vote.names.map((tag) => (
           <div
           title={tag}

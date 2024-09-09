@@ -31,7 +31,8 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} min-h-screen bg-black overflow-hidden ${geistMono.variable} antialiased`}
       >
-         <ShootingStars />
+
+       
          {children}
       </body>
     </html>

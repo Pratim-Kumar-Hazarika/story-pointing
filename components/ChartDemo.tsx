@@ -1,7 +1,7 @@
 "use client"
 
 import { TrendingUp } from "lucide-react"
-import { Bar, BarChart, CartesianGrid, LabelList, XAxis } from "recharts"
+import { Bar, BarChart, CartesianGrid, LabelList, Line, LineChart, XAxis } from "recharts"
 
 import {
   Card,
@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/chart"
 import { HoverBorderGradient } from "./HoverBorderGradient"
 import { CardSpotlight } from "./CardSpotLight"
+import { Reveal } from "./Reveal"
 
 export const description = "A bar chart with a label"
 
@@ -50,13 +51,14 @@ export function ChartDemo() {
       as="button"
       className="bg-black text-white flex space-x-2   w-full "
     >
-    <Card className=" bg-black  border-none    px-0" >
+    <div className="flex gap-4">
+    <Card className=" bg-black border-none  px-0" >
       <CardHeader>
       </CardHeader>
       <CardContent>
-        <ChartContainer className="  h-[12rem]  flex items-center justify-center"   config={chartConfig}>
-          <BarChart
-        className=" min-w-[45rem]"
+        <ChartContainer className=" w-[35rem]  h-[12rem]  flex items-center justify-center"   config={chartConfig}>
+          {/* <BarChart
+        className=" min-w-[40rem]"
             accessibilityLayer
             data={chartData}
           >
@@ -70,15 +72,58 @@ export function ChartDemo() {
             <Bar  dataKey="desktop" fill="white" radius={3}>
               <LabelList
                 position="top"
-                offset={2}
+                offset={3}
                 className=" text-white"
                 fontSize={13}
               />
             </Bar>
-          </BarChart>
+          </BarChart> */}
+            <LineChart
+            accessibilityLayer
+            data={chartData}
+            margin={{
+              top: 20,
+              left: 12,
+              right: 12,
+            }}
+          >
+            <CartesianGrid strokeOpacity={0.5} horizontal={true} />
+            <XAxis
+              dataKey="month"
+              tickLine={false}
+              axisLine={false}
+              tickMargin={8}
+              tickFormatter={(value) => value.slice(0, 3)}
+            />
+           
+            <Line
+            className=" min-w-[10rem]"
+              dataKey="desktop"
+              type="natural"
+              stroke="white"
+              strokeWidth={2}
+              dot={{
+                fill: "green",
+              }}
+              activeDot={{
+                r: 6,
+              }}
+            >
+              <LabelList
+                position="top"
+                offset={12}
+                className=" text-white font-bold"
+                fontSize={12}
+              />
+            </Line>
+          </LineChart>
         </ChartContainer>
       </CardContent>
+
     </Card>
-    </HoverBorderGradient>
+    {/* <div className="  flex items-center"> <Reveal title="Restimate"/></div> */}
+   
+    </div>
+   </HoverBorderGradient>
   )
 }

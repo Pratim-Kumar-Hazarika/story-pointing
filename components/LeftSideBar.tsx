@@ -15,22 +15,13 @@ const users = [
   { name: 'Zuck', emoji: '🧙‍♂️',tick:false },
   { name: 'Larry', emoji: '🦸‍♀️',tick:true },
   { name: 'Sam Altman', emoji: '🦹‍♂️',tick:true },
-  { name: 'Zuck', emoji: '🧙‍♂️',tick:false },
-  { name: 'Zuck', emoji: '🧙‍♂️',tick:false },
-  { name: 'Sundar', emoji: '🧝‍♀️' ,tick:true},
-  { name: 'Sundar', emoji: '🧝‍♀️' ,tick:true},
-  { name: 'Sundar', emoji: '🧝‍♀️',tick:true},  
-  { name: 'Pratim', emoji: '🧞‍♀️',tick:true },
-  { name: 'Zuck', emoji: '🧙‍♂️',tick:false },
-  { name: 'Elon', emoji: '👩‍🚀',tick:true },
-  { name: 'Zuck', emoji: '🧙‍♂️',tick:true },
-  { name: 'Zuck', emoji: '🧙‍♂️',tick:false },
   { name: 'Larry', emoji: '🦸‍♀️',tick:true },
   { name: 'Sam Altman', emoji: '🦹‍♂️',tick:true },
-  { name: 'Sundar', emoji: '🧝‍♀️' ,tick:true},
-  { name: 'Zuck', emoji: '🧙‍♂️',tick:false },
-  { name: 'Sundar', emoji: '🧝‍♀️',tick:false },
-  { name: 'Sundar', emoji: '🧝‍♀️',tick:true },
+  { name: 'Larry', emoji: '🦸‍♀️',tick:true },
+  { name: 'Sam Altman', emoji: '🦹‍♂️',tick:true },{ name: 'Larry', emoji: '🦸‍♀️',tick:true },
+  { name: 'Sam Altman', emoji: '🦹‍♂️',tick:true },{ name: 'Larry', emoji: '🦸‍♀️',tick:true },
+  { name: 'Sam Altman', emoji: '🦹‍♂️',tick:true },
+ 
 ];
 
 function LeftSideBar() {
@@ -44,7 +35,7 @@ function LeftSideBar() {
       <div className='text-white  bg-black   '>
         {/* Add hover effect for overflow */}
         <TabsDemo/>
-        <ScrollAreaDemo  className='h-[calc(100vh_-_195px)]'>
+        <ScrollAreaDemo containerClassName='w-full'  className='h-[calc(100vh_-_200px)]'>
         <div
          className='flex    flex-col items-start gap-4  py-7'>
           {users.map((user, index) => (
@@ -64,7 +55,7 @@ function User({ name, emoji ,tick}:{name:string, emoji:string,tick:boolean}){
     <div className='font-medium flex    w-full  justify-between px-4  '>
       <div className=' flex  justify-start   text-ellipsis truncate text-sm'>{" "} {name} </div>
       <div className='   flex   justify-end slow-pulse z-50'> {
-        tick &&<Confirm/> 
+        tick ?<Confirm/>  :<Pending/>
         }</div>
     </div>
   );
@@ -80,4 +71,10 @@ export function Confirm(){
   )
 }
 
-
+export function Pending(){
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="23" height="23" viewBox="0 0 48 48">
+<path fill="#f44336" d="M44,24c0,11.045-8.955,20-20,20S4,35.045,4,24S12.955,4,24,4S44,12.955,44,24z"></path><path fill="#fff" d="M29.656,15.516l2.828,2.828l-14.14,14.14l-2.828-2.828L29.656,15.516z"></path><path fill="#fff" d="M32.484,29.656l-2.828,2.828l-14.14-14.14l2.828-2.828L32.484,29.656z"></path>
+</svg>
+  )
+}

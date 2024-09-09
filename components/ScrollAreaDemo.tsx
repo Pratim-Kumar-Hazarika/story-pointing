@@ -4,12 +4,13 @@ import { AnimatedTooltip } from './AnimatedToolTip';
 
 interface ScrollAreaDemoProps {
   children:React.ReactNode,
-  className:string
+  className:string;
+  containerClassName?:string;
 }
 
-const ScrollAreaDemo: React.FC<ScrollAreaDemoProps> = ({ children,className}) => (
+const ScrollAreaDemo: React.FC<ScrollAreaDemoProps> = ({ children,className,containerClassName}) => (
   <ScrollArea.Root className={`  text-white rounded overflow-hidden  bg-black ${className}`}>
-    <ScrollArea.Viewport className="w-full h-full rounded">
+    <ScrollArea.Viewport className={`     h-full rounded  ${containerClassName}`}>
       {
         children
       }

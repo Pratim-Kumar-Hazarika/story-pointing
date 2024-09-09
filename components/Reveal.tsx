@@ -10,9 +10,9 @@ export function Reveal({title}:{title:string}) {
       leftSideBar={false}
         containerClassName="rounded-md    "
         as="button"
-        className="bg-black  text-white flex items-center space-x-2"
+        className="bg-black  text-white flex items-center  space-x-2"
       >
-        <span className=" font-medium  text-sm">{title}</span>
+        <span className=" font-medium   text-sm">{title}</span>
       </HoverBorderGradient>
     </div>
   );

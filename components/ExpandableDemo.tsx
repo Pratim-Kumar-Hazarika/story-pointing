@@ -90,17 +90,17 @@ export function ExpandableCardDemo() {
           </div>
         ) : null}
       </AnimatePresence>
-      <ul className="   grid grid-cols-4 gap-4 mt-5">
+      <ul className="  flex flex-wrap gap-4 mt-5">
         {cards.map((card, index) => (
            
           <motion.div
             layoutId={`card-${card.title}-${id}`}
             key={card.title} 
             onClick={() => setActive(card)}
-            className=" flex flex-col border p-2 border-neutral-800   min-w-[170px]   max-w-[171px]    rounded-xl cursor-pointer"
+            className=" flex flex-col border p-2 border-neutral-800   min-w-[100px]   max-w-[171px]    rounded-xl cursor-pointer"
           >
             <div className="flex gap-4 flex-col   w-full">
-            <div className="text-neutral-200  text-center  text-2xl relative z-20">{index} <span className="text-sm  flex items-center justify-center">(12 votes)</span></div>
+            <div className="text-neutral-200  text-center  text-2xl relative z-20">{index} <span className="text-sm ">(12 votes)</span></div>
               <Reveal title="View "/>
             </div>
           </motion.div>
