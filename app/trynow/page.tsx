@@ -14,13 +14,15 @@ function page() {
         <h2 className="bg-clip-text text-transparent text-center bg-gradient-to-b  from-neutral-400 to-white text-3xl  font-bold tracking-tight">
           Estimate
         </h2>
-        <div className="flex gap-4 px-5 mt-2 font-medium">
+        <div className="flex gap-4 px-5  font-medium">
           {" "}
-          <div className="   text-sm  flex items-center justify-center">
-            Product
-          </div>
-          <div className="   text-sm  flex items-center justify-center">
-            Pricing
+          <div className="flex items-end justify-end gap-4 z-[100]   text-sm  font-medium text-neutral-400    ">
+            <div className="  cursor-pointer   flex items-center justify-center ">
+              Sessions
+            </div>
+            <div className="      cursor-pointer flex items-center justify-center  ">
+              Sign out
+            </div>
           </div>
         </div>
       </div>
