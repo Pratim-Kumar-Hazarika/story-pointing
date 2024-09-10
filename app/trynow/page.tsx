@@ -5,6 +5,7 @@ import { PricingCards } from "@/components/PricingCard";
 import { StickyScrollRevealDemo } from "@/components/StickyScrollDemo";
 import VotesTable from "@/components/Table";
 import { VoteCards } from "@/components/VoteCards";
+import Link from "next/link";
 import React, { useState } from "react";
 
 function page() {
@@ -20,9 +21,11 @@ function page() {
             <div className="  cursor-pointer   flex items-center justify-center ">
               Sessions
             </div>
-            <div className="      cursor-pointer flex items-center justify-center  ">
-              Sign out
-            </div>
+            <Link href={"/signin"}>
+              <div className="      cursor-pointer flex items-center justify-center  ">
+                Sign In
+              </div>
+            </Link>
           </div>
         </div>
       </div>
