@@ -58,7 +58,7 @@ export const StickyScroll = ({
         className="bg-black text-white min-w-max overflow-hidden z-[100] py-0"
       >
         <motion.div
-          className="h-[calc(90vh_-_200px)]  custom-scrollbar overflow-y-auto flex justify-center relative space-x-10 rounded-md p-10"
+className="h-[calc(90vh_-_200px)]  flex justify-center  custom-scrollbar relative space-x-10 rounded-md p-10"
           ref={ref}
         >
           <div className="relative flex items-start px-4">
@@ -94,7 +94,7 @@ export const StickyScroll = ({
           </div>
           <div
              style={{
-    backgroundImage: 'url(/chart.png)',
+    backgroundImage: 'url(/tryestimate.png)',
     backgroundSize: 'cover', // Ensures the image covers the div
     backgroundPosition: 'center', // Centers the image in the div
     backgroundRepeat: 'no-repeat', // Ensures the image doesn't repeat

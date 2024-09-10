@@ -14,6 +14,7 @@ function page() {
          <div onClick={()=>setPage('price')} className="      cursor-pointer flex items-center justify-center  " >Pricing</div>
          </div>
           <h2  className="bg-clip-text  mt-10 text-transparent text-center bg-gradient-to-b  from-neutral-400 to-white text-2xl md:text-4xl lg:text-7xl font-sans   relative z-20 font-bold tracking-tight">
+      
       Estimate 
       </h2>
       <p className="max-w-xl mx-auto text-sm md:text-lg text-neutral-400 text-center mt-2">
