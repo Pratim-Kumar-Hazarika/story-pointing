@@ -3,7 +3,6 @@
 import { CardSpotlight } from "./CardSpotLight";
 import { HoverBorderGradient } from "./HoverBorderGradient";
 import { Reveal } from "./Reveal";
-
 export function VoteCards() {
   return (
     <HoverBorderGradient
