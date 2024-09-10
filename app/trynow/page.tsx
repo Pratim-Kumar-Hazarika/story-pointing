@@ -9,6 +9,7 @@ import Link from "next/link";
 import React, { useState } from "react";
 
 function page() {
+  const [showVotes, setShowVotes] = useState(false);
   return (
     <div className="relative min-h-screen flex flex-col  ">
       <div className=" flex justify-between w-full py-3 px-4 text-white ">
@@ -18,8 +19,11 @@ function page() {
         <div className="flex gap-4 px-5  font-medium">
           {" "}
           <div className="flex items-end justify-end gap-4 z-[100]   text-sm  font-medium text-neutral-400    ">
-            <div className="  cursor-pointer   flex items-center justify-center ">
-              Sessions
+            <div
+              onClick={() => setShowVotes((prev) => !prev)}
+              className="  cursor-pointer   flex items-center justify-center "
+            >
+              {!showVotes ? " Show Votes" : "Show Chart"}
             </div>
             <Link href={"/signin"}>
               <div className="      cursor-pointer flex items-center justify-center  ">
@@ -32,9 +36,15 @@ function page() {
       <div className="   flex  px-4  gap-5 mt-[30px] relative">
         <LeftSideBar />
         <div className=" flex flex-col  gap-4">
-          {/* <VoteCards /> */}
-          <ChartDemo />
-          <VotesTable />
+          {showVotes ? (
+            <VoteCards />
+          ) : (
+            <>
+              {" "}
+              <ChartDemo />
+              <VotesTable />
+            </>
+          )}
         </div>
       </div>
     </div>
