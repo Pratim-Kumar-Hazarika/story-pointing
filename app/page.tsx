@@ -15,6 +15,11 @@ export default function Home() {
             Try Now
           </div>
         </Link>
+        <Link href={"/signin"}>
+          <div className="  cursor-pointer   flex items-center justify-center ">
+            Sign In
+          </div>
+        </Link>
         <div
           onClick={() => setPage("product")}
           className="  cursor-pointer   flex items-center justify-center "

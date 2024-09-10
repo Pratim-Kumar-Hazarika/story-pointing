@@ -14,6 +14,7 @@ import { Label } from "@/components/ui/label";
 import { toast } from "@/hooks/use-toast";
 import { Reveal } from "./Reveal";
 import { HoverBorderGradient } from "./HoverBorderGradient";
+import Link from "next/link";
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -70,17 +71,19 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
             )}
           </div>
           <div className=" flex justify-center text-center z-50   ">
-            <HoverBorderGradient
-              leftSideBar={false}
-              containerClassName="rounded-md    "
-              as="button"
-              className="bg-black  text-white flex items-center  space-x-2"
-            >
-              <span className=" font-medium  flex  gap-1 text-sm">
-                <GoogleLoginIcon />
-                Sign in with Google
-              </span>
-            </HoverBorderGradient>
+            <Link href={"/trynow"}>
+              <HoverBorderGradient
+                leftSideBar={false}
+                containerClassName="rounded-md    "
+                as="button"
+                className="bg-black  text-white flex items-center  space-x-2"
+              >
+                <span className=" font-medium  flex  gap-1 text-sm">
+                  <GoogleLoginIcon />
+                  Sign up with Google
+                </span>
+              </HoverBorderGradient>
+            </Link>
           </div>
         </div>
       </form>
