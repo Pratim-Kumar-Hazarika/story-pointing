@@ -9,7 +9,7 @@ export function VoteCards() {
     <HoverBorderGradient
       leftSideBar={true}
       containerClassName="rounded-md py-0   z-[100] "
-      as="button"
+      as="div"
       className="bg-black text-white  z-[100] py-0 h-[calc(100vh_-_101px)]   w-[calc(90vw_-_220px)]"
     >
       <div className="  ml-5    h-full  items-center justify-center flex">
