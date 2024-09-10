@@ -4,11 +4,6 @@ import Image from "next/image";
 
 import { UserAuthForm } from "@/components/UseAuthForm";
 
-export const metadata: Metadata = {
-  title: "Estimate | Signin",
-  description: "Authentication  for user",
-};
-
 export default function AuthenticationPage() {
   return (
     <>
