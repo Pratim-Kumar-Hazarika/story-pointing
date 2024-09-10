@@ -1,7 +1,9 @@
 "use client";
+import { ChartDemo } from "@/components/ChartDemo";
 import LeftSideBar from "@/components/LeftSideBar";
 import { PricingCards } from "@/components/PricingCard";
 import { StickyScrollRevealDemo } from "@/components/StickyScrollDemo";
+import VotesTable from "@/components/Table";
 import { VoteCards } from "@/components/VoteCards";
 import React, { useState } from "react";
 
@@ -25,9 +27,9 @@ function page() {
       <div className="   flex  px-4  gap-5 mt-[30px] relative">
         <LeftSideBar />
         <div className=" flex flex-col  gap-4">
-          <VoteCards />
-          {/* <ChartDemo/> 
-      <VotesTable/>  */}
+          {/* <VoteCards /> */}
+          <ChartDemo />
+          <VotesTable />
         </div>
       </div>
     </div>

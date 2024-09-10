@@ -15,7 +15,7 @@ export function VoteCards() {
         <div className=" flex flex-col items-center     gap-4">
           <div
             title=" Oxygen gets you high. In a catastrophic emerge catastrophic emerge catastrophic emergecatastrophic emergecatastrophic emerge"
-            className="text-lg   text-white  break-all z-50  w-[630px] line-clamp-2"
+            className="text-lg    flex items-center justify-center text-white  break-all z-50  w-[630px] line-clamp-2"
           >
             User Notifications on Web and Mobile
           </div>

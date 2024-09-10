@@ -129,7 +129,7 @@ const VotesTable: React.FC = () => {
       leftSideBar={true}
       containerClassName="rounded-md  w-full  z-50 overflow-hidden "
       as="div"
-      className="bg-black text-white   w-[calc(100vw_-_340px)] flex space-x-2  overflow-hidden   h-[calc(100vh_-_405px)] "
+      className="bg-black text-white   w-[calc(100vw_-_340px)] flex space-x-2  overflow-hidden   h-[calc(100vh_-_425px)] "
     >
       <Table className=" border-none  min-w-full ">
         <TableHeader className="border-none">
@@ -152,7 +152,7 @@ const VotesTable: React.FC = () => {
               <TableCell key={vote.points} className="align-top p-1 text-lg  ">
                 <ScrollAreaDemo
                   containerClassName=" max-w-[100px]"
-                  className="h-[calc(100vh_-_470px)]"
+                  className="h-[calc(100vh_-_490px)]"
                 >
                   <div className="py-[3px]   max-w-[100px]  text-center">
                     {vote.names.map((tag) => (
