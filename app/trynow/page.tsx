@@ -8,7 +8,7 @@ import { VoteCards } from "@/components/VoteCards";
 import Link from "next/link";
 import React, { useState } from "react";
 
-function page() {
+function Page() {
   const [showVotes, setShowVotes] = useState(false);
   return (
     <div className="relative min-h-screen flex flex-col  ">
@@ -51,4 +51,4 @@ function page() {
   );
 }
 
-export default page;
+export default Page;
