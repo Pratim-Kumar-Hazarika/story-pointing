@@ -42,7 +42,7 @@ export const StickyScroll = ({
   ];
 
   const [backgroundGradient, setBackgroundGradient] = useState(
-    linearGradients[0]
+    linearGradients[0],
   );
 
   useEffect(() => {
@@ -54,11 +54,11 @@ export const StickyScroll = ({
       <HoverBorderGradient
         leftSideBar={true}
         containerClassName="rounded-md py-0 z-[100]"
-        as="button"
+        as="div"
         className="bg-black text-white min-w-max overflow-hidden z-[100] py-0"
       >
         <motion.div
-  className="h-[calc(90vh_-_200px)]  flex justify-center  custom-scrollbar relative space-x-10 rounded-md p-10"
+          className="h-[calc(90vh_-_200px)]  flex justify-center  custom-scrollbar relative space-x-10 rounded-md p-10"
           ref={ref}
         >
           <div className="relative flex items-start px-4">
@@ -93,15 +93,15 @@ export const StickyScroll = ({
             </div>
           </div>
           <div
-             style={{
-    backgroundImage: 'url(/tryestimate.png)',
-    backgroundSize: 'cover', // Ensures the image covers the div
-    backgroundPosition: 'center', // Centers the image in the div
-    backgroundRepeat: 'no-repeat', // Ensures the image doesn't repeat
-  }}
+            style={{
+              backgroundImage: "url(/tryestimate.png)",
+              backgroundSize: "cover", // Ensures the image covers the div
+              backgroundPosition: "center", // Centers the image in the div
+              backgroundRepeat: "no-repeat", // Ensures the image doesn't repeat
+            }}
             className={cn(
               "hidden lg:block h-60 w-80 rounded-md bg-white sticky top-10 overflow-hidden",
-              contentClassName
+              contentClassName,
             )}
           >
             {content[activeCard]?.content ?? null}
