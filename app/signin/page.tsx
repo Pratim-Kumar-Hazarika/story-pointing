@@ -3,8 +3,7 @@ import { Metadata } from "next";
 import Image from "next/image";
 
 import { UserAuthForm } from "@/components/UseAuthForm";
-
-export default function AuthenticationPage() {
+export default function Page() {
   return (
     <>
       <div className="md:hidden  ">
