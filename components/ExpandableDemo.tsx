@@ -9,7 +9,7 @@ import { CardSpotlight } from "./CardSpotLight";
 
 export function ExpandableCardDemo() {
   const [active, setActive] = useState<(typeof cards)[number] | boolean | null>(
-    null
+    null,
   );
   const id = useId();
   const ref = useRef<HTMLDivElement>(null);
@@ -74,37 +74,76 @@ export function ExpandableCardDemo() {
               className="w-full max-w-[500px]  min-h-[400px] flex flex-col bg-black text-white border border-neutral-800 dark:bg-neutral-900 sm:rounded-3xl overflow-hidden"
             >
               <motion.div layoutId={`image-${active.title}-${id}`}>
-               <div  className="  border-b-[1px] py-4 border-l-0  border-r-0 border-t-0 border-neutral-800 rounded-none" >
-                <div className=" text-white   font-semibold   text-[50px]  text-center">1</div>
-                <div className=" text-white  text-sm  font-medium text-center">( 12 Votes )</div>
-               </div>
+                <div className="  border-b-[1px] py-4 border-l-0  border-r-0 border-t-0 border-neutral-800 rounded-none">
+                  <div className=" text-white   font-semibold   text-[50px]  text-center">
+                    1
+                  </div>
+                  <div className=" text-white  text-sm  font-medium text-center">
+                    ( 12 Votes )
+                  </div>
+                </div>
               </motion.div>
 
-             
-             <div className=" grid grid-cols-3 px-4 py-4 gap-4">
-                {["Elon","Pratim","Sam Altman","Larry Page","Seregy Bin","Nikhil Kamath","Elon","Pratim","Sam Altman","Larry Page","Seregy Bin","Nikhil Kamath","Elon","Pratim","Sam Altman","Larry Page","Seregy Bin","Nikhil Kamath","Elon","Pratim","Sam Altman","Larry Page","Seregy Bin","Nikhil Kamath","Elon","Pratim","Sam Altman","Larry Page","Seregy Bin","Nikhil Kamath"].map((item)=>(
-                    <div className="text-neutral-200   text-lg   font-normal ">{item}</div>
+              <div className=" grid grid-cols-3 px-4 py-4 gap-4">
+                {[
+                  "Elon",
+                  "Pratim",
+                  "Sam Altman",
+                  "Larry Page",
+                  "Seregy Bin",
+                  "Nikhil Kamath",
+                  "Elon",
+                  "Pratim",
+                  "Sam Altman",
+                  "Larry Page",
+                  "Seregy Bin",
+                  "Nikhil Kamath",
+                  "Elon",
+                  "Pratim",
+                  "Sam Altman",
+                  "Larry Page",
+                  "Seregy Bin",
+                  "Nikhil Kamath",
+                  "Elon",
+                  "Pratim",
+                  "Sam Altman",
+                  "Larry Page",
+                  "Seregy Bin",
+                  "Nikhil Kamath",
+                  "Elon",
+                  "Pratim",
+                  "Sam Altman",
+                  "Larry Page",
+                  "Seregy Bin",
+                  "Nikhil Kamath",
+                ].map((item) => (
+                  <div
+                    key={item}
+                    className="text-neutral-200   text-lg   font-normal "
+                  >
+                    {item}
+                  </div>
                 ))}
-             </div>
+              </div>
             </motion.div>
           </div>
         ) : null}
       </AnimatePresence>
       <ul className="  flex flex-wrap gap-4 mt-5">
         {cards.map((card, index) => (
-           
           <motion.div
             layoutId={`card-${card.title}-${id}`}
-            key={card.title} 
+            key={card.title}
             onClick={() => setActive(card)}
             className=" flex flex-col border p-2 border-neutral-800   min-w-[100px]   max-w-[171px]    rounded-xl cursor-pointer"
           >
             <div className="flex gap-4 flex-col   w-full">
-            <div className="text-neutral-200  text-center  text-2xl relative z-20">{index} <span className="text-sm ">(12 votes)</span></div>
-              <Reveal title="View "/>
+              <div className="text-neutral-200  text-center  text-2xl relative z-20">
+                {index} <span className="text-sm ">(12 votes)</span>
+              </div>
+              <Reveal title="View " />
             </div>
           </motion.div>
-
         ))}
       </ul>
     </>
@@ -213,7 +252,8 @@ const cards = [
         </p>
       );
     },
-  }, {
+  },
+  {
     description: "Ladwfwna Del Rey",
     title: "Summertime Sadness",
     src: "https://assets.aceternity.com/demos/lana-del-rey.jpeg",
