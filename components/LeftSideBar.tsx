@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { HoverBorderGradient } from "./HoverBorderGradient";
 import Tick from "@/icons/Tick";
 import { SparklesPreview } from "./SparklesPreview";
@@ -8,6 +8,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import { SparklesCore } from "./Sparkles";
 import { TabsDemo } from "./TabsDemo";
 import ScrollAreaDemo from "./ScrollAreaDemo";
+import { WebsocketManager } from "@/utils/WebsocketManager";
+import { cn } from "@/lib/utils";
 
 const users = [
   { name: "Pratim", emoji: "🧞‍♀️", tick: true },
@@ -26,6 +28,20 @@ const users = [
 ];
 
 function LeftSideBar() {
+  const [active, setActive] = useState<any>("Total");
+  const [users1, seUsers1] = useState<any>([]);
+
+  useEffect(() => {
+    WebsocketManager.getInstance().registerCallBack(
+      "join",
+      (data: any) => seUsers1((prev: any) => [...prev, data]),
+      "1",
+    );
+    return () => {
+      // WebsocketManager.getInstance().
+    };
+  }, []);
+  console.log(users1);
   return (
     <HoverBorderGradient
       leftSideBar={true}
@@ -33,22 +49,99 @@ function LeftSideBar() {
       as="div"
       className="bg-black text-white  min-w-max  z-[100] py-0"
     >
-      <div className="text-white  bg-black   ">
+      <div className="text-white  bg-black   mt-2  px-4">
         {/* Add hover effect for overflow */}
-        <TabsDemo />
+        {/* <TabsDemo totalUsers={users1.length} /> */}
+        <div className={cn("flex flex-col items-center mb-4")}>
+          <button
+            onClick={() => setActive("Total")} // Move the first tab to the top
+            className={cn(
+              "relative px-4 py-2 rounded-full ",
+              { "bg-zinc-800": active.value === "Total" },
+              active === "Total" ? "" : "",
+            )}
+            style={{
+              transformStyle: "preserve-3d",
+            }}
+          >
+            {active === "Total" && (
+              <motion.div
+                layoutId="clickedbutton"
+                transition={{ type: "spring", bounce: 0.3, duration: 0.6 }}
+                className={cn("absolute inset-0 bg-zinc-800 rounded-full ")}
+              />
+            )}
+            <span className="relative block text-sm text-white">
+              Total ({users1.length})
+            </span>
+          </button>
+        </div>
+        <div
+          className={cn(
+            "flex flex-row px-4  items-center justify-center space-x-2  ",
+          )}
+        >
+          {["Voted", "Pending"].map((tab, idx) => (
+            <button
+              key={tab}
+              onClick={() => {
+                setActive(tab);
+              }}
+              className={cn(
+                "relative px-4 py-2 rounded-full",
+                { "bg-zinc-800": active === tab },
+                active === tab ? "" : "",
+              )}
+              style={{
+                transformStyle: "preserve-3d",
+              }}
+            >
+              {active === tab && (
+                <motion.div
+                  layoutId="clickedbutton"
+                  transition={{ type: "spring", bounce: 0.3, duration: 0.6 }}
+                  className={cn("absolute inset-0 bg-zinc-800 rounded-full ")}
+                />
+              )}
+              <span className="relative block text-white text-sm">{tab}</span>
+            </button>
+          ))}
+        </div>
         <ScrollAreaDemo
           containerClassName="w-full"
           className="h-[calc(100vh_-_200px)]"
         >
-          <div className="flex    flex-col items-start gap-4  py-7">
-            {users.map((user, index) => (
-              <User
-                key={index}
-                name={user.name}
-                emoji={user.emoji}
-                tick={user.tick}
-              />
-            ))}
+          <div className="flex    flex-col items-start gap-4  py-7 ">
+            {active === "Total" &&
+              users1.map((user, index) => (
+                <User
+                  tick={null}
+                  type="Total"
+                  key={index}
+                  name={`${user.name}${Math.floor(Math.random() * 5)}`}
+                  emoji={user.emoji}
+                />
+              ))}
+            {active === "Pending" &&
+              users1.map((user, index) => (
+                <User
+                  tick={false}
+                  type="Pending"
+                  key={index}
+                  name={`${user.name}${Math.floor(Math.random() * 5)}`}
+                  emoji={user.emoji}
+                />
+              ))}
+            {active === "Voted" &&
+              users1.map((user, index) => (
+                <User
+                  tick={true}
+                  type="Voted"
+                  key={index}
+                  name={`${user.name}${Math.floor(Math.random() * 5)}`}
+                  emoji={user.emoji}
+                />
+              ))}
           </div>
         </ScrollAreaDemo>
       </div>
@@ -60,21 +153,28 @@ function User({
   name,
   emoji,
   tick,
+  type,
 }: {
   name: string;
   emoji: string;
-  tick: boolean;
+  tick?: boolean | null;
+  type: "Total" | "Voted" | "Pending";
 }) {
   return (
-    <div className="font-medium flex    w-full  justify-between px-4  ">
+    <div className="font-medium flex    w-full  justify-between   ">
       <div className=" flex  justify-start   text-ellipsis truncate text-sm">
         {" "}
         {name}{" "}
       </div>
-      <div className="   flex   justify-end slow-pulse z-50">
-        {" "}
-        {tick ? <Confirm /> : <Pending />}
-      </div>
+      {type === "Total" && (
+        <div className=" flex  mb-[-1px] justify-end z-50"> 👤</div>
+      )}
+
+      {type !== "Total" && (
+        <div className="   flex   slow-pulse  justify-end z-50">
+          {tick ? <Confirm /> : <Pending />}
+        </div>
+      )}
     </div>
   );
 }
@@ -173,3 +273,52 @@ export function Pending() {
     </svg>
   );
 }
+
+const emojiArray = [
+  "😀",
+  "😃",
+  "😄",
+  "😁",
+  "😆",
+  "😅",
+  "🤣",
+  "😂",
+  "🙂",
+  "🙃",
+  "😉",
+  "😊",
+  "😇",
+  "🥰",
+  "😍",
+  "🤩",
+  "😘",
+  "😗",
+  "😚",
+  "😋",
+  "😎",
+  "🤓",
+  "🧐",
+  "😕",
+  "🙁",
+  "☹️",
+  "😮",
+  "😯",
+  "😲",
+  "🥺",
+  "😢",
+  "😭",
+  "😱",
+  "😡",
+  "😤",
+  "🤬",
+  "🤯",
+  "😳",
+  "🥳",
+  "🤗",
+];
+
+// Function to return a random emoji
+const getRandomEmoji = () => {
+  const randomIndex = Math.floor(Math.random() * emojiArray.length);
+  return emojiArray[randomIndex];
+};

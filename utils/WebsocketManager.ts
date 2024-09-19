@@ -12,6 +12,7 @@ export class WebsocketManager {
     this.bufferedMessages = [];
     this.id = 1;
     this.init();
+    console.log("called init");
   }
 
   public static getInstance() {
@@ -22,15 +23,30 @@ export class WebsocketManager {
   }
   init() {
     this.ws.onopen = () => {
+      console.log("connected");
       this.intialized = true;
+      const message1 = {
+        method: "SUBSCRIBE",
+        params: ["room1"],
+      };
+      this.ws.send(JSON.stringify(message1));
+
       this.bufferedMessages.forEach((message) => {
         this.ws.send(JSON.stringify(message));
       });
       this.bufferedMessages = [];
     };
     this.ws.onmessage = (event) => {
-      const message = JSON.parse(event.data);
-      //  Type -  Total Participants , Pending, Voted
+      const messageFromSever = JSON.parse(event.data);
+      console.log(messageFromSever);
+      if (this.callbacks["join"]) {
+        this.callbacks["join"].forEach(({ callback }: any) => {
+          console.log("called", this.callbacks);
+          const message = { name: messageFromSever, emoji: "🧞‍♀️", tick: true };
+          callback(message);
+        });
+      }
+      //  Type -    Total Participants , Pending, Voted
     };
   }
 
@@ -46,7 +62,13 @@ export class WebsocketManager {
     this.ws.send(JSON.stringify(messageToSend));
   }
   async registerCallBack(type: string, callback: any, id: string) {
+    console.log("REGISTER CALL");
     this.callbacks[type] = this.callbacks[type] || [];
+    const x = this.callbacks[type].filter((item) => item.id === id);
+    console.log(x);
+    if (x.length === 1) {
+      return;
+    }
     this.callbacks[type].push({ callback, id });
   }
 }

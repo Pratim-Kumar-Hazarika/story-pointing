@@ -1,48 +1,46 @@
 "use client";
 
-import Image from "next/image";
+import { useState, useEffect } from "react";
 import { Tabs } from "./Tabs";
 
+type TabsDemoProps = {
+  totalUsers: number;
+};
 
-export function TabsDemo() {
-  const tabs = [
+export function TabsDemo({ totalUsers }: TabsDemoProps) {
+  console.log(totalUsers);
+  const [tabs, setTabs] = useState([
     {
-      title: "Total (1)",
+      title: `Total (${totalUsers})`,
       value: "product",
-      content: (
-        <div className="w-full overflow-hidden relative h-full rounded-2xl  text-xl md:text-4xl font-bold text-white bg-gradient-to-br from-purple-700 to-violet-900">
-          <p>Product Tab</p>
-          
-        </div>
-      ),
+      content: "",
     },
     {
-      title: "Voted(2)",
+      title: "Voted (2)",
       value: "services",
-      content: (
-        <div className="w-full overflow-hidden relative h-full rounded-2xl  text-xl md:text-4xl font-bold text-white bg-gradient-to-br from-purple-700 to-violet-900">
-          <p>Services tab</p>
-          
-        </div>
-      ),
+      content: "",
     },
     {
       title: "Pending (1)",
       value: "playground",
-      content: (
-        <div className="w-full overflow-hidden relative h-full rounded-2xl  text-xl md:text-4xl font-bold text-white bg-gradient-to-br from-purple-700 to-violet-900">
-          <p>Playground tab</p>
-         
-        </div>
-      ),
+      content: "",
     },
-   
-  ];
+  ]);
+
+  // Update the tabs when the totalUsers prop changes
+  useEffect(() => {
+    setTabs((prevTabs) =>
+      prevTabs.map((tab) =>
+        tab.value === "product"
+          ? { ...tab, title: `Total (${totalUsers})` }
+          : tab,
+      ),
+    );
+  }, [totalUsers]);
 
   return (
-    <div className="  relative b flex flex-col  w-full   items-center mt-3">
+    <div className="relative b flex flex-col w-full items-center mt-3">
       <Tabs tabs={tabs} />
     </div>
   );
 }
-
