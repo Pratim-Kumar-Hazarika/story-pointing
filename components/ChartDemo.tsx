@@ -32,9 +32,9 @@ import { Reveal } from "./Reveal";
 export const description = "A bar chart with a label";
 
 const chartData = [
-  { month: "0", desktop: 186 },
-  { month: "3", desktop: 305 },
-  { month: "5", desktop: 237 },
+  { month: "0", desktop: 50 },
+  { month: "3", desktop: 150 },
+  { month: "5", desktop: 40 },
   { month: "8", desktop: 73 },
   { month: "10", desktop: 209 },
   { month: "13", desktop: 214 },
