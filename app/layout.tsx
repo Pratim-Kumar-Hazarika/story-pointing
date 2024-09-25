@@ -4,6 +4,7 @@ import "./globals.css";
 import Head from "next/head"; // Import Head
 import { TracingBeam } from "@/components/TracingBeam";
 import { ShootingStars } from "@/components/ShootingStar";
+import { Toaster } from "@/components/ui/toaster";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -31,9 +32,8 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} min-h-screen bg-black overflow-hidden ${geistMono.variable} antialiased`}
       >
-
-       
-         {children}
+        {children}
+        <Toaster />
       </body>
     </html>
   );

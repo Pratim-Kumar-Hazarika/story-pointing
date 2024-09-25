@@ -38,12 +38,10 @@ export class WebsocketManager {
     };
     this.ws.onmessage = (event) => {
       const messageFromSever = JSON.parse(event.data);
-      console.log(messageFromSever);
-      if (this.callbacks["join"]) {
-        this.callbacks["join"].forEach(({ callback }: any) => {
-          console.log("called", this.callbacks);
-          const message = { name: messageFromSever, emoji: "🧞‍♀️", tick: true };
-          callback(message);
+      // For Total Participants, Voted, Pending
+      if (this.callbacks["userData"]) {
+        this.callbacks["userData"].forEach(({ callback }: any) => {
+          callback(messageFromSever);
         });
       }
       //  Type -    Total Participants , Pending, Voted

@@ -26,22 +26,54 @@ const users = [
   { name: "Larry", emoji: "🦸‍♀️", tick: true },
   { name: "Sam Altman", emoji: "🦹‍♂️", tick: true },
 ];
+type User = {
+  name: string;
+  id: string;
+};
+type UserData = {
+  totalParticipants: User[];
+  voted: User[];
+  pending: User[];
+};
 
 function LeftSideBar() {
   const [active, setActive] = useState<any>("Total");
   const [users1, seUsers1] = useState<any>([]);
+  const [userData, setUserData] = useState<UserData>();
 
   useEffect(() => {
     WebsocketManager.getInstance().registerCallBack(
-      "join",
-      (data: any) => seUsers1((prev: any) => [...prev, data]),
+      "userData",
+      (data: any) => {
+        console.log({ data });
+        const { type, data: totalParticipants, pending, voted } = data;
+        console.log(totalParticipants);
+
+        setUserData((prev) => {
+          switch (type) {
+            case "totalParticipants":
+              return {
+                ...prev,
+                totalParticipants: totalParticipants ?? [],
+              };
+            case "voting":
+              return {
+                ...prev,
+                pending: pending ?? [],
+                voted: voted ?? [],
+              };
+            default:
+              return prev;
+          }
+        });
+      },
       "1",
     );
     return () => {
-      // WebsocketManager.getInstance().
+      // WebsocketManager.getInstance().unregisterCallBack("totalParticipants");
     };
   }, []);
-  console.log(users1);
+  console.log({ userData });
   return (
     <HoverBorderGradient
       leftSideBar={true}
@@ -72,7 +104,7 @@ function LeftSideBar() {
               />
             )}
             <span className="relative block text-sm text-white">
-              Total ({users1.length})
+              Total ({userData?.totalParticipants?.length})
             </span>
           </button>
         </div>
@@ -103,7 +135,13 @@ function LeftSideBar() {
                   className={cn("absolute inset-0 bg-zinc-800 rounded-full ")}
                 />
               )}
-              <span className="relative block text-white text-sm">{tab}</span>
+              <span className="relative block text-white text-sm">
+                {tab} (
+                {tab === "Voted"
+                  ? userData?.voted?.length
+                  : userData?.pending?.length}
+                )
+              </span>
             </button>
           ))}
         </div>
@@ -113,34 +151,21 @@ function LeftSideBar() {
         >
           <div className="flex    flex-col items-start gap-4  py-7 ">
             {active === "Total" &&
-              users1.map((user, index) => (
-                <User
-                  tick={null}
-                  type="Total"
-                  key={index}
-                  name={`${user.name}${Math.floor(Math.random() * 5)}`}
-                  emoji={user.emoji}
-                />
+              userData?.totalParticipants.map((user, index) => (
+                <User tick={null} type="Total" key={index} name={user.name} />
               ))}
             {active === "Pending" &&
-              users1.map((user, index) => (
+              userData?.pending?.map((user, index) => (
                 <User
                   tick={false}
                   type="Pending"
                   key={index}
-                  name={`${user.name}${Math.floor(Math.random() * 5)}`}
-                  emoji={user.emoji}
+                  name={user.name}
                 />
               ))}
             {active === "Voted" &&
-              users1.map((user, index) => (
-                <User
-                  tick={true}
-                  type="Voted"
-                  key={index}
-                  name={`${user.name}${Math.floor(Math.random() * 5)}`}
-                  emoji={user.emoji}
-                />
+              userData?.voted?.map((user, index) => (
+                <User tick={true} type="Voted" key={index} name={user.name} />
               ))}
           </div>
         </ScrollAreaDemo>
@@ -151,18 +176,16 @@ function LeftSideBar() {
 
 function User({
   name,
-  emoji,
   tick,
   type,
 }: {
   name: string;
-  emoji: string;
   tick?: boolean | null;
   type: "Total" | "Voted" | "Pending";
 }) {
   return (
     <div className="font-medium flex    w-full  justify-between   ">
-      <div className=" flex  justify-start   text-ellipsis truncate text-sm">
+      <div className=" flex  justify-start  line-clamp-1   text-ellipsis truncate text-sm">
         {" "}
         {name}{" "}
       </div>
