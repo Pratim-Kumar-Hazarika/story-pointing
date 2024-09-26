@@ -6,30 +6,26 @@ import { HoverBorderGradient } from "./HoverBorderGradient";
 import { Reveal } from "./Reveal";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
+import ShareLink from "./ShareLink";
+import { Button } from "./ui/button";
+import StartEstimate from "./StartEstimate";
 export function VoteCards() {
   return (
-    <HoverBorderGradient
-      leftSideBar={true}
-      containerClassName="rounded-md py-0   z-[100] "
-      as="div"
-      className="bg-black text-white  z-[100] py-0 h-[calc(100vh_-_101px)]   w-[calc(90vw_-_220px)]"
+    <div
+      // leftSideBar={true}
+      // containerClassName="   z-[100] "
+      // as="div"
+      className="bg-black rounded-md border p-5  flex flex-col items-center border-neutral-800 text-white  z-[100] py-0 h-[calc(100vh_-_101px)]   w-[calc(90vw_-_220px)]"
     >
-      <div className="flex gap-4 mt-5">
-        <Input
-          className=" border-neutral-800   w-[450px] max-w-[500px]"
-          id="StoryTitle"
-          placeholder="Enter title for estimation"
-          type="text"
-        />
-        <Reveal title="Start Estimating" />
-      </div>
-      <div className="  ml-5    h-full  items-center justify-center flex">
-        <div className=" flex flex-col items-center     gap-4">
+      <ShareLink />
+      <StartEstimate />
+      <div className="   mt-5   h-full  flex">
+        <div className=" flex flex-col   items-center     gap-4">
           <div
             title=" Oxygen gets you high. In a catastrophic emerge catastrophic emerge catastrophic emergecatastrophic emergecatastrophic emerge"
             className="text-lg    flex items-center justify-center text-white  break-all z-50  w-[630px] line-clamp-2"
           >
-            Title ?
+            {/* Title ? */}
           </div>
           <div className="grid items-center grid-cols-4 gap-5 z-50 cursor-pointer">
             {[1, 2, 3, 5, 8, 13, 15, 20].map((item) => (
@@ -58,13 +54,9 @@ export function VoteCards() {
               </div>
             </div>
           </div>
-          <div className="flex gap-4">
-            <Reveal title="Reset Estimates" />
-            <Reveal title="Reveal Estimates" />
-          </div>
         </div>
       </div>
-    </HoverBorderGradient>
+    </div>
   );
 }
 

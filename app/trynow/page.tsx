@@ -37,7 +37,7 @@ function Page() {
 
       <div className="   flex  px-4  gap-5 mt-[30px] relative">
         <LeftSideBar />
-        {/* <div className=" flex flex-col  gap-4">
+        <div className=" flex flex-col  gap-4">
           {showVotes ? (
             <VoteCards />
           ) : (
@@ -47,7 +47,7 @@ function Page() {
               <VotesTable />
             </>
           )}
-        </div> */}
+        </div>
       </div>
     </div>
   );

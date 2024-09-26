@@ -75,12 +75,7 @@ function LeftSideBar() {
   }, []);
   console.log({ userData });
   return (
-    <HoverBorderGradient
-      leftSideBar={true}
-      containerClassName="rounded-md py-0  z-[100] "
-      as="div"
-      className="bg-black text-white  min-w-max  z-[100] py-0"
-    >
+    <div className="bg-black border border-neutral-800 rounded-md text-white  min-w-max  z-[100] py-0">
       <div className="text-white  bg-black   mt-2  px-4">
         {/* Add hover effect for overflow */}
         {/* <TabsDemo totalUsers={users1.length} /> */}
@@ -170,7 +165,7 @@ function LeftSideBar() {
           </div>
         </ScrollAreaDemo>
       </div>
-    </HoverBorderGradient>
+    </div>
   );
 }
 
