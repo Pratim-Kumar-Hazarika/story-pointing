@@ -99,7 +99,7 @@ function LeftSideBar() {
               />
             )}
             <span className="relative block text-sm text-white">
-              Total ({userData?.totalParticipants?.length})
+              Total ({userData?.totalParticipants?.length ?? 0})
             </span>
           </button>
         </div>
@@ -133,8 +133,8 @@ function LeftSideBar() {
               <span className="relative block text-white text-sm">
                 {tab} (
                 {tab === "Voted"
-                  ? userData?.voted?.length
-                  : userData?.pending?.length}
+                  ? (userData?.voted?.length ?? 0)
+                  : (userData?.pending?.length ?? 0)}
                 )
               </span>
             </button>
@@ -144,24 +144,50 @@ function LeftSideBar() {
           containerClassName="w-full"
           className="h-[calc(100vh_-_200px)]"
         >
-          <div className="flex    flex-col items-start gap-4  py-7 ">
+          <div className="flex flex-col items-start gap-4 py-7">
+            {/* Total Participants */}
             {active === "Total" &&
-              userData?.totalParticipants.map((user, index) => (
-                <User tick={null} type="Total" key={index} name={user.name} />
-              ))}
+            userData?.totalParticipants?.length &&
+            userData?.totalParticipants.length >= 1
+              ? userData?.totalParticipants.map((user, index) => (
+                  <User tick={null} type="Total" key={index} name={user.name} />
+                ))
+              : active === "Total" && (
+                  <div className="text-sm w-full text-center">
+                    No one joined till now!!
+                  </div>
+                )}
+
+            {/* Pending Participants */}
             {active === "Pending" &&
-              userData?.pending?.map((user, index) => (
-                <User
-                  tick={false}
-                  type="Pending"
-                  key={index}
-                  name={user.name}
-                />
-              ))}
+            userData?.pending?.length &&
+            userData?.pending.length >= 1
+              ? userData.pending.map((user, index) => (
+                  <User
+                    tick={false}
+                    type="Pending"
+                    key={index}
+                    name={user.name}
+                  />
+                ))
+              : active === "Pending" && (
+                  <div className="text-sm w-full text-center">
+                    Voting not started!!
+                  </div>
+                )}
+
+            {/* Voted Participants */}
             {active === "Voted" &&
-              userData?.voted?.map((user, index) => (
-                <User tick={true} type="Voted" key={index} name={user.name} />
-              ))}
+            userData?.voted?.length &&
+            userData?.voted.length >= 1
+              ? userData.voted.map((user, index) => (
+                  <User tick={true} type="Voted" key={index} name={user.name} />
+                ))
+              : active === "Voted" && (
+                  <div className="text-sm w-full text-center">
+                    Voting not started!!
+                  </div>
+                )}
           </div>
         </ScrollAreaDemo>
       </div>
