@@ -30,7 +30,10 @@ export function VoteCards() {
           <div className="grid items-center grid-cols-4 gap-5 z-50 cursor-pointer">
             {[1, 2, 3, 5, 8, 13, 15, 20].map((item) => (
               <div className="expcard" key={item}>
-                <CardSpotlight className="h-[85px] w-[85px] flex items-center justify-center">
+                <CardSpotlight
+                  activeCard={item === 2}
+                  className="h-[85px] w-[85px] flex items-center justify-center"
+                >
                   <div className="text-neutral-200 relative  text-4xl z-20">
                     {item}
                   </div>
@@ -39,14 +42,20 @@ export function VoteCards() {
             ))}
             <div className="col-span-4 flex flex-row gap-4 items-center justify-center">
               <div className="expcard">
-                <CardSpotlight className="h-[85px] w-[85px] flex items-center justify-center">
+                <CardSpotlight
+                  activeCard={false}
+                  className="h-[85px] w-[85px] flex items-center justify-center"
+                >
                   <div className="text-neutral-200 text-4xl relative z-20">
                     24
                   </div>
                 </CardSpotlight>
               </div>
               <div className="expcard">
-                <CardSpotlight className="  h-[85px] w-[85px] flex items-center justify-center">
+                <CardSpotlight
+                  activeCard={false}
+                  className="  h-[85px] w-[85px] flex items-center justify-center"
+                >
                   <div className="text-neutral-200 text-4xl relative z-20">
                     24
                   </div>

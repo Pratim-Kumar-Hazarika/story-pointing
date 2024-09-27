@@ -1,7 +1,11 @@
 "use client";
 
 import { useMotionValue, motion, useMotionTemplate } from "framer-motion";
-import React, { MouseEvent as ReactMouseEvent, useEffect, useState } from "react";
+import React, {
+  MouseEvent as ReactMouseEvent,
+  useEffect,
+  useState,
+} from "react";
 import { cn } from "@/lib/utils";
 import { CanvasRevealEffect } from "./CanvasRevealEffect";
 
@@ -10,6 +14,7 @@ export const CardSpotlight = ({
   radius = 350,
   color = "#262626",
   className,
+  activeCard,
   hoverBoolean,
   ...props
 }: {
@@ -17,6 +22,7 @@ export const CardSpotlight = ({
   color?: string;
   children: React.ReactNode;
   hoverBoolean?: boolean;
+  activeCard: boolean;
 } & React.HTMLAttributes<HTMLDivElement>) => {
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
@@ -33,29 +39,34 @@ export const CardSpotlight = ({
 
   const [isHovering, setIsHovering] = useState(false);
 
-  const handleMouseEnter = () =>{
-    if(!hoverBoolean){
+  const handleMouseEnter = () => {
+    if (!hoverBoolean) {
       setIsHovering(true);
     }
-  }
+  };
   const handleMouseLeave = () => {
-    if(!hoverBoolean){
+    if (!hoverBoolean) {
       setIsHovering(false);
     }
-  }
+  };
 
   // Trigger hover animation based on hoverBoolean prop
   useEffect(() => {
     if (hoverBoolean) {
       setIsHovering(true);
-    } 
+    }
   }, [hoverBoolean]);
+  useEffect(() => {
+    if (activeCard) {
+      setIsHovering(true);
+    }
+  }, [activeCard]);
 
   return (
     <div
       className={cn(
         "group/spotlight p-10 rounded-md relative border border-neutral-800 bg-black dark:border-neutral-800",
-        className
+        className,
       )}
       onMouseMove={handleMouseMove}
       onMouseEnter={handleMouseEnter}
