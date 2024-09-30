@@ -62,7 +62,7 @@ export class WebsocketManager {
   async registerCallBack(type: string, callback: any, id: string) {
     console.log("REGISTER CALL");
     this.callbacks[type] = this.callbacks[type] || [];
-    const x = this.callbacks[type].filter((item) => item.id === id);
+    const x = this.callbacks[type].filter((item: any) => item.id === id);
     console.log(x);
     if (x.length === 1) {
       return;

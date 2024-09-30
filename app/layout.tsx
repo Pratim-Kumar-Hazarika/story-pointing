@@ -1,3 +1,4 @@
+"use client";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
@@ -5,6 +6,7 @@ import Head from "next/head"; // Import Head
 import { TracingBeam } from "@/components/TracingBeam";
 import { ShootingStars } from "@/components/ShootingStar";
 import { Toaster } from "@/components/ui/toaster";
+import { AppProvider } from "@/context/AppContext";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -17,10 +19,10 @@ const geistMono = localFont({
   weight: "100 900",
 });
 
-export const metadata: Metadata = {
-  title: "Estimate",
-  description: "Boosting productivity with effortless task estimation.",
-};
+// export const metadata: Metadata = {
+//   title: "Estimate",
+//   description: "Boosting productivity with effortless task estimation.",
+// };
 
 export default function RootLayout({
   children,
@@ -32,8 +34,10 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} min-h-screen bg-black overflow-hidden ${geistMono.variable} antialiased`}
       >
-        {children}
-        <Toaster />
+        <AppProvider>
+          {children}
+          <Toaster />
+        </AppProvider>
       </body>
     </html>
   );

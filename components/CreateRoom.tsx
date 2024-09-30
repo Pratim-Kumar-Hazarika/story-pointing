@@ -16,27 +16,27 @@ import {
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { HoverBorderGradient } from "./HoverBorderGradient";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
+import { useAppContext } from "@/context/AppContext";
+import { generateOTP } from "@/utils/otp";
 
 const FormSchema = z.object({
   username: z.string().min(3, {
     message: "Username must be at least 3 characters.",
-  }),
-  room: z.string().min(1, {
-    message: "Room Code is required to join the session.",
   }),
 });
 
 export function CreateRoom() {
   const { toast } = useToast();
   const searchParams = useSearchParams();
+  const router = useRouter();
   const roomCode = searchParams.get("roomCode");
+  const { createRoom, setCreateRoom } = useAppContext();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
       username: "",
-      room: roomCode ?? "",
     },
   });
   useEffect(() => {
@@ -44,16 +44,14 @@ export function CreateRoom() {
   }, [form]);
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
+    const otp = generateOTP();
+    setCreateRoom({ username: data.username, roomCode: otp });
     toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] border-none rounded-md bg-slate-950 p-4">
-          <code className="text-white">{`Joined: ${data.username}, Room: ${data.room}`}</code>
-        </pre>
-      ),
+      description: "Room created successfully 🚀",
     });
+    router.push(`/trynow?roomCode=${otp}`);
   }
-
+  console.log("Here", { createRoom });
   return (
     <Form {...form}>
       <form
@@ -86,32 +84,6 @@ export function CreateRoom() {
             </FormItem>
           )}
         />
-
-        {/* Required Room Field */}
-        {/* <FormField
-          control={form.control}
-          name="room"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="">
-                <div className="bg-clip-text bg-gradient-to-b text-transparent from-neutral-400 to-white text-xl font-bold tracking-tight">
-                  Room Code
-                </div>
-              </FormLabel>
-              <FormControl>
-                <Input
-                  placeholder="Enter the room code.."
-                  {...field}
-                  className="text-white border-neutral-800"
-                />
-              </FormControl>
-              <FormDescription className=" text-white text-sm bg-gradient-to-b   text-transparent  from-neutral-400 to-white  tracking-tight bg-clip-text">
-                Without room code you can't proceed
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        /> */}
 
         {/* Submit Button */}
         <HoverBorderGradient

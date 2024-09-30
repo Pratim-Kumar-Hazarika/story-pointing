@@ -18,6 +18,7 @@ import { useToast } from "@/hooks/use-toast";
 import { HoverBorderGradient } from "./HoverBorderGradient";
 import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
+import { useAppContext } from "@/context/AppContext";
 
 const FormSchema = z.object({
   username: z.string().min(3, {
@@ -32,6 +33,7 @@ export function JoinRoom() {
   const { toast } = useToast();
   const searchParams = useSearchParams();
   const roomCode = searchParams.get("roomCode");
+  const { joinRoom, setJoinRoom } = useAppContext();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -44,16 +46,15 @@ export function JoinRoom() {
   }, [form]);
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
+    setJoinRoom({
+      username: data.username,
+      roomCode: data.room,
+    });
     toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px]border-none rounded-md bg-slate-950 p-4">
-          <code className="text-white">{`Joined: ${data.username}, Room: ${data.room}`}</code>
-        </pre>
-      ),
+      description: `Hey ${data.username} 👋 thanks for joining the session 🚀`,
     });
   }
-
+  console.log({ joinRoom });
   return (
     <Form {...form}>
       <form
