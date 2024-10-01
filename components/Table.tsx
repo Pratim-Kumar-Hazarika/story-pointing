@@ -125,12 +125,7 @@ const votes: Vote[] = [
 
 const VotesTable: React.FC = () => {
   return (
-    <HoverBorderGradient
-      leftSideBar={true}
-      containerClassName="rounded-md  w-full  z-50 overflow-hidden "
-      as="div"
-      className="bg-black text-white   w-[calc(100vw_-_340px)] flex space-x-2  overflow-hidden   h-[calc(100vh_-_425px)] "
-    >
+    <div className="bg-black text-white rounded-md    z-50  border border-neutral-800   w-[calc(100vw_-_340px)] flex space-x-2  overflow-hidden   h-[calc(100vh_-_425px)] ">
       <Table className=" border-none  min-w-full ">
         <TableHeader className="border-none">
           <TableRow className=" border-b border-b-neutral-800">
@@ -171,7 +166,7 @@ const VotesTable: React.FC = () => {
           </TableRow>
         </TableBody>
       </Table>
-    </HoverBorderGradient>
+    </div>
   );
 };
 

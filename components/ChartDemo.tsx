@@ -28,6 +28,7 @@ import {
 import { HoverBorderGradient } from "./HoverBorderGradient";
 import { CardSpotlight } from "./CardSpotLight";
 import { Reveal } from "./Reveal";
+import { Button } from "./ui/button";
 
 export const description = "A bar chart with a label";
 
@@ -53,12 +54,7 @@ const chartConfig = {
 
 export function ChartDemo() {
   return (
-    <HoverBorderGradient
-      leftSideBar={true}
-      containerClassName="rounded-md  z-50   w-full"
-      as="button"
-      className="bg-black text-white flex space-x-2   w-full "
-    >
+    <div className="bg-black text-white flex space-x-2   rounded-md  z-50 border border-neutral-800   w-full ">
       <div className="flex gap-4">
         <Card className=" bg-black border-none  px-0">
           <CardHeader className="text-white   ">
@@ -110,14 +106,18 @@ export function ChartDemo() {
                 </Line>
               </LineChart>
             </ChartContainer>
-            <div className=" flex flex-col gap-5  justify-center">
-              <Reveal title="Restimate" />
-              <Reveal title="New Story" />
+            <div className=" flex flex-col gap-5  text-white justify-center">
+              <Button variant="outline" className="border-neutral-800 ">
+                Reset Votes
+              </Button>
+              <Button variant="outline" className="border-neutral-800">
+                New Estimation
+              </Button>
             </div>
           </CardContent>
         </Card>
         <div className="  flex items-center min-w-max"> </div>
       </div>
-    </HoverBorderGradient>
+    </div>
   );
 }
