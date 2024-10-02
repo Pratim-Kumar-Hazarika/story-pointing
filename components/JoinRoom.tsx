@@ -15,10 +15,10 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
-import { HoverBorderGradient } from "./HoverBorderGradient";
 import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { useAppContext } from "@/context/AppContext";
+import { Button } from "./ui/button";
 
 const FormSchema = z.object({
   username: z.string().min(3, {
@@ -33,7 +33,7 @@ export function JoinRoom() {
   const { toast } = useToast();
   const searchParams = useSearchParams();
   const roomCode = searchParams.get("roomCode");
-  const { joinRoom, setJoinRoom } = useAppContext();
+  const { setJoinRoom, setUser } = useAppContext();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -46,15 +46,14 @@ export function JoinRoom() {
   }, [form]);
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
+    setUser({ name: data.username, isModerator: false });
     setJoinRoom({
-      username: data.username,
       roomCode: data.room,
     });
     toast({
       description: `Hey ${data.username} 👋 thanks for joining the session 🚀`,
     });
   }
-  console.log({ joinRoom });
   return (
     <Form {...form}>
       <form
@@ -115,16 +114,13 @@ export function JoinRoom() {
         />
 
         {/* Submit Button */}
-        <HoverBorderGradient
-          leftSideBar={false}
-          containerClassName="rounded-md  w-full"
-          as="button"
-          className="bg-black text-white w-full flex items-center space-x-2"
+        <Button
+          type="submit"
+          variant="outline"
+          className="border-neutral-800  text-white w-full"
         >
-          <button type="submit" className="font-medium text-sm w-full">
-            Join
-          </button>
-        </HoverBorderGradient>
+          Join Room
+        </Button>
       </form>
     </Form>
   );

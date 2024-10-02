@@ -15,11 +15,11 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
-import { HoverBorderGradient } from "./HoverBorderGradient";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { useAppContext } from "@/context/AppContext";
-import { generateOTP } from "@/utils/otp";
+import { generateRoomCode } from "@/utils/otp";
+import { Button } from "./ui/button";
 
 const FormSchema = z.object({
   username: z.string().min(3, {
@@ -29,10 +29,8 @@ const FormSchema = z.object({
 
 export function CreateRoom() {
   const { toast } = useToast();
-  const searchParams = useSearchParams();
   const router = useRouter();
-  const roomCode = searchParams.get("roomCode");
-  const { createRoom, setCreateRoom } = useAppContext();
+  const { createRoom, setCreateRoom, setUser } = useAppContext();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -44,14 +42,14 @@ export function CreateRoom() {
   }, [form]);
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
-    const otp = generateOTP();
-    setCreateRoom({ username: data.username, roomCode: otp });
+    const roomCode = generateRoomCode();
+    setUser({ name: data.username, isModerator: true });
+    setCreateRoom({ roomCode: roomCode });
     toast({
       description: "Room created successfully 🚀",
     });
-    router.push(`/trynow?roomCode=${otp}`);
+    router.push(`/trynow?roomCode=${roomCode}`);
   }
-  console.log("Here", { createRoom });
   return (
     <Form {...form}>
       <form
@@ -86,16 +84,13 @@ export function CreateRoom() {
         />
 
         {/* Submit Button */}
-        <HoverBorderGradient
-          leftSideBar={false}
-          containerClassName="rounded-md  w-full"
-          as="button"
-          className="bg-black text-white w-full flex items-center space-x-2"
+        <Button
+          type="submit"
+          variant="outline"
+          className="border-neutral-800  text-white w-full"
         >
-          <button type="submit" className="font-medium text-sm w-full">
-            Create Room
-          </button>
-        </HoverBorderGradient>
+          Create Room
+        </Button>
       </form>
     </Form>
   );

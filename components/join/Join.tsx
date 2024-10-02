@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 import { CreateRoom } from "@/components/CreateRoom";
 import { useSearchParams } from "next/navigation";
 type Tabs = "Create Room" | "Join Room";
-export default function Page() {
+function Join() {
   const searchParams = useSearchParams();
   const roomCode = searchParams.get("roomCode");
   const [active, setActive] = useState<Tabs>("Create Room");
@@ -111,3 +111,5 @@ export default function Page() {
     </>
   );
 }
+
+export default Join;

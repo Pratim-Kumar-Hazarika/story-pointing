@@ -1,4 +1,4 @@
-export function generateOTP(length: number = 6): string {
+export function generateRoomCode(length: number = 6): string {
   const digits = "0123456789";
   let otp = "";
   const cryptoObj = window.crypto || (window as any).msCrypto; // For older browsers

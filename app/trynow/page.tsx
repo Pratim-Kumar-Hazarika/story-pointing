@@ -10,7 +10,7 @@ import Link from "next/link";
 import React, { useState } from "react";
 
 function Page() {
-  const [showVotes, setShowVotes] = useState(false);
+  const [showVotes, setShowVotes] = useState(true);
   return (
     <div className="relative min-h-screen flex flex-col  ">
       <div className=" flex justify-between w-full py-3 px-4 text-white ">
