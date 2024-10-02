@@ -1,4 +1,11 @@
-import React, { createContext, useState, ReactNode, useContext } from "react";
+import { WebsocketManager } from "@/utils/WebsocketManager";
+import React, {
+  createContext,
+  useState,
+  ReactNode,
+  useContext,
+  useEffect,
+} from "react";
 
 interface AppContextInterface {
   user: {
@@ -40,6 +47,9 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     roomCode: "",
   });
 
+  useEffect(() => {
+    WebsocketManager.getInstance();
+  }, []);
   return (
     <AppContext.Provider
       value={{
