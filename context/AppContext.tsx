@@ -1,3 +1,4 @@
+import { useToast } from "@/hooks/use-toast";
 import { WebsocketManager } from "@/utils/WebsocketManager";
 import React, {
   createContext,
@@ -37,7 +38,10 @@ interface AppContextInterface {
   joinRoom: {
     roomCode: string;
   };
-  started: boolean;
+  startEstimation: {
+    started: boolean;
+    title: string;
+  };
   activeCardNumber: number | null;
   revealVotes: RevealVotesData | null;
   setActiveCardNumber: (activeCardNumber: number | null) => void;
@@ -45,7 +49,6 @@ interface AppContextInterface {
   setRoom: (createRoom: { roomCode: string }) => void;
   setCreateRoom: (joinRoom: { roomCode: string }) => void;
   setJoinRoom: (joinRoom: { roomCode: string }) => void;
-  setStarted: (started: boolean) => void;
   setRevealVotes: (data: RevealVotesData | null) => void;
 }
 
@@ -56,13 +59,19 @@ interface AppProviderProps {
 }
 
 export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
+  const { toast } = useToast();
   const [activeCardNumber, setActiveCardNumber] =
     useState<AppContextInterface["activeCardNumber"]>(null);
   const [user, setUser] = useState<AppContextInterface["user"]>({
     name: "",
     isModerator: false,
   });
-  const [started, setStarted] = useState<AppContextInterface["started"]>(false);
+  const [startEstimation, setStartedEstimation] = useState<
+    AppContextInterface["startEstimation"]
+  >({
+    title: "",
+    started: false,
+  });
   const [totalParticipants, setTotalParticipants] = useState<
     AppContextInterface["totalParticipants"]
   >([]);
@@ -91,7 +100,6 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     WebsocketManager.getInstance().registerCallBack(
       "revealVotes",
       (data: any) => {
-        console.log("App context", data);
         setRevealVotes(data);
       },
       "revealVotes-1",
@@ -128,7 +136,77 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
       );
     };
   }, []);
-  console.log("foi2enfn23nf32f", totalParticipants);
+
+  //Start Estimation
+  useEffect(() => {
+    WebsocketManager.getInstance().registerCallBack(
+      "startEstimation",
+      (data: { title: string }) => {
+        if (data.title) {
+          setStartedEstimation({
+            title: data.title,
+            started: true,
+          });
+        }
+      },
+      "startEstimation-1",
+    );
+    return () => {
+      WebsocketManager.getInstance().deRegisterCallback(
+        "startEstimation",
+        "startEstimation-1",
+      );
+    };
+  }, []);
+
+  //End/Restimate
+  useEffect(() => {
+    WebsocketManager.getInstance().registerCallBack(
+      "newEstimation",
+      (data: { title: string; voted: User[]; pending: User[] }) => {
+        setStartedEstimation({
+          title: "",
+          started: false,
+        });
+        if (data.voted) {
+          setVoted(data.voted);
+        }
+        if (data.pending) {
+          setPending(data.pending);
+        }
+      },
+      "newEstimation-1",
+    );
+    return () => {
+      WebsocketManager.getInstance().deRegisterCallback(
+        "newEstimation",
+        "newEstimation-1",
+      );
+    };
+  }, []);
+
+  //Reset Votes
+  useEffect(() => {
+    WebsocketManager.getInstance().registerCallBack(
+      "resetVotes",
+      (data: { voted: User[]; pending: User[] }) => {
+        setActiveCardNumber(null);
+        if (data.voted) {
+          setVoted(data.voted);
+        }
+        if (data.pending) {
+          setPending(data.pending);
+        }
+      },
+      "resetVotes-1",
+    );
+    return () => {
+      WebsocketManager.getInstance().deRegisterCallback(
+        "resetVotes",
+        "resetVotes-1",
+      );
+    };
+  }, []);
   return (
     <AppContext.Provider
       value={{
@@ -141,12 +219,10 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
         setJoinRoom,
         activeCardNumber,
         setActiveCardNumber,
-        started,
-        setStarted,
-        revealVotes, // Add revealVotes to the context
-        setRevealVotes, // Add setter for revealVotes to the context
+        startEstimation,
+        revealVotes,
+        setRevealVotes,
         totalParticipants,
-
         voted,
         pending,
       }}

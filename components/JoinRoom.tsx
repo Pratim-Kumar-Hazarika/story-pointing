@@ -62,7 +62,7 @@ export function JoinRoom() {
     toast({
       description: `Hey ${data.username} 👋 thanks for joining the session 🚀`,
     });
-    router.push(`/trynow?roomCode=${roomCode}`);
+    router.push(`/trynow?roomCode=${data.room}`);
   }
   return (
     <Form {...form}>

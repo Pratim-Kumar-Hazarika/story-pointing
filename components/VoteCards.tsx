@@ -13,11 +13,11 @@ export function VoteCards() {
     user: { isModerator },
     activeCardNumber,
     setActiveCardNumber,
-    started,
+    startEstimation,
   } = useAppContext();
   console.log({ activeCardNumber });
   function voteCardClickHandler(vote: number) {
-    if (!started) {
+    if (!startEstimation.started) {
       toast({
         description: `Let the moderator start the estimation ⏰!!`,
       });
@@ -26,12 +26,7 @@ export function VoteCards() {
     setActiveCardNumber(vote);
   }
   return (
-    <div
-      // leftSideBar={true}
-      // containerClassName="   z-[100] "
-      // as="div"
-      className="bg-black rounded-md border p-5  flex flex-col items-center border-neutral-800 text-white  z-[100] py-0 h-[calc(100vh_-_101px)]   w-[calc(90vw_-_220px)]"
-    >
+    <div className="bg-black rounded-md border p-5  flex flex-col items-center border-neutral-800 text-white  z-[100] py-0 h-[calc(100vh_-_101px)]   w-[calc(90vw_-_220px)]">
       <ShareLink />
       {isModerator && <StartEstimate />}
       {!isModerator && <ShowTitle />}

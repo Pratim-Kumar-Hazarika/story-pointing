@@ -2,8 +2,10 @@ import React, { useEffect, useState } from "react";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { useToast } from "@/hooks/use-toast";
+import { useAppContext } from "@/context/AppContext";
 
 function ShowTitle() {
+  const { startEstimation } = useAppContext();
   const { toast } = useToast();
   const [title, setTitle] = useState("");
   const [isStarted, setIsStarted] = useState(false);
@@ -15,6 +17,11 @@ function ShowTitle() {
       description: "Estimation started ⏰",
     });
   }
+  useEffect(() => {
+    if (startEstimation.title && startEstimation.started) {
+      startClickHandler();
+    }
+  }, [startEstimation.started, startEstimation.title]);
 
   function newEstimationHandler() {
     setTitle("");
@@ -54,7 +61,7 @@ function ShowTitle() {
         id="StoryTitle"
         placeholder="Title will appear here 🔖"
         type="text"
-        // value={window.location.origin + window.location.search}
+        value={startEstimation.title}
         readOnly
       />
       <div className="flex items-center justify-center">

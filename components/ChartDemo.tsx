@@ -29,21 +29,7 @@ import { HoverBorderGradient } from "./HoverBorderGradient";
 import { CardSpotlight } from "./CardSpotLight";
 import { Reveal } from "./Reveal";
 import { Button } from "./ui/button";
-
-export const description = "A bar chart with a label";
-
-const chartData = [
-  { month: "0", desktop: 50 },
-  { month: "3", desktop: 150 },
-  { month: "5", desktop: 40 },
-  { month: "8", desktop: 73 },
-  { month: "10", desktop: 209 },
-  { month: "13", desktop: 214 },
-  { month: "13", desktop: 214 },
-  { month: "13", desktop: 214 },
-  { month: "13", desktop: 214 },
-  { month: "13", desktop: 214 },
-];
+import { useAppContext } from "@/context/AppContext";
 
 const chartConfig = {
   desktop: {
@@ -53,13 +39,19 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 export function ChartDemo() {
+  const { revealVotes } = useAppContext();
+  const chartData = revealVotes?.chartData.map((item) => {
+    return {
+      month: String(item.point),
+      desktop: item.voters.length * 10,
+    };
+  });
   return (
     <div className="bg-black text-white flex space-x-2   rounded-md  z-50 border border-neutral-800   w-full ">
       <div className="flex gap-4">
         <Card className=" bg-black border-none  px-0">
           <CardHeader className="text-white   ">
-            To disable the rule globally or for specific parts of your project
-            specific parts of your project
+            {revealVotes?.title}
           </CardHeader>
           <CardContent className="  flex gap-5">
             <ChartContainer
@@ -116,7 +108,6 @@ export function ChartDemo() {
             </div>
           </CardContent>
         </Card>
-        <div className="  flex items-center min-w-max"> </div>
       </div>
     </div>
   );

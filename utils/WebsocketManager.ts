@@ -40,7 +40,6 @@ export class WebsocketManager {
       const messageFromSever = JSON.parse(event.data);
       console.log("=>>>>>>>>", messageFromSever);
       console.log("Callbakcss---------", this.callbacks);
-      ///Extract type from message
       if (messageFromSever.type === "revealVotes") {
         this.callbacks["revealVotes"].forEach(({ callback }: any) => {
           callback(messageFromSever.data);
@@ -50,28 +49,29 @@ export class WebsocketManager {
         messageFromSever.type === "totalParticipants" ||
         messageFromSever.type === "voting"
       ) {
-        console.log("inside");
         this.callbacks["totalParticipants"].forEach(({ callback }: any) => {
           callback(messageFromSever.data);
         });
       }
-      // For Total Participants, Voted, Pending
-      // if (this.callbacks["userData"]) {
-      //   this.callbacks["userData"].forEach(({ callback }: any) => {
-      //     callback(messageFromSever);
-      //   });
-      // }
-      // if (this.callbacks["revealVotes"]) {
-      // }
-      //  Type -    Total Participants , Pending, Voted
+      if (messageFromSever.type === "startEstimation") {
+        this.callbacks["startEstimation"].forEach(({ callback }: any) => {
+          callback(messageFromSever.data);
+        });
+      }
+      if (messageFromSever.type === "resetVotes") {
+        this.callbacks["resetVotes"].forEach(({ callback }: any) => {
+          callback(messageFromSever.data);
+        });
+      }
+      if (messageFromSever.type === "newEstimation") {
+        this.callbacks["newEstimation"].forEach(({ callback }: any) => {
+          callback(messageFromSever.data);
+        });
+      }
     };
   }
 
   sendMessage(message: any) {
-    // const messageToSend = {
-    //   ...message,
-    //   id: this.id++,
-    // };
     if (!this.intialized) {
       this.bufferedMessages.push(message);
       return;

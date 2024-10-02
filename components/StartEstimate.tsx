@@ -2,24 +2,29 @@ import React, { useState, useEffect } from "react";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { useToast } from "@/hooks/use-toast";
+import { useAppContext } from "@/context/AppContext";
+import { WebsocketManager } from "@/utils/WebsocketManager";
 
 function StartEstimate() {
   const { toast } = useToast();
   const [title, setTitle] = useState("");
   const [isStarted, setIsStarted] = useState(false);
   const [elapsedTime, setElapsedTime] = useState(0);
+  const { createRoom } = useAppContext();
 
   function startClickHandler() {
+    const startEstimationPayload = {
+      method: "SENDMESSAGE",
+      data: {
+        channelId: createRoom.roomCode,
+        title: title,
+      },
+    };
+    WebsocketManager.getInstance().sendMessage(startEstimationPayload);
     setIsStarted(true);
     toast({
       description: "Estimation started ⏰",
     });
-  }
-
-  function newEstimationHandler() {
-    setTitle("");
-    setIsStarted(false);
-    setElapsedTime(0);
   }
 
   useEffect(() => {
@@ -47,6 +52,46 @@ function StartEstimate() {
     return `${minutes}:${seconds}`;
   };
 
+  function resetVotesHandler() {
+    const resetVotesPayload = {
+      method: "SENDMESSAGE",
+      data: {
+        channelId: createRoom.roomCode,
+        reset: true,
+      },
+    };
+    WebsocketManager.getInstance().sendMessage(resetVotesPayload);
+    toast({
+      description: "Votes resetted 🏳️",
+    });
+  }
+  function revealVotesHander() {
+    const revealVotesPayload = {
+      method: "SENDMESSAGE",
+      data: {
+        channelId: createRoom.roomCode,
+        reveal: true,
+      },
+    };
+    WebsocketManager.getInstance().sendMessage(revealVotesPayload);
+    toast({
+      description: "Votes revealed 🚀",
+    });
+  }
+
+  function endEstimationHandler() {
+    const endEstimationPayload = {
+      method: "SENDMESSAGE",
+      data: {
+        channelId: createRoom.roomCode,
+        newEstimation: true,
+      },
+    };
+    WebsocketManager.getInstance().sendMessage(endEstimationPayload);
+    setTitle("");
+    setIsStarted(false);
+    setElapsedTime(0);
+  }
   return (
     <div>
       <div className="flex gap-4 mt-5 ">
@@ -74,19 +119,27 @@ function StartEstimate() {
       </div>
 
       <div className="flex gap-4 mt-5   justify-around">
-        <Button variant="outline" className="border-neutral-800">
+        <Button
+          onClick={() => resetVotesHandler()}
+          variant="outline"
+          className="border-neutral-800"
+        >
           Reset Votes
         </Button>
-        <Button variant="outline" className="border-neutral-800">
+        <Button
+          onClick={() => revealVotesHander()}
+          variant="outline"
+          className="border-neutral-800"
+        >
           Reveal Votes
         </Button>
         <Button
-          onClick={newEstimationHandler}
+          onClick={() => endEstimationHandler()}
           variant="outline"
           className="border-neutral-800  min-w-max"
           disabled={!isStarted} // Enable only if estimation has started
         >
-          New Estimation
+          End Estimation
         </Button>
       </div>
     </div>
