@@ -25,11 +25,11 @@ export class WebsocketManager {
     this.ws.onopen = () => {
       console.log("connected");
       this.intialized = true;
-      const message1 = {
-        method: "SUBSCRIBE",
-        params: ["room1"],
-      };
-      this.ws.send(JSON.stringify(message1));
+      // const message1 = {
+      //   method: "SUBSCRIBE",
+      //   params: ["room1"],
+      // };
+      // this.ws.send(JSON.stringify(message1));
 
       this.bufferedMessages.forEach((message) => {
         this.ws.send(JSON.stringify(message));
@@ -38,35 +38,56 @@ export class WebsocketManager {
     };
     this.ws.onmessage = (event) => {
       const messageFromSever = JSON.parse(event.data);
-      // For Total Participants, Voted, Pending
-      if (this.callbacks["userData"]) {
-        this.callbacks["userData"].forEach(({ callback }: any) => {
-          callback(messageFromSever);
+      console.log("=>>>>>>>>", messageFromSever);
+      console.log("Callbakcss---------", this.callbacks);
+      ///Extract type from message
+      if (messageFromSever.type === "revealVotes") {
+        this.callbacks["revealVotes"].forEach(({ callback }: any) => {
+          callback(messageFromSever.data);
         });
       }
+      if (
+        messageFromSever.type === "totalParticipants" ||
+        messageFromSever.type === "voting"
+      ) {
+        console.log("inside");
+        this.callbacks["totalParticipants"].forEach(({ callback }: any) => {
+          callback(messageFromSever.data);
+        });
+      }
+      // For Total Participants, Voted, Pending
+      // if (this.callbacks["userData"]) {
+      //   this.callbacks["userData"].forEach(({ callback }: any) => {
+      //     callback(messageFromSever);
+      //   });
+      // }
+      // if (this.callbacks["revealVotes"]) {
+      // }
       //  Type -    Total Participants , Pending, Voted
     };
   }
 
   sendMessage(message: any) {
-    const messageToSend = {
-      ...message,
-      id: this.id++,
-    };
+    // const messageToSend = {
+    //   ...message,
+    //   id: this.id++,
+    // };
     if (!this.intialized) {
-      this.bufferedMessages.push(messageToSend);
+      this.bufferedMessages.push(message);
       return;
     }
-    this.ws.send(JSON.stringify(messageToSend));
+    this.ws.send(JSON.stringify(message));
   }
   async registerCallBack(type: string, callback: any, id: string) {
-    console.log("REGISTER CALL");
-    this.callbacks[type] = this.callbacks[type] || [];
-    const x = this.callbacks[type].filter((item: any) => item.id === id);
-    console.log(x);
-    if (x.length === 1) {
-      return;
+    if (!this.callbacks[type]) {
+      this.callbacks[type] = [];
     }
-    this.callbacks[type].push({ callback, id });
+    if (this.callbacks[type].length === 0) {
+      this.callbacks[type].push({ callback, id });
+    }
+  }
+
+  async deRegisterCallback(type: string, id: string) {
+    //
   }
 }
