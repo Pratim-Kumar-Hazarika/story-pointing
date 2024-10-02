@@ -7,6 +7,7 @@ import StartEstimate from "./StartEstimate";
 import { useAppContext } from "@/context/AppContext";
 import ShowTitle from "./ShowTitle";
 import { useToast } from "@/hooks/use-toast";
+import { WebsocketManager } from "@/utils/WebsocketManager";
 export function VoteCards() {
   const { toast } = useToast();
   const {
@@ -14,8 +15,8 @@ export function VoteCards() {
     activeCardNumber,
     setActiveCardNumber,
     startEstimation,
+    joinRoom,
   } = useAppContext();
-  console.log({ activeCardNumber });
   function voteCardClickHandler(vote: number) {
     if (!startEstimation.started) {
       toast({
@@ -23,6 +24,14 @@ export function VoteCards() {
       });
       return;
     }
+    const participantVotePayload = {
+      method: "SENDMESSAGE",
+      data: {
+        channelId: joinRoom.roomCode,
+        vote: vote,
+      },
+    };
+    WebsocketManager.getInstance().sendMessage(participantVotePayload);
     setActiveCardNumber(vote);
   }
   return (

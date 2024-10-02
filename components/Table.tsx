@@ -19,7 +19,7 @@ const VotesTable: React.FC = () => {
             {revealVotes?.chartData?.map((vote) => (
               <TableHead
                 key={vote.point}
-                className="text-start min-w-max   text-gray-500 font-semibold  "
+                className="text-start min-w-max    border-r border-neutral-800  text-gray-500 font-semibold  "
               >
                 <div>
                   {vote.point}~Points ({vote.voters.length})
@@ -31,10 +31,13 @@ const VotesTable: React.FC = () => {
         <TableBody>
           <TableRow>
             {revealVotes?.chartData?.map((vote, idx) => (
-              <TableCell key={`${idx}`} className="align-top p-1 text-lg  ">
+              <TableCell
+                key={`${idx}`}
+                className="align-top border-r border-neutral-800 p-1 text-lg  "
+              >
                 <ScrollAreaDemo
                   containerClassName=" max-w-[100px]"
-                  className="h-[calc(100vh_-_490px)]"
+                  className="h-[calc(100vh_-_490px)]  border-neutral-800"
                 >
                   <div className="py-[3px]   max-w-[100px]  text-center">
                     {vote?.voters?.map((tag) => (
