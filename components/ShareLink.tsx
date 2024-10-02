@@ -8,7 +8,7 @@ function ShareLink() {
   const [buttonText, setButtonText] = useState("Copy");
 
   function copyClickHandler() {
-    const link = window.location.href;
+    const link = window.location.origin + window.location.search;
     navigator.clipboard.writeText(link).then(() => {
       toast({
         description: "Ctrl+V the link with your team to join the room 🚀",
@@ -28,7 +28,7 @@ function ShareLink() {
           id="StoryTitle"
           placeholder="Enter title for estimation"
           type="text"
-          value={window.location.href}
+          value={window.location.origin + window.location.search}
           readOnly
         />
         <Button

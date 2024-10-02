@@ -1,11 +1,7 @@
 "use client";
 
 import { useMotionValue, motion, useMotionTemplate } from "framer-motion";
-import React, {
-  MouseEvent as ReactMouseEvent,
-  useEffect,
-  useState,
-} from "react";
+import React, { MouseEvent as ReactMouseEvent, useState } from "react";
 import { cn } from "@/lib/utils";
 import { CanvasRevealEffect } from "./CanvasRevealEffect";
 
@@ -50,18 +46,6 @@ export const CardSpotlight = ({
     }
   };
 
-  // Trigger hover animation based on hoverBoolean prop
-  useEffect(() => {
-    if (hoverBoolean) {
-      setIsHovering(true);
-    }
-  }, [hoverBoolean]);
-  useEffect(() => {
-    if (activeCard) {
-      setIsHovering(true);
-    }
-  }, [activeCard]);
-
   return (
     <div
       className={cn(
@@ -84,9 +68,20 @@ export const CardSpotlight = ({
               transparent 105%
             )
           `,
-          opacity: isHovering ? 100 : 0, // Trigger the animation based on hoverBoolean
+          opacity: activeCard || isHovering ? 100 : 0, // Trigger the animation based on hoverBoolean
         }}
       >
+        {activeCard && (
+          <CanvasRevealEffect
+            animationSpeed={10}
+            containerClassName="bg-transparent absolute inset-0 pointer-events-none"
+            colors={[
+              [59, 130, 246],
+              [139, 92, 246],
+            ]}
+            dotSize={2}
+          />
+        )}
         {isHovering && (
           <CanvasRevealEffect
             animationSpeed={10}

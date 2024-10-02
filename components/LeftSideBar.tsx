@@ -1,87 +1,24 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import { HoverBorderGradient } from "./HoverBorderGradient";
-import Tick from "@/icons/Tick";
-import { SparklesPreview } from "./SparklesPreview";
-import { CardSpotlight } from "./CardSpotLight";
-import { AnimatePresence, motion } from "framer-motion";
-import { SparklesCore } from "./Sparkles";
-import { TabsDemo } from "./TabsDemo";
+import React, { useState } from "react";
+import { motion } from "framer-motion";
 import ScrollAreaDemo from "./ScrollAreaDemo";
-import { WebsocketManager } from "@/utils/WebsocketManager";
 import { cn } from "@/lib/utils";
+import { useAppContext } from "@/context/AppContext";
 
-const users = [
-  { name: "Pratim", emoji: "🧞‍♀️", tick: true },
-  { name: "Elon", emoji: "👩‍🚀", tick: true },
-  { name: "Zuck", emoji: "🧙‍♂️", tick: false },
-  { name: "Larry", emoji: "🦸‍♀️", tick: true },
-  { name: "Sam Altman", emoji: "🦹‍♂️", tick: true },
-  { name: "Larry", emoji: "🦸‍♀️", tick: true },
-  { name: "Sam Altman", emoji: "🦹‍♂️", tick: true },
-  { name: "Larry", emoji: "🦸‍♀️", tick: true },
-  { name: "Sam Altman", emoji: "🦹‍♂️", tick: true },
-  { name: "Larry", emoji: "🦸‍♀️", tick: true },
-  { name: "Sam Altman", emoji: "🦹‍♂️", tick: true },
-  { name: "Larry", emoji: "🦸‍♀️", tick: true },
-  { name: "Sam Altman", emoji: "🦹‍♂️", tick: true },
-];
 type User = {
   name: string;
   id: string;
 };
-type UserData = {
-  totalParticipants: User[];
-  voted: User[];
-  pending: User[];
-};
 
 function LeftSideBar() {
+  const { totalParticipants, pending, voted } = useAppContext();
   const [active, setActive] = useState<any>("Total");
-  const [users1, seUsers1] = useState<any>([]);
-  const [userData, setUserData] = useState<UserData>();
-
-  useEffect(() => {
-    WebsocketManager.getInstance().registerCallBack(
-      "userData",
-      (data: any) => {
-        console.log({ data });
-        const { type, data: totalParticipants, pending, voted } = data;
-        console.log(totalParticipants);
-
-        setUserData((prev) => {
-          switch (type) {
-            case "totalParticipants":
-              return {
-                ...prev,
-                totalParticipants: totalParticipants ?? [],
-              };
-            case "voting":
-              return {
-                ...prev,
-                pending: pending ?? [],
-                voted: voted ?? [],
-              };
-            default:
-              return prev;
-          }
-        });
-      },
-      "1",
-    );
-    return () => {
-      // WebsocketManager.getInstance().unregisterCallBack("totalParticipants");
-    };
-  }, []);
-  console.log({ userData });
   return (
     <div className="bg-black border border-neutral-800 rounded-md text-white  min-w-max  z-[100] py-0">
       <div className="text-white  bg-black   mt-2  px-4">
-        {/* Add hover effect for overflow */}
-        {/* <TabsDemo totalUsers={users1.length} /> */}
         <div className={cn("flex flex-col items-center mb-4")}>
           <button
-            onClick={() => setActive("Total")} // Move the first tab to the top
+            onClick={() => setActive("Total")}
             className={cn(
               "relative px-4 py-2 rounded-full ",
               { "bg-zinc-800": active.value === "Total" },
@@ -99,7 +36,7 @@ function LeftSideBar() {
               />
             )}
             <span className="relative block text-sm text-white">
-              Total ({userData?.totalParticipants?.length ?? 0})
+              Total ({totalParticipants?.length ?? 0})
             </span>
           </button>
         </div>
@@ -133,8 +70,8 @@ function LeftSideBar() {
               <span className="relative block text-white text-sm">
                 {tab} (
                 {tab === "Voted"
-                  ? (userData?.voted?.length ?? 0)
-                  : (userData?.pending?.length ?? 0)}
+                  ? (voted?.length ?? 0)
+                  : (pending?.length ?? 0)}
                 )
               </span>
             </button>
@@ -147,9 +84,9 @@ function LeftSideBar() {
           <div className="flex flex-col items-start gap-4 py-7">
             {/* Total Participants */}
             {active === "Total" &&
-            userData?.totalParticipants?.length &&
-            userData?.totalParticipants.length >= 1
-              ? userData?.totalParticipants.map((user, index) => (
+            totalParticipants?.length &&
+            totalParticipants.length >= 1
+              ? totalParticipants.map((user, index) => (
                   <User tick={null} type="Total" key={index} name={user.name} />
                 ))
               : active === "Total" && (
@@ -159,10 +96,8 @@ function LeftSideBar() {
                 )}
 
             {/* Pending Participants */}
-            {active === "Pending" &&
-            userData?.pending?.length &&
-            userData?.pending.length >= 1
-              ? userData.pending.map((user, index) => (
+            {active === "Pending" && pending?.length && pending.length >= 1
+              ? pending?.map((user, index) => (
                   <User
                     tick={false}
                     type="Pending"
@@ -177,10 +112,8 @@ function LeftSideBar() {
                 )}
 
             {/* Voted Participants */}
-            {active === "Voted" &&
-            userData?.voted?.length &&
-            userData?.voted.length >= 1
-              ? userData.voted.map((user, index) => (
+            {active === "Voted" && voted?.length && voted.length >= 1
+              ? voted?.map((user, index) => (
                   <User tick={true} type="Voted" key={index} name={user.name} />
                 ))
               : active === "Voted" && (
@@ -317,52 +250,3 @@ export function Pending() {
     </svg>
   );
 }
-
-const emojiArray = [
-  "😀",
-  "😃",
-  "😄",
-  "😁",
-  "😆",
-  "😅",
-  "🤣",
-  "😂",
-  "🙂",
-  "🙃",
-  "😉",
-  "😊",
-  "😇",
-  "🥰",
-  "😍",
-  "🤩",
-  "😘",
-  "😗",
-  "😚",
-  "😋",
-  "😎",
-  "🤓",
-  "🧐",
-  "😕",
-  "🙁",
-  "☹️",
-  "😮",
-  "😯",
-  "😲",
-  "🥺",
-  "😢",
-  "😭",
-  "😱",
-  "😡",
-  "😤",
-  "🤬",
-  "🤯",
-  "😳",
-  "🥳",
-  "🤗",
-];
-
-// Function to return a random emoji
-const getRandomEmoji = () => {
-  const randomIndex = Math.floor(Math.random() * emojiArray.length);
-  return emojiArray[randomIndex];
-};

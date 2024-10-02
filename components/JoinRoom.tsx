@@ -15,10 +15,11 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { useAppContext } from "@/context/AppContext";
 import { Button } from "./ui/button";
+import { WebsocketManager } from "@/utils/WebsocketManager";
 
 const FormSchema = z.object({
   username: z.string().min(3, {
@@ -31,6 +32,7 @@ const FormSchema = z.object({
 
 export function JoinRoom() {
   const { toast } = useToast();
+  const router = useRouter();
   const searchParams = useSearchParams();
   const roomCode = searchParams.get("roomCode");
   const { setJoinRoom, setUser } = useAppContext();
@@ -47,12 +49,20 @@ export function JoinRoom() {
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
     setUser({ name: data.username, isModerator: false });
+    const createRoomPayload = {
+      method: "SUBSCRIBE",
+      params: [data.room],
+      username: data.username,
+    };
+    WebsocketManager.getInstance().sendMessage(createRoomPayload);
     setJoinRoom({
       roomCode: data.room,
     });
+
     toast({
       description: `Hey ${data.username} 👋 thanks for joining the session 🚀`,
     });
+    router.push(`/trynow?roomCode=${roomCode}`);
   }
   return (
     <Form {...form}>
