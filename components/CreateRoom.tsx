@@ -20,6 +20,7 @@ import { useEffect } from "react";
 import { useAppContext } from "@/context/AppContext";
 import { generateRoomCode } from "@/utils/otp";
 import { Button } from "./ui/button";
+import { WebsocketManager } from "@/utils/WebsocketManager";
 
 const FormSchema = z.object({
   username: z.string().min(3, {
@@ -30,7 +31,7 @@ const FormSchema = z.object({
 export function CreateRoom() {
   const { toast } = useToast();
   const router = useRouter();
-  const { createRoom, setCreateRoom, setUser } = useAppContext();
+  const { setCreateRoom, setUser } = useAppContext();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -45,6 +46,12 @@ export function CreateRoom() {
     const roomCode = generateRoomCode();
     setUser({ name: data.username, isModerator: true });
     setCreateRoom({ roomCode: roomCode });
+    const createRoomPayload = {
+      method: "SUBSCRIBE",
+      params: [roomCode],
+      username: data.username,
+    };
+    WebsocketManager.getInstance().sendMessage(createRoomPayload);
     toast({
       description: "Room created successfully 🚀",
     });
