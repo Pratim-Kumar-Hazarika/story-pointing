@@ -21,6 +21,9 @@ function ShowTitle() {
     if (startEstimation.title && startEstimation.started) {
       startClickHandler();
     }
+    if (!startEstimation.title && !startEstimation.started) {
+      newEstimationHandler();
+    }
   }, [startEstimation.started, startEstimation.title]);
 
   function newEstimationHandler() {

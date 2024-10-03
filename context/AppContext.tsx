@@ -168,6 +168,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
           title: "",
           started: false,
         });
+        setActiveCardNumber(null);
         if (data.voted) {
           setVoted(data.voted);
         }

@@ -39,7 +39,7 @@ const VotesTable: React.FC = () => {
                   containerClassName=" max-w-[100px]"
                   className="h-[calc(100vh_-_490px)]  border-neutral-800"
                 >
-                  <div className="py-[3px]   max-w-[100px]  text-center">
+                  <div className="py-[3px]   max-w-[100px]  pl-3">
                     {vote?.voters?.map((tag) => (
                       <div
                         title={tag.name}

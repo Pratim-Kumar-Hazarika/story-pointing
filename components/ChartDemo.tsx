@@ -43,7 +43,7 @@ export function ChartDemo() {
   const chartData = revealVotes?.chartData.map((item) => {
     return {
       month: String(item.point),
-      desktop: item.voters.length * 10,
+      desktop: item.voters.length,
     };
   });
   return (
@@ -55,7 +55,7 @@ export function ChartDemo() {
           </CardHeader>
           <CardContent className="  flex gap-5">
             <ChartContainer
-              className=" w-[35rem]  h-[12rem]  flex items-center justify-center"
+              className=" w-[35rem]  h-[13rem]  flex items-center justify-center"
               config={chartConfig}
             >
               <LineChart
@@ -72,7 +72,7 @@ export function ChartDemo() {
                   dataKey="month"
                   tickLine={false}
                   axisLine={false}
-                  tickMargin={8}
+                  tickMargin={5}
                   tickFormatter={(value) => value.slice(0, 3)}
                 />
 
@@ -91,7 +91,7 @@ export function ChartDemo() {
                 >
                   <LabelList
                     position="top"
-                    offset={12}
+                    offset={9}
                     className=" text-white font-bold"
                     fontSize={12}
                   />
