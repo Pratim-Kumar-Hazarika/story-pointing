@@ -30,6 +30,8 @@ import { CardSpotlight } from "./CardSpotLight";
 import { Reveal } from "./Reveal";
 import { Button } from "./ui/button";
 import { useAppContext } from "@/context/AppContext";
+import { WebsocketManager } from "@/utils/WebsocketManager";
+import { useToast } from "@/hooks/use-toast";
 
 const chartConfig = {
   desktop: {
@@ -39,13 +41,38 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 export function ChartDemo() {
-  const { revealVotes } = useAppContext();
+  const { toast } = useToast();
+  const { revealVotes, user, createRoom, setRevealVotes } = useAppContext();
   const chartData = revealVotes?.chartData.map((item) => {
     return {
       month: String(item.point),
       desktop: item.voters.length,
     };
   });
+  function resetVotesHandler() {
+    const resetVotesPayload = {
+      method: "SENDMESSAGE",
+      data: {
+        channelId: createRoom.roomCode,
+        reset: true,
+      },
+    };
+    WebsocketManager.getInstance().sendMessage(resetVotesPayload);
+    toast({
+      description: "Votes resetted 🏳️",
+    });
+  }
+
+  function newEstimationHandler() {
+    const endEstimationPayload = {
+      method: "SENDMESSAGE",
+      data: {
+        channelId: createRoom.roomCode,
+        newEstimation: true,
+      },
+    };
+    WebsocketManager.getInstance().sendMessage(endEstimationPayload);
+  }
   return (
     <div className="bg-black text-white flex space-x-2   rounded-md  z-50 border border-neutral-800   w-full ">
       <div className="flex gap-4">
@@ -98,14 +125,24 @@ export function ChartDemo() {
                 </Line>
               </LineChart>
             </ChartContainer>
-            <div className=" flex flex-col gap-5  text-white justify-center">
-              <Button variant="outline" className="border-neutral-800 ">
-                Reset Votes
-              </Button>
-              <Button variant="outline" className="border-neutral-800">
-                New Estimation
-              </Button>
-            </div>
+            {user.isModerator && (
+              <div className=" flex flex-col gap-5  text-white justify-center">
+                <Button
+                  onClick={() => resetVotesHandler()}
+                  variant="outline"
+                  className="border-neutral-800 "
+                >
+                  Reset Votes
+                </Button>
+                <Button
+                  onClick={() => newEstimationHandler()}
+                  variant="outline"
+                  className="border-neutral-800"
+                >
+                  New Estimation
+                </Button>
+              </div>
+            )}
           </CardContent>
         </Card>
       </div>

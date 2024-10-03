@@ -4,13 +4,14 @@ import { Button } from "./ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { useAppContext } from "@/context/AppContext";
 import { WebsocketManager } from "@/utils/WebsocketManager";
+import { is } from "@react-three/fiber/dist/declarations/src/core/utils";
 
 function StartEstimate() {
   const { toast } = useToast();
   const [title, setTitle] = useState("");
   const [isStarted, setIsStarted] = useState(false);
   const [elapsedTime, setElapsedTime] = useState(0);
-  const { createRoom } = useAppContext();
+  const { createRoom, startEstimation, user, voted, pending } = useAppContext();
 
   function startClickHandler() {
     const startEstimationPayload = {
@@ -66,6 +67,12 @@ function StartEstimate() {
     });
   }
   function revealVotesHander() {
+    if (voted.length === 0) {
+      toast({
+        description: "No votes to reveal 🙁",
+      });
+      return;
+    }
     const revealVotesPayload = {
       method: "SENDMESSAGE",
       data: {
@@ -92,6 +99,14 @@ function StartEstimate() {
     setIsStarted(false);
     setElapsedTime(0);
   }
+  useEffect(() => {
+    if (user.isModerator && startEstimation.started) {
+      if (!isStarted) {
+        setIsStarted(true);
+        setTitle(startEstimation.title);
+      }
+    }
+  }, [startEstimation.started, startEstimation.title]);
   return (
     <div>
       <div className="flex gap-4 mt-5 ">

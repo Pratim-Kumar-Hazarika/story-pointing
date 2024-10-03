@@ -164,6 +164,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     WebsocketManager.getInstance().registerCallBack(
       "newEstimation",
       (data: { title: string; voted: User[]; pending: User[] }) => {
+        setRevealVotes(null);
         setStartedEstimation({
           title: "",
           started: false,
@@ -191,6 +192,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     WebsocketManager.getInstance().registerCallBack(
       "resetVotes",
       (data: { voted: User[]; pending: User[] }) => {
+        setRevealVotes(null);
         setActiveCardNumber(null);
         if (data.voted) {
           setVoted(data.voted);
