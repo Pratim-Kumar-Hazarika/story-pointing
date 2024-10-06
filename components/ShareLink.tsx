@@ -1,15 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, Suspense } from "react";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { useToast } from "@/hooks/use-toast";
-import { useSearchParams } from "next/navigation";
 import { useAppContext } from "@/context/AppContext";
 import { useMediaQuery } from "react-responsive";
 
 function ShareLink() {
   const { toast } = useToast();
-  const searchParams = useSearchParams();
-  const roomCode = searchParams.get("roomCode");
   const [buttonText, setButtonText] = useState("Copy");
   const { createRoom, joinRoom } = useAppContext();
   const isSmallScreen = useMediaQuery({ maxWidth: 920 });

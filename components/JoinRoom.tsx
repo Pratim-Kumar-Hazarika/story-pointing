@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-
+import { Suspense } from "react";
 import {
   Form,
   FormControl,
@@ -78,73 +78,75 @@ export function JoinRoom() {
     });
   }
   return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="w-2/3 h-[240px]  space-y-6"
-      >
-        {/* Username Field */}
-        <FormField
-          control={form.control}
-          name="username"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="">
-                <div className="bg-clip-text  bg-gradient-to-b text-transparent from-neutral-400 to-white text-xl font-bold tracking-tight">
-                  Username
-                </div>
-              </FormLabel>
-              <FormControl>
-                <Input
-                  placeholder="Enter your name.."
-                  {...field}
-                  className="text-white border-neutral-800"
-                />
-              </FormControl>
-              <FormDescription className=" text-white text-sm bg-gradient-to-b   text-transparent  from-neutral-400 to-white  tracking-tight bg-clip-text">
-                This is your joining display name.
-              </FormDescription>
-
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        {/* Required Room Field */}
-        <FormField
-          control={form.control}
-          name="room"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="">
-                <div className="bg-clip-text bg-gradient-to-b text-transparent from-neutral-400 to-white text-xl font-bold tracking-tight">
-                  Room Code
-                </div>
-              </FormLabel>
-              <FormControl>
-                <Input
-                  placeholder="Enter the room code.."
-                  {...field}
-                  className="text-white border-neutral-800"
-                />
-              </FormControl>
-              <FormDescription className=" text-white text-sm bg-gradient-to-b   text-transparent  from-neutral-400 to-white  tracking-tight bg-clip-text">
-                Without room code you can&apos;t proceed
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        {/* Submit Button */}
-        <Button
-          type="submit"
-          variant="outline"
-          className="border-neutral-800  text-white w-full"
+    <Suspense fallback={<div>Loading.....</div>}>
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="w-2/3 h-[240px]  space-y-6"
         >
-          Join Room
-        </Button>
-      </form>
-    </Form>
+          {/* Username Field */}
+          <FormField
+            control={form.control}
+            name="username"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="">
+                  <div className="bg-clip-text  bg-gradient-to-b text-transparent from-neutral-400 to-white text-xl font-bold tracking-tight">
+                    Username
+                  </div>
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="Enter your name.."
+                    {...field}
+                    className="text-white border-neutral-800"
+                  />
+                </FormControl>
+                <FormDescription className=" text-white text-sm bg-gradient-to-b   text-transparent  from-neutral-400 to-white  tracking-tight bg-clip-text">
+                  This is your joining display name.
+                </FormDescription>
+
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* Required Room Field */}
+          <FormField
+            control={form.control}
+            name="room"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="">
+                  <div className="bg-clip-text bg-gradient-to-b text-transparent from-neutral-400 to-white text-xl font-bold tracking-tight">
+                    Room Code
+                  </div>
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="Enter the room code.."
+                    {...field}
+                    className="text-white border-neutral-800"
+                  />
+                </FormControl>
+                <FormDescription className=" text-white text-sm bg-gradient-to-b   text-transparent  from-neutral-400 to-white  tracking-tight bg-clip-text">
+                  Without room code you can&apos;t proceed
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* Submit Button */}
+          <Button
+            type="submit"
+            variant="outline"
+            className="border-neutral-800  text-white w-full"
+          >
+            Join Room
+          </Button>
+        </form>
+      </Form>
+    </Suspense>
   );
 }

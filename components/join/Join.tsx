@@ -1,4 +1,5 @@
 "use client";
+import React, { Suspense } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { JoinRoom } from "@/components/JoinRoom";
@@ -37,7 +38,7 @@ function Join() {
     }
   }, []);
   return (
-    <>
+    <Suspense fallback={<div>Loading...</div>}>
       <div
         className={`container relative    h-screen flex-col items-center justify-center grid max-w-none ${isSmallScreen ? "grid-cols-1 " : "grid-cols-2 "} `}
       >
@@ -79,7 +80,7 @@ function Join() {
                 reconnectDetails.active ? "Rejoin Room" : "Join Room",
               ].map((tab, idx) => (
                 <button
-                  key={tab}
+                  key={`${tab}-${idx}`}
                   onClick={() => {
                     setActive(tab as Tabs);
                   }}
@@ -123,7 +124,7 @@ function Join() {
           </div>
         </div>
       </div>
-    </>
+    </Suspense>
   );
 }
 

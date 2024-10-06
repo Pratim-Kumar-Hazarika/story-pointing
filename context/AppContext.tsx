@@ -1,6 +1,5 @@
-import { useToast } from "@/hooks/use-toast";
 import { WebsocketManager } from "@/utils/WebsocketManager";
-import { useSearchParams } from "next/navigation";
+
 import React, {
   createContext,
   useState,
@@ -67,8 +66,6 @@ interface AppProviderProps {
 }
 
 export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
-  const { toast } = useToast();
-
   const [activeCardNumber, setActiveCardNumber] =
     useState<AppContextInterface["activeCardNumber"]>(null);
   const [user, setUser] = useState<AppContextInterface["user"]>({
