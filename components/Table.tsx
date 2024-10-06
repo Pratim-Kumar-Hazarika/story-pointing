@@ -9,7 +9,6 @@ import {
 } from "@/components/ui/table";
 import ScrollAreaDemo from "./ScrollAreaDemo";
 import { useAppContext } from "@/context/AppContext";
-import { chartData } from "@/mock-data/votes";
 import { useMediaQuery } from "react-responsive";
 const VotesTable: React.FC = () => {
   const { revealVotes } = useAppContext();

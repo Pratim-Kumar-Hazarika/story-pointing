@@ -8,7 +8,6 @@ import { useAppContext } from "@/context/AppContext";
 import ShowTitle from "./ShowTitle";
 import { useToast } from "@/hooks/use-toast";
 import { WebsocketManager } from "@/utils/WebsocketManager";
-import { useResponsive } from "@/hooks/useResponsive";
 import { useMediaQuery } from "react-responsive";
 export function VoteCards() {
   const { toast } = useToast();
@@ -93,15 +92,3 @@ export function VoteCards() {
     </div>
   );
 }
-
-const LabelInputContainer = ({
-  children,
-  className,
-}: {
-  children: React.ReactNode;
-  className?: string;
-}) => {
-  return (
-    <div className={cn("flex flex-col space-y-2 ", className)}>{children}</div>
-  );
-};

@@ -1,33 +1,8 @@
 "use client";
 
-import { TrendingUp } from "lucide-react";
-import {
-  Bar,
-  BarChart,
-  CartesianGrid,
-  LabelList,
-  Line,
-  LineChart,
-  XAxis,
-} from "recharts";
-
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
-  ChartConfig,
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-} from "@/components/ui/chart";
-import { HoverBorderGradient } from "./HoverBorderGradient";
-import { CardSpotlight } from "./CardSpotLight";
-import { Reveal } from "./Reveal";
+import { CartesianGrid, LabelList, Line, LineChart, XAxis } from "recharts";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { ChartConfig, ChartContainer } from "@/components/ui/chart";
 import { Button } from "./ui/button";
 import { useAppContext } from "@/context/AppContext";
 import { WebsocketManager } from "@/utils/WebsocketManager";
