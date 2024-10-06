@@ -4,9 +4,13 @@ import LeftSideBar from "../LeftSideBar";
 import { VoteCards } from "../VoteCards";
 import { ChartDemo } from "../ChartDemo";
 import VotesTable from "../Table";
+import { useResponsive } from "@/hooks/useResponsive";
+import { is } from "@react-three/fiber/dist/declarations/src/core/utils";
 
 function Voting() {
   const { revealVotes } = useAppContext();
+  const { isSmallScreen } = useResponsive();
+  console.log(isSmallScreen);
   return (
     <div className="relative min-h-screen flex flex-col  ">
       <div className=" flex justify-between w-full py-3 px-4 text-white ">
@@ -15,7 +19,9 @@ function Voting() {
         </h2>
       </div>
 
-      <div className="   flex  px-4  gap-5 mt-[30px] relative">
+      <div
+        className={`   flex ${isSmallScreen ? " flex-col" : ""}  px-4  gap-5 mt-[30px] relative`}
+      >
         <LeftSideBar />
         <div className=" flex flex-col  gap-4">
           {revealVotes === null ? (

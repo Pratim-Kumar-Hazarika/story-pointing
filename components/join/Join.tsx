@@ -8,6 +8,7 @@ import { CreateRoom } from "@/components/CreateRoom";
 import { useSearchParams } from "next/navigation";
 import { Rejoin } from "../Rejoin";
 import { useAppContext } from "@/context/AppContext";
+import { useMediaQuery } from "react-responsive";
 type Tabs = "Create Room" | "Join Room" | "Rejoin Room";
 function Join() {
   const searchParams = useSearchParams();
@@ -15,6 +16,7 @@ function Join() {
   const [localRoomCode, setLocalRoom] = useState("");
   const { reconnectDetails } = useAppContext();
   const [active, setActive] = useState<Tabs>("Create Room");
+  const isSmallScreen = useMediaQuery({ maxWidth: 770 });
   useEffect(() => {
     if (roomCode) {
       setActive("Join Room");
@@ -36,24 +38,10 @@ function Join() {
   }, []);
   return (
     <>
-      <div className="md:hidden  ">
-        <Image
-          src="/examples/authentication-light.png"
-          width={1280}
-          height={843}
-          alt="Authentication"
-          className="block dark:hidden"
-        />
-        <Image
-          src="/examples/authentication-dark.png"
-          width={1280}
-          height={843}
-          alt="Authentication"
-          className="hidden dark:block"
-        />
-      </div>
-      <div className="container relative hidden   h-screen flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
-        <div className="relative hidden h-full flex-col bg-muted p-10 text-white dark:border-r lg:flex">
+      <div
+        className={`container relative    h-screen flex-col items-center justify-center grid max-w-none ${isSmallScreen ? "grid-cols-1 " : "grid-cols-2 "} `}
+      >
+        <div className="relative  min-h-full flex-col bg-muted p-10 text-white dark:-r lg:flex">
           <div
             style={{
               backgroundImage:
@@ -79,11 +67,11 @@ function Join() {
             </blockquote>
           </div>
         </div>
-        <div className="lg:p-8  ">
+        <div className="  items-center flex flex-col  justify-center  ">
           <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
             <div
               className={cn(
-                "flex flex-row px-4  items-center justify-center space-x-2  ",
+                "flex flex-row px-4   items-center justify-center space-x-2  ",
               )}
             >
               {[
@@ -123,7 +111,7 @@ function Join() {
                 </button>
               ))}
             </div>
-            <div className="w-[500px]">
+            <div className="    flex items-center justify-center ">
               {active === "Join Room" && !reconnectDetails.active && (
                 <JoinRoom />
               )}

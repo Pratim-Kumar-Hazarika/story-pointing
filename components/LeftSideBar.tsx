@@ -79,7 +79,7 @@ function LeftSideBar() {
         </div>
         <ScrollAreaDemo
           containerClassName="w-full"
-          className="h-[calc(100vh_-_200px)]"
+          className="max-h-[calc(100vh_-_200px)]"
         >
           <div className="flex flex-col items-start gap-4 py-7">
             {/* Total Participants */}

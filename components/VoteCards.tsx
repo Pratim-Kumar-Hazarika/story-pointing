@@ -8,6 +8,7 @@ import { useAppContext } from "@/context/AppContext";
 import ShowTitle from "./ShowTitle";
 import { useToast } from "@/hooks/use-toast";
 import { WebsocketManager } from "@/utils/WebsocketManager";
+import { useResponsive } from "@/hooks/useResponsive";
 export function VoteCards() {
   const { toast } = useToast();
   const {
@@ -17,6 +18,7 @@ export function VoteCards() {
     startEstimation,
     joinRoom,
   } = useAppContext();
+  const isSmallScreen = useResponsive();
   function voteCardClickHandler(vote: number) {
     if (!startEstimation.started) {
       toast({
@@ -35,7 +37,9 @@ export function VoteCards() {
     setActiveCardNumber(vote);
   }
   return (
-    <div className="bg-black rounded-md border p-5  flex flex-col items-center border-neutral-800 text-white  z-[100] py-0 h-[calc(100vh_-_101px)]   w-[calc(90vw_-_220px)]">
+    <div
+      className={`bg-black rounded-md border p-5  flex flex-col items-center border-neutral-800 text-white  z-[100] py-0 h-[calc(100vh_-_101px)]  ${isSmallScreen ? "w-full" : "w-[calc(90vw_-_220px)]"}`}
+    >
       <ShareLink />
       {isModerator && <StartEstimate />}
       {!isModerator && <ShowTitle />}
