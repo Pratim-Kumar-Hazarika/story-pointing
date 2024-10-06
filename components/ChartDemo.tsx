@@ -32,6 +32,7 @@ import { Button } from "./ui/button";
 import { useAppContext } from "@/context/AppContext";
 import { WebsocketManager } from "@/utils/WebsocketManager";
 import { useToast } from "@/hooks/use-toast";
+import { useMediaQuery } from "react-responsive";
 
 const chartConfig = {
   desktop: {
@@ -42,6 +43,10 @@ const chartConfig = {
 
 export function ChartDemo() {
   const { toast } = useToast();
+  const isXs = useMediaQuery({ maxWidth: 920 });
+  const isSmallScreen = useMediaQuery({ maxWidth: 1048 });
+  const isExtraSmallScreen = useMediaQuery({ maxWidth: 600 });
+  const isExtraExtraSmallScreen = useMediaQuery({ maxWidth: 420 });
   const { revealVotes, user, createRoom, setRevealVotes } = useAppContext();
   const chartData = revealVotes?.chartData.map((item) => {
     return {
@@ -75,14 +80,18 @@ export function ChartDemo() {
   }
   return (
     <div className="bg-black text-white flex space-x-2   rounded-md  z-50 border border-neutral-800   w-full ">
-      <div className="flex gap-4">
+      <div
+        className={`flex w-full  gap-4 ${isXs && "items-center justify-center "}`}
+      >
         <Card className=" bg-black border-none  px-0">
           <CardHeader className="text-white   ">
             {revealVotes?.title}
           </CardHeader>
-          <CardContent className="  flex gap-5">
+          <CardContent
+            className={` ${isSmallScreen ? "flex flex-col items-center justify-center  " : "flex"} gap-5  ${isExtraSmallScreen ? " w-[90vw]   " : ""} `}
+          >
             <ChartContainer
-              className=" w-[35rem]  h-[13rem]  flex items-center justify-center"
+              className={` ${isExtraSmallScreen ? "    " : "w-[35rem]"} ]  h-[13rem]  flex items-center justify-center ${isExtraExtraSmallScreen && "w-full"}`}
               config={chartConfig}
             >
               <LineChart
@@ -126,7 +135,9 @@ export function ChartDemo() {
               </LineChart>
             </ChartContainer>
             {user.isModerator && (
-              <div className=" flex flex-col gap-5  text-white justify-center">
+              <div
+                className={`${isSmallScreen ? "flex flex-row" : "flex flex-col"}  gap-5  text-white justify-center ${isExtraExtraSmallScreen && "flex flex-col"}`}
+              >
                 <Button
                   onClick={() => resetVotesHandler()}
                   variant="outline"

@@ -9,7 +9,7 @@ import React, { useState } from "react";
 function Page() {
   const { revealVotes } = useAppContext();
   return (
-    <div className="relative min-h-screen flex flex-col  ">
+    <div className="relative min-h-screen flex flex-col  border  border-white">
       <div className=" flex justify-between w-full py-3 px-4 text-white ">
         <h2 className="bg-clip-text text-center bg-gradient-to-b   text-transparent  from-neutral-400 to-white text-3xl  font-bold tracking-tight">
           Estimate
@@ -20,13 +20,12 @@ function Page() {
         <LeftSideBar />
         <div className=" flex flex-col  gap-4">
           {revealVotes === null ? (
-            <VoteCards />
-          ) : (
             <>
-              {" "}
               <ChartDemo />
               <VotesTable />
             </>
+          ) : (
+            <> {/* <VoteCards /> */}</>
           )}
         </div>
       </div>

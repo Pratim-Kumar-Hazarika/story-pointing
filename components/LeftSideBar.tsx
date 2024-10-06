@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import ScrollAreaDemo from "./ScrollAreaDemo";
 import { cn } from "@/lib/utils";
 import { useAppContext } from "@/context/AppContext";
+import { useMediaQuery } from "react-responsive";
 
 type User = {
   name: string;
@@ -13,6 +14,7 @@ type User = {
 function LeftSideBar() {
   const { totalParticipants, pending, voted } = useAppContext();
   const [active, setActive] = useState<any>("Total");
+  const isSmallScreen = useMediaQuery({ maxWidth: 920 });
   return (
     <div className="bg-black border border-neutral-800 rounded-md text-white  min-w-max  z-[100] py-0">
       <div className="text-white  bg-black   mt-2  px-4">
@@ -79,7 +81,7 @@ function LeftSideBar() {
         </div>
         <ScrollAreaDemo
           containerClassName="w-full"
-          className="max-h-[calc(100vh_-_200px)]"
+          className={` ${isSmallScreen ? "h-[calc(100vh_-_500px)]" : "h-[calc(100vh_-_200px)]"} `}
         >
           <div className="flex flex-col items-start gap-4 py-7">
             {/* Total Participants */}

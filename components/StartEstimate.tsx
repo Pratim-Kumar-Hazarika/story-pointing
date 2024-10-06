@@ -5,14 +5,17 @@ import { useToast } from "@/hooks/use-toast";
 import { useAppContext } from "@/context/AppContext";
 import { WebsocketManager } from "@/utils/WebsocketManager";
 import dayjs from "dayjs";
+import { useMediaQuery } from "react-responsive";
 function StartEstimate() {
   const { toast } = useToast();
   const [title, setTitle] = useState("");
   const [isStarted, setIsStarted] = useState(false);
   const [elapsedTime, setElapsedTime] = useState(0);
+  const isSmallScreen = useMediaQuery({ maxWidth: 920 });
+  const isExtraSmallScreen = useMediaQuery({ maxWidth: 570 });
+  const isExtraExtraSmallScreen = useMediaQuery({ maxWidth: 450 });
   const { createRoom, startEstimation, user, voted, pending, rejoinDetails } =
     useAppContext();
-
   function startClickHandler() {
     const startEstimationPayload = {
       method: "SENDMESSAGE",
@@ -119,33 +122,38 @@ function StartEstimate() {
       setIsStarted(true);
     }
   }, [rejoinDetails]);
+
   return (
-    <div>
-      <div className="flex gap-4 mt-5 ">
-        <Input
-          className="border-neutral-800 w-[450px] max-w-[500px]"
-          id="StoryTitle"
-          placeholder="Enter title for estimation"
-          type="text"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        />
+    <div className=" ">
+      <div
+        className={`${isExtraSmallScreen ? " flex flex-col items-center gap-2" : "flex"} gap-4 mt-5 `}
+      >
+        <div>
+          <Input
+            className={`border-neutral-800 ${isSmallScreen ? "w-[300px]" : "w-[450px] max-w-[500px]"} ${isExtraSmallScreen && "w-full "}   text-transparent text-opacity-90 text-white from-neutral-400 to-white`}
+            id="StoryTitle"
+            placeholder="Enter title for estimation"
+            type="text"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+          <div className="bg-clip-text bg-gradient-to-b text-transparent from-neutral-400 to-white text-sm tracking-tight">
+            *Enter the title/link/topic for estimating*
+          </div>
+        </div>
         <Button
           disabled={isStarted || !title} // Disable when estimation starts
           onClick={startClickHandler}
           variant="outline"
           className="border-neutral-800 w-[125px]"
         >
-          {isStarted
-            ? `Started (${formatTime(elapsedTime)})`
-            : "Start Estimation"}
+          {isStarted ? `Started (${formatTime(elapsedTime)})` : "Start "}
         </Button>
       </div>
-      <div className="bg-clip-text bg-gradient-to-b text-transparent from-neutral-400 to-white text-sm tracking-tight">
-        *Enter the title/link/topic for estimating*
-      </div>
 
-      <div className="flex gap-4 mt-5   justify-around">
+      <div
+        className={`flex gap-4 mt-5   justify-around ${isExtraExtraSmallScreen && "grid grid-rows-3 grid-cols-1"}`}
+      >
         <Button
           onClick={() => resetVotesHandler()}
           variant="outline"

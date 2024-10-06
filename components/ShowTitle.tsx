@@ -4,6 +4,7 @@ import { Button } from "./ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { useAppContext } from "@/context/AppContext";
 import dayjs from "dayjs";
+import { useMediaQuery } from "react-responsive";
 
 function ShowTitle() {
   const { startEstimation, rejoinDetails } = useAppContext();
@@ -11,7 +12,7 @@ function ShowTitle() {
   const [title, setTitle] = useState("");
   const [isStarted, setIsStarted] = useState(false);
   const [elapsedTime, setElapsedTime] = useState(0);
-
+  const isSmallScreen = useMediaQuery({ maxWidth: 920 });
   function startClickHandler() {
     setIsStarted(true);
     toast({

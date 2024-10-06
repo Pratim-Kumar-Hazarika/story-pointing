@@ -107,7 +107,7 @@ export function CreateRoom() {
         <Button
           type="submit"
           variant="outline"
-          className="border-neutral-800  text-white w-full"
+          className="border-neutral-800 mt-2  text-white w-full"
         >
           Create Room
         </Button>

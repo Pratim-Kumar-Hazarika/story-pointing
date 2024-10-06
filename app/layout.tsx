@@ -32,7 +32,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} min-h-screen bg-black overflow-hidden ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} min-h-screen  bg-black overflow-hidden ${geistMono.variable} antialiased`}
       >
         <AppProvider>
           {children}

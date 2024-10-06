@@ -5,7 +5,7 @@ import { useAppContext } from "@/context/AppContext";
 import { useMediaQuery } from "react-responsive";
 export default function Home() {
   const { createRoom, joinRoom } = useAppContext();
-  const isSmallScreen = useMediaQuery({ maxWidth: 800 });
+  const isSmallScreen = useMediaQuery({ maxWidth: 856 });
 
   return (
     <>{createRoom.roomCode || joinRoom.roomCode ? <Voting /> : <Join />}</>

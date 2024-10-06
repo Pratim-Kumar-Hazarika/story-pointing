@@ -3,12 +3,12 @@
 @tailwind utilities;
 
 :root {
-  --background: #171717;;
+  --background: #171717;
   --foreground: #171717;
 }
 .expcard:hover {
   filter: drop-shadow(0 0 2px #646cffaa);
-}/* styles.css or in a <style> tag */
+} /* styles.css or in a <style> tag */
 .slow-pulse {
   animation: pulse 2s ease-in-out infinite;
 }

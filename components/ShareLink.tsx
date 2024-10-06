@@ -4,6 +4,7 @@ import { Button } from "./ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { useSearchParams } from "next/navigation";
 import { useAppContext } from "@/context/AppContext";
+import { useMediaQuery } from "react-responsive";
 
 function ShareLink() {
   const { toast } = useToast();
@@ -11,6 +12,8 @@ function ShareLink() {
   const roomCode = searchParams.get("roomCode");
   const [buttonText, setButtonText] = useState("Copy");
   const { createRoom, joinRoom } = useAppContext();
+  const isSmallScreen = useMediaQuery({ maxWidth: 920 });
+  const isExtraSmallScreen = useMediaQuery({ maxWidth: 570 });
   const link = `${window.location.origin}?roomCode=${createRoom.roomCode || joinRoom.roomCode}`;
   function copyClickHandler() {
     navigator.clipboard.writeText(link).then(() => {
@@ -25,16 +28,23 @@ function ShareLink() {
   }
 
   return (
-    <div className="mt-10 ">
-      <div className="flex gap-4 mt-2">
-        <Input
-          className="border-neutral-800 w-[450px] max-w-[500px] text-transparent text-opacity-90 text-white from-neutral-400 to-white"
-          id="StoryTitle"
-          placeholder="Enter title for estimation"
-          type="text"
-          value={link}
-          readOnly
-        />
+    <div>
+      <div
+        className={`${isExtraSmallScreen ? " flex flex-col items-center gap-2" : "flex"} gap-4 mt-5 `}
+      >
+        <div>
+          <Input
+            className={`border-neutral-800 ${isSmallScreen ? "w-[300px]" : "w-[450px] max-w-[500px]"} ${isExtraSmallScreen && "w-full "}   text-transparent text-opacity-90 text-white from-neutral-400 to-white`}
+            id="StoryTitle"
+            placeholder="Enter title for estimation"
+            type="text"
+            value={link}
+            readOnly
+          />
+          <div className="bg-clip-text bg-gradient-to-b text-transparent from-neutral-400 to-white text-sm tracking-tight">
+            Share this link with your team to join the room
+          </div>
+        </div>
         <Button
           onClick={copyClickHandler}
           variant="outline"
@@ -42,9 +52,6 @@ function ShareLink() {
         >
           {buttonText}
         </Button>
-      </div>
-      <div className="bg-clip-text bg-gradient-to-b text-transparent from-neutral-400 to-white text-sm tracking-tight">
-        Share this link with your team to join the room
       </div>
     </div>
   );
