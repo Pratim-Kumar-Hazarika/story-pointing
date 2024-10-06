@@ -66,13 +66,13 @@ function StartEstimate() {
     };
     WebsocketManager.getInstance().sendMessage(resetVotesPayload);
     toast({
-      description: "Votes resetted 🏳️",
+      description: "Votes resetted successfully.",
     });
   }
   function revealVotesHander() {
     if (voted.length === 0) {
       toast({
-        description: "No votes to reveal 🙁",
+        description: "No votes to reveal yet.",
       });
       return;
     }
@@ -155,6 +155,7 @@ function StartEstimate() {
         className={`flex gap-4 mt-5   justify-around ${isExtraExtraSmallScreen && "grid grid-rows-3 grid-cols-1"}`}
       >
         <Button
+          disabled={voted.length === 0}
           onClick={() => resetVotesHandler()}
           variant="outline"
           className="border-neutral-800"

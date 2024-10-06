@@ -19,11 +19,6 @@ const geistMono = localFont({
   weight: "100 900",
 });
 
-// export const metadata: Metadata = {
-//   title: "Estimate",
-//   description: "Boosting productivity with effortless task estimation.",
-// };
-
 export default function RootLayout({
   children,
 }: Readonly<{
