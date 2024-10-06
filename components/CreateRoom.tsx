@@ -15,13 +15,12 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
-import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { useAppContext } from "@/context/AppContext";
 import { generateRoomCode } from "@/utils/otp";
 import { Button } from "./ui/button";
 import { WebsocketManager } from "@/utils/WebsocketManager";
-
+import { useRouter } from "next/navigation";
 const FormSchema = z.object({
   username: z.string().min(3, {
     message: "Username must be at least 3 characters.",
@@ -30,8 +29,8 @@ const FormSchema = z.object({
 
 export function CreateRoom() {
   const { toast } = useToast();
-  const router = useRouter();
   const { setCreateRoom, setUser } = useAppContext();
+  const router = useRouter();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -42,20 +41,33 @@ export function CreateRoom() {
     form.setFocus("username");
   }, [form]);
 
+  useEffect(() => {
+    const storedUsername = localStorage.getItem("username");
+
+    if (storedUsername) {
+      form.setValue("username", storedUsername);
+    }
+    form.setFocus("username");
+  }, [form]);
+
   function onSubmit(data: z.infer<typeof FormSchema>) {
     const roomCode = generateRoomCode();
     setUser({ name: data.username, isModerator: true });
+    localStorage.setItem("username", data.username);
+    localStorage.setItem("isModerator", "true");
     setCreateRoom({ roomCode: roomCode });
+    const params = new URLSearchParams();
+    params.delete("roomCode", roomCode);
     const createRoomPayload = {
       method: "SUBSCRIBE",
       params: [roomCode],
       username: data.username,
     };
+    router.replace(window.location.pathname);
     WebsocketManager.getInstance().sendMessage(createRoomPayload);
     toast({
       description: "Room created successfully 🚀",
     });
-    router.push(`/trynow?roomCode=${roomCode}`);
   }
   return (
     <Form {...form}>

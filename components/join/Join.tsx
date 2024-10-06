@@ -10,7 +10,7 @@ type Tabs = "Create Room" | "Join Room";
 function Join() {
   const searchParams = useSearchParams();
   const roomCode = searchParams.get("roomCode");
-  const [active, setActive] = useState<Tabs>("Create Room");
+  const [active, setActive] = useState<Tabs>("Join Room");
   useEffect(() => {
     if (roomCode) {
       setActive("Join Room");

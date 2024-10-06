@@ -1,13 +1,11 @@
 "use client";
 import Join from "@/components/join/Join";
-import Link from "next/link";
-import { useState } from "react";
+import Voting from "@/components/voting/Voting";
+import { useAppContext } from "@/context/AppContext";
 
 export default function Home() {
-  const [page, setPage] = useState("product");
+  const { createRoom, joinRoom } = useAppContext();
   return (
-    <>
-      <Join />
-    </>
+    <>{createRoom.roomCode || joinRoom.roomCode ? <Voting /> : <Join />}</>
   );
 }

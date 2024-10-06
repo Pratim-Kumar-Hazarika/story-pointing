@@ -1,12 +1,11 @@
-"use client";
-import { ChartDemo } from "@/components/ChartDemo";
-import LeftSideBar from "@/components/LeftSideBar";
-import VotesTable from "@/components/Table";
-import { VoteCards } from "@/components/VoteCards";
 import { useAppContext } from "@/context/AppContext";
-import React, { useState } from "react";
+import React from "react";
+import LeftSideBar from "../LeftSideBar";
+import { VoteCards } from "../VoteCards";
+import { ChartDemo } from "../ChartDemo";
+import VotesTable from "../Table";
 
-function Page() {
+function Voting() {
   const { revealVotes } = useAppContext();
   return (
     <div className="relative min-h-screen flex flex-col  ">
@@ -34,4 +33,4 @@ function Page() {
   );
 }
 
-export default Page;
+export default Voting;

@@ -12,7 +12,6 @@ export class WebsocketManager {
     this.bufferedMessages = [];
     this.id = 1;
     this.init();
-    console.log("called init");
   }
 
   public static getInstance() {
@@ -25,12 +24,6 @@ export class WebsocketManager {
     this.ws.onopen = () => {
       console.log("connected");
       this.intialized = true;
-      // const message1 = {
-      //   method: "SUBSCRIBE",
-      //   params: ["room1"],
-      // };
-      // this.ws.send(JSON.stringify(message1));
-
       this.bufferedMessages.forEach((message) => {
         this.ws.send(JSON.stringify(message));
       });
@@ -38,8 +31,6 @@ export class WebsocketManager {
     };
     this.ws.onmessage = (event) => {
       const messageFromSever = JSON.parse(event.data);
-      console.log("=>>>>>>>>", messageFromSever);
-      console.log("Callbakcss---------", this.callbacks);
       if (messageFromSever.type === "revealVotes") {
         this.callbacks["revealVotes"].forEach(({ callback }: any) => {
           callback(messageFromSever.data);

@@ -32,9 +32,9 @@ const FormSchema = z.object({
 
 export function JoinRoom() {
   const { toast } = useToast();
-  const router = useRouter();
   const searchParams = useSearchParams();
   const roomCode = searchParams.get("roomCode");
+  const router = useRouter();
   const { setJoinRoom, setUser } = useAppContext();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -47,22 +47,33 @@ export function JoinRoom() {
     form.setFocus("username");
   }, [form]);
 
+  // Load username and moderator status from localStorage if available
+  useEffect(() => {
+    const storedUsername = localStorage.getItem("username");
+
+    if (storedUsername) {
+      form.setValue("username", storedUsername);
+    }
+    form.setFocus("username");
+  }, [form]);
+
   function onSubmit(data: z.infer<typeof FormSchema>) {
     setUser({ name: data.username, isModerator: false });
+    localStorage.setItem("username", data.username);
+    localStorage.setItem("isModerator", "false");
     const createRoomPayload = {
       method: "SUBSCRIBE",
       params: [data.room],
       username: data.username,
     };
     WebsocketManager.getInstance().sendMessage(createRoomPayload);
+    router.replace(window.location.pathname);
     setJoinRoom({
       roomCode: data.room,
     });
-
     toast({
       description: `Hey ${data.username} 👋 thanks for joining the session 🚀`,
     });
-    router.push(`/trynow?roomCode=${data.room}`);
   }
   return (
     <Form {...form}>
@@ -116,7 +127,7 @@ export function JoinRoom() {
                 />
               </FormControl>
               <FormDescription className=" text-white text-sm bg-gradient-to-b   text-transparent  from-neutral-400 to-white  tracking-tight bg-clip-text">
-                Without room code you can't proceed
+                Without room code you can&apos;t proceed
               </FormDescription>
               <FormMessage />
             </FormItem>

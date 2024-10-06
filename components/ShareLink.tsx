@@ -2,15 +2,17 @@ import React, { useState } from "react";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { useToast } from "@/hooks/use-toast";
+import { useSearchParams } from "next/navigation";
 import { useAppContext } from "@/context/AppContext";
 
 function ShareLink() {
   const { toast } = useToast();
-  const { createRoom, joinRoom } = useAppContext();
+  const searchParams = useSearchParams();
+  const roomCode = searchParams.get("roomCode");
   const [buttonText, setButtonText] = useState("Copy");
-
+  const { createRoom, joinRoom } = useAppContext();
+  const link = `${window.location.origin}?roomCode=${createRoom.roomCode || joinRoom.roomCode}`;
   function copyClickHandler() {
-    const link = `${window.location.origin + "?roomCode=" + createRoom.roomCode || joinRoom.roomCode}`;
     navigator.clipboard.writeText(link).then(() => {
       toast({
         description: "Ctrl+V the link with your team to join the room 🚀",
@@ -30,7 +32,7 @@ function ShareLink() {
           id="StoryTitle"
           placeholder="Enter title for estimation"
           type="text"
-          value={`${window.location.origin + "?roomCode=" + createRoom.roomCode || joinRoom.roomCode}`}
+          value={link}
           readOnly
         />
         <Button
