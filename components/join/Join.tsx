@@ -6,16 +6,34 @@ import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { CreateRoom } from "@/components/CreateRoom";
 import { useSearchParams } from "next/navigation";
-type Tabs = "Create Room" | "Join Room";
+import { Rejoin } from "../Rejoin";
+import { useAppContext } from "@/context/AppContext";
+type Tabs = "Create Room" | "Join Room" | "Rejoin Room";
 function Join() {
   const searchParams = useSearchParams();
   const roomCode = searchParams.get("roomCode");
-  const [active, setActive] = useState<Tabs>("Join Room");
+  const [localRoomCode, setLocalRoom] = useState("");
+  const { reconnectDetails } = useAppContext();
+  const [active, setActive] = useState<Tabs>("Create Room");
   useEffect(() => {
     if (roomCode) {
       setActive("Join Room");
     }
-  }, [roomCode]);
+    if (localRoomCode) {
+      setActive("Rejoin Room");
+    }
+  }, [roomCode, localRoomCode]);
+  useEffect(() => {
+    if (reconnectDetails.active) {
+      setActive("Rejoin Room");
+    }
+  }, [reconnectDetails]);
+  useEffect(() => {
+    const roomCode = localStorage.getItem("roomCode");
+    if (roomCode) {
+      setLocalRoom(roomCode);
+    }
+  }, []);
   return (
     <>
       <div className="md:hidden  ">
@@ -68,7 +86,10 @@ function Join() {
                 "flex flex-row px-4  items-center justify-center space-x-2  ",
               )}
             >
-              {["Create Room", "Join Room"].map((tab, idx) => (
+              {[
+                "Create Room",
+                reconnectDetails.active ? "Rejoin Room" : "Join Room",
+              ].map((tab, idx) => (
                 <button
                   key={tab}
                   onClick={() => {
@@ -102,8 +123,14 @@ function Join() {
                 </button>
               ))}
             </div>
-            <div className="w-[500px] ">
-              {active === "Join Room" ? <JoinRoom /> : <CreateRoom />}
+            <div className="w-[500px]">
+              {active === "Join Room" && !reconnectDetails.active && (
+                <JoinRoom />
+              )}
+              {active === "Rejoin Room" && reconnectDetails.active && (
+                <Rejoin />
+              )}
+              {active === "Create Room" && <CreateRoom />}
             </div>
           </div>
         </div>

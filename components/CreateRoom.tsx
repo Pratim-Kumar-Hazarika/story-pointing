@@ -21,6 +21,7 @@ import { generateRoomCode } from "@/utils/otp";
 import { Button } from "./ui/button";
 import { WebsocketManager } from "@/utils/WebsocketManager";
 import { useRouter } from "next/navigation";
+import { generateModeratorId } from "@/utils/moderator";
 const FormSchema = z.object({
   username: z.string().min(3, {
     message: "Username must be at least 3 characters.",
@@ -52,9 +53,11 @@ export function CreateRoom() {
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
     const roomCode = generateRoomCode();
+    const moderatorId = generateModeratorId();
     setUser({ name: data.username, isModerator: true });
     localStorage.setItem("username", data.username);
-    localStorage.setItem("isModerator", "true");
+    localStorage.setItem("moderatorId", moderatorId);
+    localStorage.setItem("roomCode", roomCode);
     setCreateRoom({ roomCode: roomCode });
     const params = new URLSearchParams();
     params.delete("roomCode", roomCode);
@@ -62,6 +65,7 @@ export function CreateRoom() {
       method: "SUBSCRIBE",
       params: [roomCode],
       username: data.username,
+      moderatorId: moderatorId,
     };
     router.replace(window.location.pathname);
     WebsocketManager.getInstance().sendMessage(createRoomPayload);

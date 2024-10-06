@@ -22,12 +22,28 @@ export class WebsocketManager {
   }
   init() {
     this.ws.onopen = () => {
-      console.log("connected");
       this.intialized = true;
       this.bufferedMessages.forEach((message) => {
         this.ws.send(JSON.stringify(message));
       });
       this.bufferedMessages = [];
+
+      //Send once
+      const roomCode = localStorage.getItem("roomCode");
+      const moderatorId = localStorage.getItem("moderatorId");
+
+      ///Moderator will have the moderator id
+      if (roomCode) {
+        const reconnectPayload = {
+          method: "SENDMESSAGE",
+          data: {
+            channelId: roomCode,
+            reconnect: true,
+            moderatorId: moderatorId ? moderatorId : null,
+          },
+        };
+        this.ws.send(JSON.stringify(reconnectPayload));
+      }
     };
     this.ws.onmessage = (event) => {
       const messageFromSever = JSON.parse(event.data);
@@ -56,6 +72,16 @@ export class WebsocketManager {
       }
       if (messageFromSever.type === "newEstimation") {
         this.callbacks["newEstimation"].forEach(({ callback }: any) => {
+          callback(messageFromSever.data);
+        });
+      }
+      if (messageFromSever.type === "onGoingEstimation") {
+        this.callbacks["onGoingEstimation"].forEach(({ callback }: any) => {
+          callback(messageFromSever.data);
+        });
+      }
+      if (messageFromSever.type === "reconnect") {
+        this.callbacks["reconnect"].forEach(({ callback }: any) => {
           callback(messageFromSever.data);
         });
       }

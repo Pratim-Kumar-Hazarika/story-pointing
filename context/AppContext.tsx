@@ -1,5 +1,6 @@
 import { useToast } from "@/hooks/use-toast";
 import { WebsocketManager } from "@/utils/WebsocketManager";
+import { useSearchParams } from "next/navigation";
 import React, {
   createContext,
   useState,
@@ -42,6 +43,13 @@ interface AppContextInterface {
     started: boolean;
     title: string;
   };
+  rejoinDetails: {
+    time: null | string;
+  };
+  reconnectDetails: {
+    active: boolean; //Room
+    isModerator: boolean;
+  };
   activeCardNumber: number | null;
   revealVotes: RevealVotesData | null;
   setActiveCardNumber: (activeCardNumber: number | null) => void;
@@ -60,10 +68,22 @@ interface AppProviderProps {
 
 export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   const { toast } = useToast();
+
   const [activeCardNumber, setActiveCardNumber] =
     useState<AppContextInterface["activeCardNumber"]>(null);
   const [user, setUser] = useState<AppContextInterface["user"]>({
     name: "",
+    isModerator: false,
+  });
+  const [rejoinDetails, setRejoinDetails] = useState<
+    AppContextInterface["rejoinDetails"]
+  >({
+    time: "",
+  });
+  const [reconnectDetails, setReconnectDetails] = useState<
+    AppContextInterface["reconnectDetails"]
+  >({
+    active: false,
     isModerator: false,
   });
   const [startEstimation, setStartedEstimation] = useState<
@@ -210,9 +230,78 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
       );
     };
   }, []);
+
+  ///Ongoing Estimation
+  useEffect(() => {
+    WebsocketManager.getInstance().registerCallBack(
+      "onGoingEstimation",
+      (data: {
+        voted: User[];
+        pending: User[];
+        title: string;
+        time: string;
+        chartData: any;
+      }) => {
+        if (data.title) {
+          setStartedEstimation({
+            title: data.title,
+            started: true,
+          });
+        }
+        setRejoinDetails({
+          time: data.time,
+        });
+        if (data.voted.length >= 1) {
+          setVoted(data.voted);
+        }
+        if (data.pending.length >= 1) {
+          setPending(data.pending);
+        }
+        if (data.chartData.length >= 1) {
+          setRevealVotes({
+            chartData: data.chartData,
+            title: data.title,
+          });
+        }
+      },
+      "onGoingEstimation-1",
+    );
+    return () => {
+      WebsocketManager.getInstance().deRegisterCallback(
+        "onGoingEstimation",
+        "onGoingEstimation-1",
+      );
+    };
+  }, []);
+
+  //Reconnect...
+  useEffect(() => {
+    WebsocketManager.getInstance().registerCallBack(
+      "reconnect",
+      (data: { active: Boolean; isModerator: boolean }) => {
+        if (data.active) {
+          setReconnectDetails({
+            active: true,
+            isModerator: data.isModerator,
+          });
+        }
+        if (data.active === false) {
+          localStorage.removeItem("roomCode");
+        }
+      },
+      "reconnect-1",
+    );
+    return () => {
+      WebsocketManager.getInstance().deRegisterCallback(
+        "reconnect",
+        "reconnect-1",
+      );
+    };
+  }, []);
   return (
     <AppContext.Provider
       value={{
+        rejoinDetails,
         user,
         setUser,
         createRoom,
@@ -228,6 +317,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
         totalParticipants,
         voted,
         pending,
+        reconnectDetails,
       }}
     >
       {children}

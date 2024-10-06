@@ -23,6 +23,7 @@
     "@types/three": "^0.168.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "dayjs": "^1.11.13",
     "framer-motion": "^11.5.4",
     "lucide-react": "^0.439.0",
     "mini-svg-data-uri": "^1.4.4",

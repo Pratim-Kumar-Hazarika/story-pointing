@@ -15,39 +15,32 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
-import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { useAppContext } from "@/context/AppContext";
+import { generateRoomCode } from "@/utils/otp";
 import { Button } from "./ui/button";
 import { WebsocketManager } from "@/utils/WebsocketManager";
-
+import { useRouter } from "next/navigation";
 const FormSchema = z.object({
   username: z.string().min(3, {
     message: "Username must be at least 3 characters.",
   }),
-  room: z.string().min(1, {
-    message: "Room Code is required to join the session.",
-  }),
 });
 
-export function JoinRoom() {
+export function Rejoin() {
   const { toast } = useToast();
-  const searchParams = useSearchParams();
-  const roomCode = searchParams.get("roomCode");
+  const { setCreateRoom, setUser, reconnectDetails } = useAppContext();
   const router = useRouter();
-  const { setJoinRoom, setUser } = useAppContext();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
       username: "",
-      room: roomCode ?? "",
     },
   });
   useEffect(() => {
     form.setFocus("username");
   }, [form]);
 
-  // Load username and moderator status from localStorage if available
   useEffect(() => {
     const storedUsername = localStorage.getItem("username");
 
@@ -58,30 +51,37 @@ export function JoinRoom() {
   }, [form]);
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
-    setUser({ name: data.username, isModerator: false });
-    localStorage.removeItem("moderatorId");
+    const roomCode = localStorage.getItem("roomCode");
+    if (!roomCode) {
+      return;
+    }
+    const moderatorId = localStorage.getItem("moderatorId");
+    setUser({
+      name: data.username,
+      isModerator: reconnectDetails.isModerator,
+    });
     localStorage.setItem("username", data.username);
-    localStorage.setItem("roomCode", data.room);
+
+    setCreateRoom({ roomCode: roomCode });
+    const params = new URLSearchParams();
+    params.delete("roomCode", roomCode);
     const createRoomPayload = {
       method: "SUBSCRIBE",
-      params: [data.room],
+      params: [roomCode],
       username: data.username,
-      moderatorId: null,
+      moderatorId: moderatorId ? moderatorId : null,
     };
-    WebsocketManager.getInstance().sendMessage(createRoomPayload);
     router.replace(window.location.pathname);
-    setJoinRoom({
-      roomCode: data.room,
-    });
+    WebsocketManager.getInstance().sendMessage(createRoomPayload);
     toast({
-      description: `Hey ${data.username} 👋 thanks for joining the session 🚀`,
+      description: "Room Joined successfully 🚀",
     });
   }
   return (
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="w-2/3 h-[240px]  space-y-6"
+        className="w-2/3 h-[240px] space-y-6"
       >
         {/* Username Field */}
         <FormField
@@ -91,7 +91,7 @@ export function JoinRoom() {
             <FormItem>
               <FormLabel className="">
                 <div className="bg-clip-text  bg-gradient-to-b text-transparent from-neutral-400 to-white text-xl font-bold tracking-tight">
-                  Username
+                  Hey 👋,
                 </div>
               </FormLabel>
               <FormControl>
@@ -102,47 +102,20 @@ export function JoinRoom() {
                 />
               </FormControl>
               <FormDescription className=" text-white text-sm bg-gradient-to-b   text-transparent  from-neutral-400 to-white  tracking-tight bg-clip-text">
-                This is your joining display name.
-              </FormDescription>
-
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        {/* Required Room Field */}
-        <FormField
-          control={form.control}
-          name="room"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="">
-                <div className="bg-clip-text bg-gradient-to-b text-transparent from-neutral-400 to-white text-xl font-bold tracking-tight">
-                  Room Code
-                </div>
-              </FormLabel>
-              <FormControl>
-                <Input
-                  placeholder="Enter the room code.."
-                  {...field}
-                  className="text-white border-neutral-800"
-                />
-              </FormControl>
-              <FormDescription className=" text-white text-sm bg-gradient-to-b   text-transparent  from-neutral-400 to-white  tracking-tight bg-clip-text">
-                Without room code you can&apos;t proceed
+                Looks like you got disconnected. Your session is{" "}
+                <span className=" slow-pulse  text-green-500">ongoing</span>
               </FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
-
         {/* Submit Button */}
         <Button
           type="submit"
           variant="outline"
-          className="border-neutral-800  text-white w-full"
+          className="border-neutral-800  text-white w-full  "
         >
-          Join Room
+          Rejoin Session
         </Button>
       </form>
     </Form>

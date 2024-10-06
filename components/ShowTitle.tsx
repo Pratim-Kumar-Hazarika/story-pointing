@@ -3,9 +3,10 @@ import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { useAppContext } from "@/context/AppContext";
+import dayjs from "dayjs";
 
 function ShowTitle() {
-  const { startEstimation } = useAppContext();
+  const { startEstimation, rejoinDetails } = useAppContext();
   const { toast } = useToast();
   const [title, setTitle] = useState("");
   const [isStarted, setIsStarted] = useState(false);
@@ -47,6 +48,18 @@ function ShowTitle() {
       }
     };
   }, [isStarted]);
+
+  // Rejoin logic: check if the user is reconnecting
+  useEffect(() => {
+    if (rejoinDetails && rejoinDetails.time && startEstimation.title) {
+      setTitle(startEstimation.title);
+      const startTime = dayjs(rejoinDetails.time);
+      const now = dayjs();
+      const elapsed = now.diff(startTime, "second");
+      setElapsedTime(elapsed);
+      setIsStarted(true);
+    }
+  }, [rejoinDetails]);
 
   // Format elapsed time to MM:SS
   const formatTime = (timeInSeconds: number) => {

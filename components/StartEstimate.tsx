@@ -4,14 +4,14 @@ import { Button } from "./ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { useAppContext } from "@/context/AppContext";
 import { WebsocketManager } from "@/utils/WebsocketManager";
-import { is } from "@react-three/fiber/dist/declarations/src/core/utils";
-
+import dayjs from "dayjs";
 function StartEstimate() {
   const { toast } = useToast();
   const [title, setTitle] = useState("");
   const [isStarted, setIsStarted] = useState(false);
   const [elapsedTime, setElapsedTime] = useState(0);
-  const { createRoom, startEstimation, user, voted, pending } = useAppContext();
+  const { createRoom, startEstimation, user, voted, pending, rejoinDetails } =
+    useAppContext();
 
   function startClickHandler() {
     const startEstimationPayload = {
@@ -107,6 +107,18 @@ function StartEstimate() {
       }
     }
   }, [startEstimation.started, startEstimation.title]);
+
+  // Rejoin logic: check if the user is reconnecting
+  useEffect(() => {
+    if (rejoinDetails && rejoinDetails.time && startEstimation.title) {
+      setTitle(startEstimation.title);
+      const startTime = dayjs(rejoinDetails.time);
+      const now = dayjs();
+      const elapsed = now.diff(startTime, "second");
+      setElapsedTime(elapsed);
+      setIsStarted(true);
+    }
+  }, [rejoinDetails]);
   return (
     <div>
       <div className="flex gap-4 mt-5 ">
