@@ -1,4 +1,4 @@
-const BASE_URL = "ws://localhost:8080";
+const BASE_URL = `ws://${process.env.NEXT_PUBLIC_WS}`;
 
 export class WebsocketManager {
   private ws: WebSocket;

@@ -22,9 +22,6 @@ function Join() {
     if (roomCode) {
       setActive("Join Room");
     }
-    if (localRoomCode) {
-      setActive("Rejoin Room");
-    }
   }, [roomCode, localRoomCode]);
   useEffect(() => {
     if (reconnectDetails.active) {
