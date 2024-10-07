@@ -1,4 +1,6 @@
+import { useToast } from "@/hooks/use-toast";
 import { WebsocketManager } from "@/utils/WebsocketManager";
+import { useRouter } from "next/navigation";
 
 import React, {
   createContext,
@@ -25,6 +27,7 @@ type User = {
 };
 
 interface AppContextInterface {
+  isRoomActive: boolean;
   user: {
     name: string;
     isModerator: boolean;
@@ -66,6 +69,8 @@ interface AppProviderProps {
 }
 
 export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
+  const { toast } = useToast();
+  const router = useRouter();
   const [activeCardNumber, setActiveCardNumber] =
     useState<AppContextInterface["activeCardNumber"]>(null);
   const [user, setUser] = useState<AppContextInterface["user"]>({
@@ -107,7 +112,8 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
 
   // State for revealVotes
   const [revealVotes, setRevealVotes] = useState<RevealVotesData | null>(null);
-
+  const [isRoomActive, setIsRoomActive] =
+    useState<AppContextInterface["isRoomActive"]>(false);
   useEffect(() => {
     WebsocketManager.getInstance();
   }, []);
@@ -295,9 +301,41 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
       );
     };
   }, []);
+
+  useEffect(() => {
+    WebsocketManager.getInstance().registerCallBack(
+      "noActiveRooms",
+      (data: { rooms: null | Boolean; message: string; roomCode: string }) => {
+        if (data.rooms === null) {
+          toast({
+            description: data.message,
+          });
+          setIsRoomActive(false);
+        }
+        if (data.rooms === true && data.roomCode) {
+          setJoinRoom({
+            roomCode: data.roomCode,
+          });
+          setIsRoomActive(true);
+          toast({
+            description: `Hey ${user.name} 👋 thanks for joining the session 🚀`,
+          });
+          router.replace(window.location.pathname);
+        }
+      },
+      "noActiveRooms-1",
+    );
+    return () => {
+      WebsocketManager.getInstance().deRegisterCallback(
+        "noActiveRooms",
+        "noActiveRooms-1",
+      );
+    };
+  }, []);
   return (
     <AppContext.Provider
       value={{
+        isRoomActive,
         rejoinDetails,
         user,
         setUser,

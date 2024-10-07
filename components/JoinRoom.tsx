@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { useAppContext } from "@/context/AppContext";
 import { Button } from "./ui/button";
@@ -34,8 +34,7 @@ export function JoinRoom() {
   const { toast } = useToast();
   const searchParams = useSearchParams();
   const roomCode = searchParams.get("roomCode");
-  const router = useRouter();
-  const { setJoinRoom, setUser } = useAppContext();
+  const { setUser } = useAppContext();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -69,14 +68,8 @@ export function JoinRoom() {
       moderatorId: null,
     };
     WebsocketManager.getInstance().sendMessage(createRoomPayload);
-    router.replace(window.location.pathname);
-    setJoinRoom({
-      roomCode: data.room,
-    });
-    toast({
-      description: `Hey ${data.username} 👋 thanks for joining the session 🚀`,
-    });
   }
+
   return (
     <Suspense fallback={<div>Loading.....</div>}>
       <Form {...form}>

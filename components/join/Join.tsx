@@ -19,12 +19,12 @@ function Join() {
   const [active, setActive] = useState<Tabs>("Create Room");
   const isSmallScreen = useMediaQuery({ maxWidth: 770 });
   useEffect(() => {
-    // if (roomCode) {
-    //   setActive("Join Room");
-    // }
-    // if (localRoomCode) {
-    //   setActive("Rejoin Room");
-    // }
+    if (roomCode) {
+      setActive("Join Room");
+    }
+    if (localRoomCode) {
+      setActive("Rejoin Room");
+    }
   }, [roomCode, localRoomCode]);
   useEffect(() => {
     if (reconnectDetails.active) {

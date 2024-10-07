@@ -85,6 +85,11 @@ export class WebsocketManager {
           callback(messageFromSever.data);
         });
       }
+      if (messageFromSever.type === "noActiveRooms") {
+        this.callbacks["noActiveRooms"].forEach(({ callback }: any) => {
+          callback(messageFromSever.data);
+        });
+      }
     };
   }
 
