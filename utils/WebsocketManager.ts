@@ -1,4 +1,4 @@
-const BASE_URL = `wss://handitover.in`;
+const BASE_URL = `wss://${process.env.NEXT_PUBLIC_WS}`;
 
 export class WebsocketManager {
   private ws: WebSocket;
