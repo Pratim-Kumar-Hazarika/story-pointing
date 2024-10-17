@@ -1,4 +1,4 @@
-const BASE_URL = `wss://${process.env.NEXT_PUBLIC_WS}`;
+const BASE_URL = `ws://${process.env.NEXT_PUBLIC_WS}`;
 
 export class WebsocketManager {
   private ws: WebSocket;
@@ -7,6 +7,7 @@ export class WebsocketManager {
   private id: number;
   private intialized: boolean = false;
   private bufferedMessages: any[] = [];
+  private pingInterval: any;
   private constructor() {
     this.ws = new WebSocket(BASE_URL);
     this.bufferedMessages = [];
@@ -44,6 +45,9 @@ export class WebsocketManager {
         };
         this.ws.send(JSON.stringify(reconnectPayload));
       }
+
+      //Start Ping
+      this.startPing();
     };
     this.ws.onmessage = (event) => {
       const messageFromSever = JSON.parse(event.data);
@@ -91,6 +95,9 @@ export class WebsocketManager {
         });
       }
     };
+    this.ws.onclose = () => {
+      this.stopPing();
+    };
   }
 
   sendMessage(message: any) {
@@ -110,6 +117,28 @@ export class WebsocketManager {
   }
 
   async deRegisterCallback(type: string, id: string) {
-    //
+    if (this.callbacks[type]) {
+      this.callbacks[type] = this.callbacks[type].filter(
+        (cbObj: any) => cbObj.id !== id,
+      );
+    }
+  }
+
+  ///Ping  to keep the connection Alive
+  startPing() {
+    if (this.pingInterval) {
+      clearInterval(this.pingInterval); // Clear any existing interval
+    }
+    this.pingInterval = setInterval(() => {
+      if (this.ws.readyState === WebSocket.OPEN) {
+        this.sendMessage({ type: "alive" });
+      }
+    }, 5000);
+  }
+
+  stopPing() {
+    if (this.pingInterval) {
+      clearInterval(this.pingInterval);
+    }
   }
 }
