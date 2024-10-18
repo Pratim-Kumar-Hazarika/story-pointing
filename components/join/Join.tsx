@@ -10,6 +10,7 @@ import { useSearchParams } from "next/navigation";
 import { Rejoin } from "../Rejoin";
 import { useAppContext } from "@/context/AppContext";
 import { useMediaQuery } from "react-responsive";
+import { AccordionDemo } from "../AccordianFaq";
 type Tabs = "Create Room" | "Join Room" | "Rejoin Room";
 function Join() {
   const searchParams = useSearchParams();
@@ -65,7 +66,7 @@ function Join() {
             </blockquote>
           </div>
         </div>
-        <div className="  items-center flex flex-col  justify-center  ">
+        {/* <div className="  items-center flex flex-col  justify-center  ">
           <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
             <div
               className={cn(
@@ -119,6 +120,12 @@ function Join() {
               {active === "Create Room" && <CreateRoom />}
             </div>
           </div>
+        </div> */}
+        <div className=" flex flex-col items-center justify-center  ">
+          <h2 className="bg-clip-text  bg-gradient-to-b  py-4  text-transparent  from-neutral-400 to-white text-3xl  font-bold tracking-tight">
+            Frequenty Asked Questions
+          </h2>
+          <AccordionDemo />
         </div>
       </div>
     </Suspense>
