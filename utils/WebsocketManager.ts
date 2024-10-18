@@ -131,9 +131,9 @@ export class WebsocketManager {
     }
     this.pingInterval = setInterval(() => {
       if (this.ws.readyState === WebSocket.OPEN) {
-        this.sendMessage({ type: "alive" });
+        this.sendMessage({ method: "HEART" });
       }
-    }, 5000);
+    }, 7000);
   }
 
   stopPing() {
