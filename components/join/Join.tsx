@@ -126,6 +126,50 @@ function Join() {
             Frequenty Asked Questions
           </h2>
           <AccordionDemo />
+          <div className="mt-4">
+            <h2 className="bg-clip-text text-center  bg-gradient-to-b  py-4  text-transparent  from-neutral-400 to-white text-3xl  font-bold tracking-tight">
+              Current
+            </h2>
+            <div className=" text-white text-sm leading-7 bg-gradient-to-b text-transparent from-neutral-400 to-white tracking-tight bg-clip-text">
+              <div className="flex gap-5">
+                <div className="w-[150px]">Ongoing Sessions </div>
+                <div className="bg-clip-text text-center  slow-pulse   bg-gradient-to-b   text-transparent  from-neutral-400  to-green-400  font-bold tracking-tight">
+                  100{" "}
+                </div>
+              </div>
+              <div className="flex gap-5">
+                <div className="w-[150px]">Total Players </div>
+                <div className="bg-clip-text text-center slow-pulse bg-gradient-to-b   text-transparent  from-neutral-400  to-green-400 font-bold tracking-tight">
+                  100{" "}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="mt-4  ">
+            <h2 className="bg-clip-text text-center  bg-gradient-to-b  py-4  text-transparent  from-neutral-400 to-white text-3xl  font-bold tracking-tight">
+              History
+            </h2>
+            <div className=" flex flex-col  justify-between items-center text-white text-sm leading-7 bg-gradient-to-b text-transparent from-neutral-400 to-white tracking-tight bg-clip-text">
+              <div className="flex gap-5">
+                <div className="w-[150px]">Total Sessions </div>
+                <div className="bg-clip-text text-center    bg-gradient-to-b   text-transparent  from-neutral-400 to-white  font-bold tracking-tight">
+                  100{" "}
+                </div>
+              </div>
+              <div className="flex gap-5">
+                <div className="w-[150px]">Total Players Joined </div>
+                <div className="bg-clip-text text-center bg-gradient-to-b   text-transparent  from-neutral-400 to-white  font-bold tracking-tight">
+                  100{" "}
+                </div>
+              </div>
+              <div className="flex gap-5">
+                <div className="w-[150px]">Total Votes </div>
+                <div className="  bg-clip-text text-center bg-gradient-to-b   text-transparent  from-neutral-400 to-white  font-bold tracking-tight">
+                  102{" "}
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </Suspense>
