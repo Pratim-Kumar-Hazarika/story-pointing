@@ -81,7 +81,7 @@ export function Rejoin() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="w-2/3 h-[240px] space-y-6"
+        className="w-2/3 h-[400px] space-y-6"
       >
         {/* Username Field */}
         <FormField

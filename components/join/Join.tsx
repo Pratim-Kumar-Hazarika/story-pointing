@@ -10,14 +10,23 @@ import { useSearchParams } from "next/navigation";
 import { Rejoin } from "../Rejoin";
 import { useAppContext } from "@/context/AppContext";
 import { useMediaQuery } from "react-responsive";
-type Tabs = "Create Room" | "Join Room" | "Rejoin Room";
+import { AccordionDemo } from "../AccordianFaq";
+import About from "../about/About";
+import WhyUs from "../why-us/WhyUs";
+import { TracingBeam } from "../TracingBeam";
+type Tabs =
+  | "Create Room"
+  | "Join Room"
+  | "Rejoin Room"
+  | "About Us"
+  | "Why Us?";
 function Join() {
   const searchParams = useSearchParams();
   const roomCode = searchParams.get("roomCode");
   const [localRoomCode, setLocalRoom] = useState("");
   const { reconnectDetails } = useAppContext();
   const [active, setActive] = useState<Tabs>("Create Room");
-  const isSmallScreen = useMediaQuery({ maxWidth: 770 });
+  const isSmallScreen = useMediaQuery({ maxWidth: 980 });
   useEffect(() => {
     if (roomCode) {
       setActive("Join Room");
@@ -65,60 +74,104 @@ function Join() {
             </blockquote>
           </div>
         </div>
-        <div className="  items-center flex flex-col  justify-center  ">
-          <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
-            <div
-              className={cn(
-                "flex flex-row px-4   items-center justify-center space-x-2  ",
-              )}
-            >
-              {[
-                "Create Room",
-                reconnectDetails.active ? "Rejoin Room" : "Join Room",
-              ].map((tab, idx) => (
-                <button
-                  key={`${tab}-${idx}`}
-                  onClick={() => {
-                    setActive(tab as Tabs);
-                  }}
-                  className={cn(
-                    "relative px-4 py-2 rounded-full",
-                    { "bg-zinc-800": active === tab },
-                    active === tab ? "" : "",
-                  )}
-                  style={{
-                    transformStyle: "preserve-3d",
-                  }}
-                >
-                  {active === tab && (
-                    <motion.div
-                      layoutId="clickedbutton"
-                      transition={{
-                        type: "spring",
-                        bounce: 0.3,
-                        duration: 0.6,
-                      }}
-                      className={cn(
-                        "absolute inset-0 bg-zinc-800 rounded-full ",
-                      )}
-                    />
-                  )}
-                  <span className="relative block text-white text-sm">
-                    {tab}
-                  </span>
-                </button>
-              ))}
+        <div className="  items-center flex flex-col  justify-center   mt-5 ">
+          <TracingBeam>
+            <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
+              <div
+                className={cn(
+                  "flex flex-row px-4   items-center justify-center space-x-2  ",
+                )}
+              >
+                {[
+                  "Create Room",
+                  reconnectDetails.active ? "Rejoin Room" : "Join Room",
+                  "About Us",
+                ].map((tab, idx) => (
+                  <button
+                    key={`${tab}-${idx}`}
+                    onClick={() => {
+                      setActive(tab as Tabs);
+                    }}
+                    className={cn(
+                      "relative px-4 py-2 rounded-full",
+                      { "bg-zinc-800": active === tab },
+                      active === tab ? "" : "",
+                    )}
+                    style={{
+                      transformStyle: "preserve-3d",
+                    }}
+                  >
+                    {active === tab && (
+                      <motion.div
+                        layoutId="clickedbutton"
+                        transition={{
+                          type: "spring",
+                          bounce: 0.3,
+                          duration: 0.6,
+                        }}
+                        className={cn(
+                          "absolute inset-0 bg-zinc-800 rounded-full ",
+                        )}
+                      />
+                    )}
+                    <span className="relative block text-white text-sm">
+                      {tab}
+                    </span>
+                  </button>
+                ))}
+              </div>
+              <div
+                className={cn(
+                  "flex flex-row px-4   items-center justify-center space-x-2  ",
+                )}
+              >
+                {["Why Us?"].map((tab, idx) => (
+                  <button
+                    key={`${tab}-${idx}`}
+                    onClick={() => {
+                      setActive(tab as Tabs);
+                    }}
+                    className={cn(
+                      "relative px-4 py-2 rounded-full",
+                      { "bg-zinc-800": active === tab },
+                      active === tab ? "" : "",
+                    )}
+                    style={{
+                      transformStyle: "preserve-3d",
+                    }}
+                  >
+                    {active === tab && (
+                      <motion.div
+                        layoutId="clickedbutton"
+                        transition={{
+                          type: "spring",
+                          bounce: 0.3,
+                          duration: 0.6,
+                        }}
+                        className={cn(
+                          "absolute inset-0 bg-zinc-800 rounded-full ",
+                        )}
+                      />
+                    )}
+                    <span className="relative block text-white text-sm">
+                      {tab}
+                    </span>
+                  </button>
+                ))}
+              </div>
+              <div className="    flex items-center justify-center  ">
+                {active === "Join Room" && !reconnectDetails.active && (
+                  <JoinRoom />
+                )}
+                {active === "Rejoin Room" && reconnectDetails.active && (
+                  <Rejoin />
+                )}
+                {active === "Create Room" && <CreateRoom />}
+                {active === "About Us" && <About />}
+                {active === "Why Us?" && <WhyUs />}
+              </div>
             </div>
-            <div className="    flex items-center justify-center ">
-              {active === "Join Room" && !reconnectDetails.active && (
-                <JoinRoom />
-              )}
-              {active === "Rejoin Room" && reconnectDetails.active && (
-                <Rejoin />
-              )}
-              {active === "Create Room" && <CreateRoom />}
-            </div>
-          </div>
+          </TracingBeam>
         </div>
       </div>
     </Suspense>

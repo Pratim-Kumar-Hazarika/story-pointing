@@ -75,7 +75,7 @@ export function CreateRoom() {
   }
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 h-[240px] ">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 h-[400px] ">
         {/* Username Field */}
         <FormField
           control={form.control}
