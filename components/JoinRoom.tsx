@@ -75,7 +75,7 @@ export function JoinRoom() {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="w-2/3 h-[240px]  space-y-6"
+          className="w-2/3 h-[400px]  space-y-6"
         >
           {/* Username Field */}
           <FormField
@@ -95,7 +95,7 @@ export function JoinRoom() {
                     className="text-white border-neutral-800"
                   />
                 </FormControl>
-                <FormDescription className=" text-white text-sm bg-gradient-to-b   text-transparent  from-neutral-400 to-white  tracking-tight bg-clip-text">
+                <FormDescription className=" text-sm text-white  bg-gradient-to-b   text-transparent  from-neutral-400 to-white  tracking-tight bg-clip-text">
                   This is your joining display name.
                 </FormDescription>
 

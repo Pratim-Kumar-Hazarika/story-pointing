@@ -11,7 +11,14 @@ import { Rejoin } from "../Rejoin";
 import { useAppContext } from "@/context/AppContext";
 import { useMediaQuery } from "react-responsive";
 import { AccordionDemo } from "../AccordianFaq";
-type Tabs = "Create Room" | "Join Room" | "Rejoin Room";
+import About from "../about/About";
+import WhyUs from "../why-us/WhyUs";
+type Tabs =
+  | "Create Room"
+  | "Join Room"
+  | "Rejoin Room"
+  | "About Us"
+  | "Why Us?";
 function Join() {
   const searchParams = useSearchParams();
   const roomCode = searchParams.get("roomCode");
@@ -66,7 +73,7 @@ function Join() {
             </blockquote>
           </div>
         </div>
-        {/* <div className="  items-center flex flex-col  justify-center  ">
+        <div className="  items-center flex flex-col  justify-center   mt-5 ">
           <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
             <div
               className={cn(
@@ -76,6 +83,7 @@ function Join() {
               {[
                 "Create Room",
                 reconnectDetails.active ? "Rejoin Room" : "Join Room",
+                "About Us",
               ].map((tab, idx) => (
                 <button
                   key={`${tab}-${idx}`}
@@ -110,7 +118,46 @@ function Join() {
                 </button>
               ))}
             </div>
-            <div className="    flex items-center justify-center ">
+            <div
+              className={cn(
+                "flex flex-row px-4   items-center justify-center space-x-2  ",
+              )}
+            >
+              {["Why Us?"].map((tab, idx) => (
+                <button
+                  key={`${tab}-${idx}`}
+                  onClick={() => {
+                    setActive(tab as Tabs);
+                  }}
+                  className={cn(
+                    "relative px-4 py-2 rounded-full",
+                    { "bg-zinc-800": active === tab },
+                    active === tab ? "" : "",
+                  )}
+                  style={{
+                    transformStyle: "preserve-3d",
+                  }}
+                >
+                  {active === tab && (
+                    <motion.div
+                      layoutId="clickedbutton"
+                      transition={{
+                        type: "spring",
+                        bounce: 0.3,
+                        duration: 0.6,
+                      }}
+                      className={cn(
+                        "absolute inset-0 bg-zinc-800 rounded-full ",
+                      )}
+                    />
+                  )}
+                  <span className="relative block text-white text-sm">
+                    {tab}
+                  </span>
+                </button>
+              ))}
+            </div>
+            <div className="    flex items-center justify-center  ">
               {active === "Join Room" && !reconnectDetails.active && (
                 <JoinRoom />
               )}
@@ -118,57 +165,8 @@ function Join() {
                 <Rejoin />
               )}
               {active === "Create Room" && <CreateRoom />}
-            </div>
-          </div>
-        </div> */}
-        <div className=" flex flex-col items-center justify-center  ">
-          <h2 className="bg-clip-text  bg-gradient-to-b  py-4  text-transparent  from-neutral-400 to-white text-3xl  font-bold tracking-tight">
-            Frequenty Asked Questions
-          </h2>
-          <AccordionDemo />
-          <div className="mt-7">
-            <h2 className="bg-clip-text text-center  bg-gradient-to-b  py-4  text-transparent  from-neutral-400 to-white text-3xl  font-bold tracking-tight">
-              Current
-            </h2>
-            <div className=" text-white text-sm leading-7 bg-gradient-to-b text-transparent from-neutral-400 to-white tracking-tight bg-clip-text">
-              <div className="flex justify-between gap-5">
-                <div className="">Ongoing Sessions </div>
-                <div className="bg-clip-text text-center  slow-pulse   bg-gradient-to-b   text-transparent  from-neutral-400  to-green-400  font-bold tracking-tight">
-                  100{" "}
-                </div>
-              </div>
-              <div className="flex justify-between gap-5">
-                <div className="">Total Players </div>
-                <div className="bg-clip-text text-center slow-pulse bg-gradient-to-b   text-transparent  from-neutral-400  to-green-400 font-bold tracking-tight">
-                  100{" "}
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="mt-7">
-            <h2 className="bg-clip-text text-center  bg-gradient-to-b  py-4  text-transparent  from-neutral-400 to-white text-3xl  font-bold tracking-tight">
-              History
-            </h2>
-            <div className=" text-white text-sm leading-7 bg-gradient-to-b text-transparent from-neutral-400 to-white tracking-tight bg-clip-text">
-              <div className="flex justify-between gap-5">
-                <div className="">Total Sessions </div>
-                <div className="bg-clip-text text-center     bg-gradient-to-b   text-transparent  from-neutral-400  to-white  font-bold tracking-tight">
-                  100{" "}
-                </div>
-              </div>
-              <div className="flex justify-between gap-5">
-                <div className="">Total Players </div>
-                <div className="bg-clip-text text-center  bg-gradient-to-b   text-transparent  from-neutral-400  to-white font-bold tracking-tight">
-                  100{" "}
-                </div>
-              </div>
-              <div className="flex justify-between gap-5">
-                <div className="">Total Votes </div>
-                <div className="bg-clip-text text-center  bg-gradient-to-b   text-transparent  from-neutral-400  to-white font-bold tracking-tight">
-                  100{" "}
-                </div>
-              </div>
+              {active === "About Us" && <About />}
+              {active === "Why Us?" && <WhyUs />}
             </div>
           </div>
         </div>
