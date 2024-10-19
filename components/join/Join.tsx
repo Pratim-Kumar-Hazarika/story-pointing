@@ -122,7 +122,7 @@ function Join() {
               </div>
               <div
                 className={cn(
-                  "flex flex-row px-4   items-center justify-center space-x-2  ",
+                  "flex flex-row px-4     ml-5 items-center justify-center space-x-2  ",
                 )}
               >
                 {["Why Us?"].map((tab, idx) => (
@@ -153,7 +153,7 @@ function Join() {
                         )}
                       />
                     )}
-                    <span className="relative block text-white text-sm">
+                    <span className="relative block text-center text-white text-sm">
                       {tab}
                     </span>
                   </button>
