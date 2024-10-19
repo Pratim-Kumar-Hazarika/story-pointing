@@ -5,7 +5,7 @@ function WhyUs() {
     <div className=" h-[400px]">
       <div className="">
         <h2 className="bg-clip-text  bg-gradient-to-b    text-transparent  from-neutral-400 to-white text-3xl  font-bold tracking-tight">
-          "Peek at the data and our impact!"
+          &quot;Peek at the data and our impact!&ldquo;
           <span className="  text-white animate-pulse"> ⚡️</span>
         </h2>
         <h2 className="bg-clip-text mt-3  text-center  bg-gradient-to-b   text-transparent  from-neutral-400 to-white text-xl  font-bold tracking-tight">

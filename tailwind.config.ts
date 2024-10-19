@@ -5,6 +5,7 @@ const svgToDataUri = require("mini-svg-data-uri");
 const colors = require("tailwindcss/colors");
 import type { Config } from "tailwindcss";
 import { screenBreakpoints } from "./screenBreakpoints";
+import { ResolvableTo, ScreensConfig } from "tailwindcss/types/config";
 
 const config: Config = {
   content: [
@@ -85,7 +86,7 @@ const config: Config = {
         "accordion-up": "accordion-up 0.2s ease-out",
       },
     },
-    screens: "screenBreakpoints",
+    screens: "screenBreakpoints" as any,
   },
   plugins: [
     addVariablesForColors,
