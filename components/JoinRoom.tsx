@@ -67,6 +67,7 @@ export function JoinRoom() {
       username: data.username,
       moderatorId: null,
     };
+    console.log({ createRoomPayload });
     WebsocketManager.getInstance().sendMessage(createRoomPayload);
   }
 
