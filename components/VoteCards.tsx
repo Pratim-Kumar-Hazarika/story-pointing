@@ -17,6 +17,7 @@ export function VoteCards() {
     setActiveCardNumber,
     startEstimation,
     joinRoom,
+    createRoom,
   } = useAppContext();
   const isExtraExtraSmallScreen = useMediaQuery({ maxWidth: 450 });
   function voteCardClickHandler(vote: number) {
@@ -29,7 +30,7 @@ export function VoteCards() {
     const participantVotePayload = {
       method: "SENDMESSAGE",
       data: {
-        channelId: joinRoom.roomCode,
+        channelId: joinRoom.roomCode ? joinRoom.roomCode : createRoom.roomCode,
         vote: vote,
       },
     };
