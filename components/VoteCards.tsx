@@ -22,9 +22,6 @@ export function VoteCards() {
   const isExtraExtraSmallScreen = useMediaQuery({ maxWidth: 450 });
   function voteCardClickHandler(vote: number) {
     if (!startEstimation.started) {
-      toast({
-        description: `Let the moderator start the estimation ⏰!!`,
-      });
       return;
     }
     const participantVotePayload = {
