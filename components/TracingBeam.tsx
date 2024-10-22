@@ -1,11 +1,8 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
-import {
-  motion,
-  useSpring,
-  useAnimation,
-} from "framer-motion";
+import { motion, useSpring, useAnimation } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { useMediaQuery } from "react-responsive";
 
 export const TracingBeam = ({
   children,
@@ -17,7 +14,7 @@ export const TracingBeam = ({
   const ref = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const [svgHeight, setSvgHeight] = useState(0);
-
+  const isSmallScreen = useMediaQuery({ maxWidth: 980 });
   const glowControls = useAnimation(); // Animation control for glow
 
   useEffect(() => {
@@ -30,7 +27,7 @@ export const TracingBeam = ({
     const glowEffect = async () => {
       while (true) {
         await glowControls.start({ strokeOpacity: 5 }); // Increase opacity
-        await glowControls.start({ strokeOpacity: 0.20 }); // Decrease opacity
+        await glowControls.start({ strokeOpacity: 0.2 }); // Decrease opacity
       }
     };
     glowEffect();
@@ -43,9 +40,14 @@ export const TracingBeam = ({
   return (
     <motion.div
       ref={ref}
-      className={cn("relative w-full z-[100] max-w-4xl mx-auto h-full", className)}
+      className={cn(
+        "relative  w-full z-[100] max-w-4xl mx-auto h-full",
+        className,
+      )}
     >
-      <div className="absolute  right-[10rem] z-[101] -rotate-45  top-[-30rem]">
+      <div
+        className={`absolute   right-[10rem] z-[101] -rotate-45  top-[-25rem] ${isSmallScreen && " hidden"}`}
+      >
         <svg
           viewBox={`0 0 20 ${svgHeight}`}
           width="20"
