@@ -49,7 +49,7 @@ export function VoteCards() {
           <div
             className={` items-center ${isExtraExtraSmallScreen ? " grid grid-cols-2   " : "grid grid-cols-4"} gap-5 z-50 cursor-pointer`}
           >
-            {[1, 2, 3, 5, 8, 13, 15, 20].map((item) => (
+            {[1, 2, 3, 5, 8, 13, 21, 34].map((item) => (
               <div className="expcard  w-[87px]" key={item}>
                 <CardSpotlight
                   onClick={() => voteCardClickHandler(item)}
@@ -71,7 +71,7 @@ export function VoteCards() {
                 className="h-[85px] w-[85px] flex items-center justify-center"
               >
                 <div className="text-neutral-200 text-4xl relative z-20">
-                  24
+                  55
                 </div>
               </CardSpotlight>
             </div>
@@ -82,7 +82,7 @@ export function VoteCards() {
                 className="  h-[85px] w-[85px] flex items-center justify-center"
               >
                 <div className="text-neutral-200 text-4xl relative z-20">
-                  30
+                  89
                 </div>
               </CardSpotlight>
             </div>
