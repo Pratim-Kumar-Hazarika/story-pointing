@@ -64,8 +64,8 @@ export function VoteCards() {
           <div className="col-span-4 flex flex-row gap-4 items-center justify-center">
             <div className="expcard">
               <CardSpotlight
-                onClick={() => voteCardClickHandler(24)}
-                activeCard={activeCardNumber === 24}
+                onClick={() => voteCardClickHandler(55)}
+                activeCard={activeCardNumber === 55}
                 className="h-[85px] w-[85px] flex items-center justify-center"
               >
                 <div className="text-neutral-200 text-4xl relative z-20">
@@ -75,8 +75,8 @@ export function VoteCards() {
             </div>
             <div className="expcard">
               <CardSpotlight
-                onClick={() => voteCardClickHandler(30)}
-                activeCard={activeCardNumber === 30}
+                onClick={() => voteCardClickHandler(89)}
+                activeCard={activeCardNumber === 89}
                 className="  h-[85px] w-[85px] flex items-center justify-center"
               >
                 <div className="text-neutral-200 text-4xl relative z-20">
