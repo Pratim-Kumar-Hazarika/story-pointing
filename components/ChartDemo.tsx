@@ -59,7 +59,7 @@ export function ChartDemo() {
         className={`flex w-full  gap-4 ${isXs && "items-center justify-center "}`}
       >
         <Card className=" bg-black border-none  px-0">
-          <CardHeader className="text-white   ">
+          <CardHeader className=" bg-gradient-to-b   text-transparent  from-neutral-400 to-white  tracking-tight bg-clip-text   ">
             {revealVotes?.title}
           </CardHeader>
           <CardContent
@@ -113,12 +113,16 @@ export function ChartDemo() {
               <div
                 className={`${isSmallScreen ? "flex flex-row" : "flex flex-col"}  gap-5  text-white justify-center ${isExtraExtraSmallScreen && "flex flex-col"}`}
               >
+                <div className="text-sm  bg-gradient-to-b   text-transparent  from-neutral-400 to-white  tracking-tight bg-clip-text">
+                  <div>y-axis : Votes</div>
+                  <div>x-axis : Points</div>
+                </div>
                 <Button
                   onClick={() => resetVotesHandler()}
                   variant="outline"
                   className="border-neutral-800 "
                 >
-                  Reset Votes
+                  Revote
                 </Button>
                 <Button
                   onClick={() => newEstimationHandler()}
