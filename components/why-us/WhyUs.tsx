@@ -1,6 +1,8 @@
+import { useAppContext } from "@/context/AppContext";
 import React from "react";
 
 function WhyUs() {
+  const { liveData } = useAppContext();
   return (
     <div className=" h-[400px]">
       <div className="">
@@ -17,7 +19,7 @@ function WhyUs() {
               Ongoing Sessions{" "}
             </div>
             <div className="bg-clip-text text-center  slow-pulse   bg-gradient-to-b   text-transparent  from-neutral-400  to-green-400  font-bold tracking-tight">
-              100{" "}
+              {liveData.ongoingSessions}{" "}
             </div>
           </div>
           <div className="flex justify-between gap-5">
@@ -25,7 +27,7 @@ function WhyUs() {
               Total Players{" "}
             </div>
             <div className="bg-clip-text text-center slow-pulse bg-gradient-to-b   text-transparent  from-neutral-400  to-green-400 font-bold tracking-tight">
-              100{" "}
+              {liveData.totalPlayers}{" "}
             </div>
           </div>
         </div>

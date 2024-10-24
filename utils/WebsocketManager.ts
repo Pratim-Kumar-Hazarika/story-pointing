@@ -1,4 +1,4 @@
-const BASE_URL = `wss://${process.env.NEXT_PUBLIC_WS}`;
+const BASE_URL = `ws://${process.env.NEXT_PUBLIC_WS}`;
 
 export class WebsocketManager {
   private ws: WebSocket;
@@ -49,6 +49,7 @@ export class WebsocketManager {
       //Start Ping
       this.startPing();
     };
+
     this.ws.onmessage = (event) => {
       const messageFromSever = JSON.parse(event.data);
       if (messageFromSever.type === "revealVotes") {
@@ -94,6 +95,12 @@ export class WebsocketManager {
           callback(messageFromSever.data);
         });
       }
+
+      if (messageFromSever.type === "liveData") {
+        this.callbacks["liveData"].forEach(({ callback }: any) => {
+          callback(messageFromSever.data);
+        });
+      }
     };
     this.ws.onclose = () => {
       this.stopPing();
@@ -126,16 +133,15 @@ export class WebsocketManager {
 
   ///Ping  to keep the connection Alive
   startPing() {
-    if (this.pingInterval) {
-      clearInterval(this.pingInterval); // Clear any existing interval
-    }
-    this.pingInterval = setInterval(() => {
-      if (this.ws.readyState === WebSocket.OPEN) {
-        this.sendMessage({ method: "HEART" });
-      }
-    }, 7000);
+    // if (this.pingInterval) {
+    //   clearInterval(this.pingInterval); // Clear any existing interval
+    // }
+    // this.pingInterval = setInterval(() => {
+    //   if (this.ws.readyState === WebSocket.OPEN) {
+    //     this.sendMessage({ method: "HEART" });
+    //   }
+    // }, 7000);
   }
-
   stopPing() {
     if (this.pingInterval) {
       clearInterval(this.pingInterval);
