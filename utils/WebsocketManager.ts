@@ -103,7 +103,8 @@ export class WebsocketManager {
       }
     };
     this.ws.onclose = () => {
-      this.stopPing();
+      window.location.reload();
+      // this.stopPing();
     };
   }
 
@@ -142,9 +143,9 @@ export class WebsocketManager {
     //   }
     // }, 7000);
   }
-  stopPing() {
-    if (this.pingInterval) {
-      clearInterval(this.pingInterval);
-    }
-  }
+  // stopPing() {
+  //   if (this.pingInterval) {
+  //     clearInterval(this.pingInterval);
+  //   }
+  // }
 }
