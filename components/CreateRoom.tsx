@@ -67,7 +67,6 @@ export function CreateRoom() {
       username: data.username,
       moderatorId: moderatorId,
     };
-    console.log({ createRoomPayload });
     router.replace(window.location.pathname);
     WebsocketManager.getInstance().sendMessage(createRoomPayload);
     toast({
