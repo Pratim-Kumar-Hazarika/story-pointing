@@ -32,6 +32,11 @@ interface AppContextInterface {
     ongoingSessions: number;
     totalPlayers: number;
   };
+  historyData: {
+    totalUsers: number;
+    totalVotes: number;
+    totalSessions: number;
+  };
   user: {
     name: string;
     isModerator: boolean;
@@ -84,6 +89,13 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   const [liveData, setLiveData] = useState<AppContextInterface["liveData"]>({
     ongoingSessions: 0,
     totalPlayers: 0,
+  });
+  const [historyData, setHistoryData] = useState<
+    AppContextInterface["historyData"]
+  >({
+    totalUsers: 0,
+    totalVotes: 0,
+    totalSessions: 0,
   });
   const [rejoinDetails, setRejoinDetails] = useState<
     AppContextInterface["rejoinDetails"]
@@ -359,9 +371,34 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
       );
     };
   }, []);
+
+  useEffect(() => {
+    WebsocketManager.getInstance().registerCallBack(
+      "historyData",
+      (data: {
+        totalUsers: number;
+        totalVotes: number;
+        totalSessions: number;
+      }) => {
+        setHistoryData((prev) => ({
+          totalUsers: data.totalUsers,
+          totalVotes: data.totalVotes,
+          totalSessions: data.totalSessions,
+        }));
+      },
+      "historyData-1",
+    );
+    return () => {
+      WebsocketManager.getInstance().deRegisterCallback(
+        "historyData",
+        "historyData-1",
+      );
+    };
+  }, []);
   return (
     <AppContext.Provider
       value={{
+        historyData,
         liveData,
         isRoomActive,
         rejoinDetails,

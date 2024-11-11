@@ -2,7 +2,7 @@ import { useAppContext } from "@/context/AppContext";
 import React from "react";
 
 function WhyUs() {
-  const { liveData } = useAppContext();
+  const { liveData, historyData } = useAppContext();
   return (
     <div className=" h-[400px]">
       <div className="">
@@ -43,7 +43,7 @@ function WhyUs() {
               Total Sessions{" "}
             </div>
             <div className="bg-clip-text text-center     bg-gradient-to-b   text-transparent  from-neutral-400  to-white  font-bold tracking-tight">
-              100{" "}
+              {historyData.totalSessions}{" "}
             </div>
           </div>
           <div className="flex justify-between gap-5">
@@ -51,7 +51,7 @@ function WhyUs() {
               Total Players{" "}
             </div>
             <div className="bg-clip-text text-center  bg-gradient-to-b   text-transparent  from-neutral-400  to-white font-bold tracking-tight">
-              100{" "}
+              {historyData.totalUsers}{" "}
             </div>
           </div>
           <div className="flex justify-between gap-5">
@@ -59,7 +59,7 @@ function WhyUs() {
               Total Votes{" "}
             </div>
             <div className="bg-clip-text text-center  bg-gradient-to-b   text-transparent  from-neutral-400  to-white font-bold tracking-tight">
-              100{" "}
+              {historyData.totalVotes}{" "}
             </div>
           </div>
         </div>

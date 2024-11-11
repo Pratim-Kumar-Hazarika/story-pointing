@@ -101,10 +101,19 @@ export class WebsocketManager {
           callback(messageFromSever.data);
         });
       }
+      if (messageFromSever.type === "historyData") {
+        this.callbacks["historyData"].forEach(({ callback }: any) => {
+          callback(messageFromSever.data);
+        });
+      }
     };
     this.ws.onclose = () => {
-      window.location.reload();
-      // this.stopPing();
+      {
+        if (process.env.NODE_ENV === "production") {
+          //Reload...
+          window.location.reload();
+        }
+      }
     };
   }
 
